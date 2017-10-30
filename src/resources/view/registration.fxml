@@ -41,22 +41,28 @@
                               </Label>
                               <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="55.0" prefHeight="495.0" prefWidth="284.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TextField fx:id="nameTextField" layoutX="14.0" layoutY="55.0" prefHeight="35.0" promptText="Name*" />
-                                    <TextField fx:id="surnameTextField" layoutX="14.0" layoutY="94.0" prefHeight="35.0" promptText="Surname*" />
-                                    <DatePicker fx:id="dateOfBirthField" layoutX="14.0" layoutY="180.0" prefHeight="35.0" prefWidth="1151.0" promptText="Date of Birth" VBox.vgrow="ALWAYS" />
-                                    <TextField fx:id="emailTextField" layoutX="14.0" layoutY="138.0" prefHeight="35.0" promptText="E-mail*">
+                                    <TextField fx:id="nameTextField" layoutX="14.0" layoutY="55.0" prefHeight="29.0" promptText="Name*" VBox.vgrow="NEVER" />
+                                    <TextField fx:id="surnameTextField" layoutX="14.0" layoutY="94.0" prefHeight="29.0" promptText="Surname*" VBox.vgrow="NEVER" />
+                                    <TextField fx:id="username" prefHeight="29.0" promptText="Username*" VBox.vgrow="NEVER" />
+                                    <DatePicker fx:id="dateOfBirthField" layoutX="14.0" layoutY="180.0" prefHeight="29.0" prefWidth="1151.0" promptText="Date of Birth" VBox.vgrow="NEVER" />
+                                    <TextField fx:id="emailTextField" layoutX="14.0" layoutY="138.0" prefHeight="29.0" promptText="E-mail*" VBox.vgrow="NEVER">
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin></TextField>
-                                    <PasswordField fx:id="passwordField" layoutX="14.0" layoutY="221.0" prefHeight="35.0" promptText="Password*" />
-                                    <PasswordField fx:id="confirmPasswordField" layoutX="14.0" layoutY="265.0" prefHeight="35.0" promptText="Confirm Password*" />
-                                    <TextFlow fx:id="errorLogTextFlow" lineSpacing="5.0" prefHeight="35.0" prefWidth="148.0" VBox.vgrow="ALWAYS">
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                       <padding>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                       </padding></TextFlow>
+                                    <PasswordField fx:id="passwordField" layoutX="14.0" layoutY="221.0" prefHeight="29.0" promptText="Password*" VBox.vgrow="NEVER" />
+                                    <PasswordField fx:id="confirmPasswordField" layoutX="14.0" layoutY="265.0" prefHeight="29.0" promptText="Confirm Password*" VBox.vgrow="NEVER" />
+                                    <ScrollPane VBox.vgrow="ALWAYS">
+                                       <content>
+                                       <TextFlow fx:id="errorLogTextFlow" lineSpacing="5.0" prefHeight="96.0" prefWidth="244.0" VBox.vgrow="ALWAYS">
+                                          <VBox.margin>
+                                             <Insets />
+                                          </VBox.margin>
+                                          <padding>
+                                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                          </padding>
+                                          </TextFlow>
+                                       </content>
+                                    </ScrollPane>
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

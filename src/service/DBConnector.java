@@ -13,8 +13,8 @@ public class DBConnector {
     private static final String URL = "jdbc:mysql://localhost:3306/OADTurk?autoReconnect=true&useSSL=false";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
-    
-    private Connection connection;;
+
+    private Connection connection;
 
     public Connection getConnection() {
         return connection;

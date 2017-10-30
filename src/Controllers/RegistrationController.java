@@ -20,6 +20,9 @@ import service.User;
 import service.systemData;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 /**
@@ -37,6 +40,8 @@ public class RegistrationController {
     @FXML
     TextField surnameTextField;
     @FXML
+    TextField username;
+    @FXML
     DatePicker dateOfBirthField;
     @FXML
     TextField emailTextField;
@@ -48,11 +53,8 @@ public class RegistrationController {
     ListView<LearningApplication> chooseLAListView;
     @FXML
     CheckListView<LearningCategory> chooseCategoryListView;
-
-
-
     Parent root;
-
+    ObservableList list;
 
     public void goBackButtonPressed(ActionEvent event) {
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -66,21 +68,27 @@ public class RegistrationController {
     }
 
     public void confirmButtonPressed(ActionEvent event) {
-        //TODO: check correctness of input data
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        try {
-            root = FXMLLoader.load(getClass().getResource("../resources/view/home.fxml"));
-        } catch ( IOException e ) {
-            e.printStackTrace();
+        if(checkInputData()) {
+           // LocalDate dateFromDatePicker = dateOfBirthField.getValue();
+           // Date birthdate = Date.valueOf(dateFromDatePicker)
+            User user = new User(systemData.getInstance().getLastUserId()+1, nameTextField.getText(),
+                    surnameTextField.getText(), emailTextField.getText(), Date.valueOf(dateOfBirthField.getValue()));
+            systemData.getInstance().addUser(user, username.getText(), passwordField.getText());
+            try {
+                root = FXMLLoader.load(getClass().getResource("../resources/view/home.fxml"));
+            } catch ( IOException e ) {
+                e.printStackTrace();
+            }
+            window.setTitle("Home");
+            window.setScene(new Scene(root, 800, 600));
         }
-        window.setTitle("Home");
-        window.setScene(new Scene(root, 800, 600));
     }
 
     @FXML
     private void initialize() {
+        list = errorLogTextFlow.getChildren();
         Text inputText = new Text("All fields - marked with \'*\' must to be completed");
-        ObservableList list = errorLogTextFlow.getChildren();
         list.add(inputText);
         initializeLAListView();
         initializeLCCheckedListView();
@@ -107,4 +115,45 @@ public class RegistrationController {
         chooseCategoryListView.getSelectionModel().select(0);
         chooseCategoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
+
+    private boolean checkInputData () {
+        boolean returnFlag = true;
+        ObservableList list = errorLogTextFlow.getChildren();
+        list.clear();
+        if(nameTextField.getText().equals("")) {
+            returnFlag = false;
+            list.add(new Text("Please write your name\n"));
+        }
+        if(surnameTextField.getText().equals("")) {
+            returnFlag = false;
+            list.add(new Text("Please write your surname\n"));
+        }
+        if(passwordField.getText().equals("")) {
+            returnFlag = false;
+            list.add(new Text("Please write your password\n"));
+        }
+        if(username.getText().equals("")) {
+            returnFlag = false;
+            list.add(new Text("Please write your username\n"));
+        }
+        if(emailTextField.getText().equals("")) {
+            returnFlag = false;
+            list.add(new Text("Please write your email\n"));
+        }
+        System.out.println(passwordField.getText() + confirmPasswordField.getText());
+        if(!passwordField.getText().equals(confirmPasswordField.getText())) {
+            returnFlag = false;
+            list.add(new Text("Passwords are not equal\n"));
+        }
+        if(systemData.getInstance().isUsernameExist(username.getText())) {
+            returnFlag = false;
+            list.add(new Text("This username is already exist. Choose another one\n"));
+        }
+        if(systemData.getInstance().isEmailExist(emailTextField.getText())) {
+            returnFlag = false;
+            list.add(new Text("This email is already exist. Choose another one\n"));
+        }
+        return returnFlag;
+    }
+
 }

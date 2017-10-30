@@ -16,6 +16,7 @@ public final class systemData { // Singeltion class
     DBConnector connector = new DBConnector();
     ArrayList<LearningApplication> dataLA = new ArrayList<>();
     ArrayList<LearningCategory> dataLC = new ArrayList<>();
+    private int lastUserId;
 
     private systemData() {
         setUsersData();
@@ -51,6 +52,8 @@ public final class systemData { // Singeltion class
                 Date birthdate = resultSet.getDate("birthdate");
                 User user = new User(id, user_name, user_surname, email, birthdate);
                 users.add(user);
+                lastUserId = id;
+
             }
             statement.close();
         } catch (SQLException e) {
@@ -75,14 +78,20 @@ public final class systemData { // Singeltion class
         }
     }
 
-    public void addUser(User user) {
+    public void addUser(User user, String username, String password) {
         try {
             statement = connector.getConnection().createStatement();
-            String query = "INSERT INTO users (user_name, user_surname, email, birthdate) VALUES (" +
-                    user.getUser_name() + ", " + user.getUser_surname() + ", " + user.getEmail() + ", " +
-                    user.getBirthdate() + ")";
-            statement.execute(query);
+            String query = "INSERT INTO users (user_name, user_surname, email, birthdate) VALUES (\"" +
+                    user.getUser_name() + "\", \"" + user.getUser_surname() + "\", \"" + user.getEmail() + "\", \"" +
+                    user.getBirthdate() + "\")";
+            statement.executeUpdate(query);
+            setLastUserId(getLastUserId()+1);
+            String query2 = "INSERT INTO login_data (username, password, user_id) VALUES (\"" + username +
+                    "\", \"" + password + "\", \"" + getLastUserId() + "\")";
+            statement.executeUpdate(query2);
             statement.close();
+            users.add(user);
+            loginData.put(username,password);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -125,7 +134,29 @@ public final class systemData { // Singeltion class
         return dataLA;
     }
 
+    public boolean isUsernameExist(String username) {
+        for(Map.Entry<String, String> entry : loginData.entrySet())
+            if (entry.getKey().equals(username))
+                return true;
+        return false;
+    }
+
+    public boolean isEmailExist(String email) {
+        for(User user : users)
+            if(user.getEmail().equals(email))
+                return true;
+        return false;
+    }
+
     public ArrayList<LearningCategory> getDataLC() {
         return dataLC;
+    }
+
+    public int getLastUserId() {
+        return lastUserId;
+    }
+
+    public void setLastUserId(int lastUserId) {
+        this.lastUserId = lastUserId;
     }
 }
