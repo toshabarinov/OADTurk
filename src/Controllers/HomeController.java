@@ -21,17 +21,17 @@ import java.util.ArrayList;
 /**
  * Created by a1 on 28.10.17.
  */
-public class HomeController {
+public class HomeController extends Controller{
     @FXML
     Button logOutbutton;
-    @FXML
-    Button homeButton;
-    @FXML
-    Button myContentButton;
-    @FXML
-    Button createButton;
-    @FXML
-    Button settingsButton;
+//    @FXML
+//    Button homeButton;
+//    @FXML
+//    Button myContentButton;
+//    @FXML
+//    Button createButton;
+//    @FXML
+//    Button settingsButton;
     @FXML
     ChoiceBox<String> searchChoiceBox;
     @FXML
@@ -63,14 +63,9 @@ public class HomeController {
     }
 
     public void logOutButtonClicked(ActionEvent event) {
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        try {
-            root = FXMLLoader.load(getClass().getResource("../resources/view/login.fxml"));
-        } catch ( IOException e ) {
-            e.printStackTrace();
-        }
-        window.setTitle("OADTurk");
-        window.setScene(new Scene(root, 800, 600));
+
+        newScene(event, "login.fxml");
+
     }
 
     public void searchOnAction() {
