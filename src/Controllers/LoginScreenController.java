@@ -16,6 +16,7 @@ import service.DBConnector;
 import service.User;
 import service.systemData;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -53,8 +54,14 @@ public class LoginScreenController {
             window.setScene(new Scene(root, 800, 600));
         }
         else {
-            AlertBox.display("Login failed", "Your password or login was incorrect");
+            AlertBox.display("Login failed", "Your password or login is wrong");
         }
+    }
+
+
+
+    public void passwordFiledOnAction(ActionEvent event) {
+        loginButtonClicked(event);
     }
 
     public void registerButtonClicked(ActionEvent event ) {

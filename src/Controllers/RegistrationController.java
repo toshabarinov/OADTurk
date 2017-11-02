@@ -1,7 +1,5 @@
 package Controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,11 +16,8 @@ import service.LearningApplication;
 import service.LearningCategory;
 import service.User;
 import service.systemData;
-
 import java.io.IOException;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 
 /**
@@ -70,8 +65,6 @@ public class RegistrationController {
     public void confirmButtonPressed(ActionEvent event) {
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         if(checkInputData()) {
-           // LocalDate dateFromDatePicker = dateOfBirthField.getValue();
-           // Date birthdate = Date.valueOf(dateFromDatePicker)
             User user = new User(systemData.getInstance().getLastUserId()+1, nameTextField.getText(),
                     surnameTextField.getText(), emailTextField.getText(), Date.valueOf(dateOfBirthField.getValue()));
             systemData.getInstance().addUser(user, username.getText(), passwordField.getText());
