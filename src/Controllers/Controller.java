@@ -14,9 +14,7 @@ import java.io.IOException;
 
 public class Controller {
 
-    public void testButton() {
-
-    }
+    // TODO: logout button on every screen
 
     @FXML
     Button homeButton;
@@ -28,10 +26,9 @@ public class Controller {
     Button settingsButton;
 
     // function to add a new scene to active stage
-    protected void newScene(ActionEvent event, String newFxml) {
+    protected void newScene(Stage window, String newFxml) {
         Parent root;
-        //get reference to the events stage
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
         try {
             root = FXMLLoader.load(getClass().getResource("../resources/view/" + newFxml));
             //create a new scene with root and set the stage
@@ -47,13 +44,19 @@ public class Controller {
 
     public void homeButtonClick(ActionEvent event) {
 
-        newScene(event, "home.fxml");
+        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "home.fxml");
 
     }
 
     public void settingsButtonClick(ActionEvent event) {
 
-        newScene(event, "settings.fxml");
+        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "settings.fxml");
+
+    }
+
+    public void logOutButtonClicked(ActionEvent event) {
+
+        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "login.fxml");
 
     }
 

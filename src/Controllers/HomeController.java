@@ -62,12 +62,6 @@ public class HomeController extends Controller{
         recommendationsInitializer();
     }
 
-    public void logOutButtonClicked(ActionEvent event) {
-
-        newScene(event, "login.fxml");
-
-    }
-
     public void searchOnAction() {
         //TODO: implement search functionality
         System.out.println(getChoice() + searchTextField.getText());
@@ -117,9 +111,15 @@ public class HomeController extends Controller{
 
         mainTree.getSelectionModel().selectedItemProperty()
                 .addListener(((observable, oldValue, newValue) -> {
-                    System.out.println(newValue.getValue().getDescription());
-                    //TODO: open scenes of LA/LC depending on choice
+                    // System.out.println(newValue.getValue().getDescription());
+                    //TODO: make the screens of LA/LC dynamic corresponding to their application or category
+                    //TODO: enable double click for colapsing/expanding instead of opening new screen
+                    if (newValue.getValue() instanceof LearningApplication)
+                        newScene((Stage)mainTree.getParent().getScene().getWindow(), "LA.fxml");
+                    if (newValue.getValue() instanceof LearningCategory)
+                        newScene((Stage)mainTree.getParent().getScene().getWindow(), "categories.fxml");
                 }));
+
     }
 
     //Initialize 4 recommendations blocks

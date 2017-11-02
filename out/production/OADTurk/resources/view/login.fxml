@@ -17,7 +17,7 @@
                   <VBox maxWidth="300.0" spacing="20.0">
                      <children>
                         <TextField fx:id="usernameField" promptText="Login" />
-                        <PasswordField fx:id="passwordField" promptText="Password" />
+                        <PasswordField fx:id="passwordField" onAction="#passwordFiledOnAction" promptText="Password" />
                      </children>
                   </VBox>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="401.0" spacing="20.0">
