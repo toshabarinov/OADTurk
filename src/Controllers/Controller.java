@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+// class which contains the standard functionality
 public class Controller {
 
     // TODO: logout button on every screen
