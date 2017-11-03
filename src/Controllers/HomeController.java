@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by a1 on 28.10.17.
  */
-public class HomeController extends TreeController{
+public class HomeController extends Controller{
     @FXML
     Button logOutbutton;
     @FXML
@@ -36,6 +36,8 @@ public class HomeController extends TreeController{
     TextFlow thirdRecommendation;
     @FXML
     TextFlow fourthRecommendation;
+    @FXML
+    TreeView<LearningInstance> homeTree;
 
     ObservableList listFirstRec;
     ObservableList listSecondRec;
@@ -45,7 +47,8 @@ public class HomeController extends TreeController{
     @FXML
     private void initialize() {
         homeButton.setDisable(true);
-        treeInitializer();
+        TreeController.getInstance().mainTree = homeTree;
+        TreeController.getInstance().treeInitializer();
         choiceBoxInitializer();
         recommendationsInitializer();
     }
