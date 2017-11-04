@@ -45,13 +45,9 @@ public class Controller {
 
     // function to set up tree on new scene
     void buildTree(TreeView<LearningInstance> tree){
-        // get tree root from singleton class
-        tree.setRoot(TreeController.getInstance(tree).mainTree.getRoot());
-        tree.setShowRoot(false);
-        // set main tree from singleton class to this tree
         TreeController.getInstance().mainTree = tree;
-        // start actionHandler with tree from this scene
-        TreeController.getInstance().actionHandler();
+        TreeController.getInstance().treeInitializer();
+        TreeController.getInstance().actionHandler(tree);
 
     }
 

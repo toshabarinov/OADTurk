@@ -11,7 +11,8 @@ public class SettingsController extends Controller {
 
     @FXML
     private void initialize() {
-        buildTree(settingsTree);
+        settingsButton.setDisable(true);
 
+        buildTree(settingsTree);
     }
 }
