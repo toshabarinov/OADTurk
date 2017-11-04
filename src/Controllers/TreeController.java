@@ -14,17 +14,26 @@ import java.util.ArrayList;
 // singleton class with Tree functionality
 class TreeController extends Controller {
 
+    TreeView<LearningInstance> mainTree;
     private static TreeController instance;
-    private TreeController() {}
+    private TreeController(TreeView<LearningInstance> tree) {
+        mainTree = tree;
+        treeInitializer();
 
-    static TreeController getInstance() {
+    }
+
+    static TreeController getInstance(TreeView<LearningInstance> tree) {
         if (TreeController.instance == null)
-            TreeController.instance = new TreeController();
+            TreeController.instance = new TreeController(tree);
 
         return TreeController.instance;
     }
 
-    TreeView<LearningInstance> mainTree;
+    static TreeController getInstance() {
+        return TreeController.instance;
+    }
+
+
 
     //This function make the new branch of treeView
     private TreeItem<LearningInstance> makeBranch(LearningInstance li, TreeItem<LearningInstance> parent) {
@@ -34,22 +43,22 @@ class TreeController extends Controller {
         return item;
     }
 
-    public void actionHandler(TreeView<LearningInstance> tree){
-        tree.getSelectionModel().selectedItemProperty()
+    public void actionHandler(){
+        mainTree.getSelectionModel().selectedItemProperty()
                 .addListener(((observable, oldValue, newValue) -> {
                     // System.out.println(newValue.getValue().getDescription());
                     //TODO: make the screens of LA/LC dynamic corresponding to their application or category
                     //TODO: enable double click for colapsing/expanding instead of opening new screen
                     if (newValue.getValue() instanceof LearningApplication)
-                        newScene((Stage)tree.getParent().getScene().getWindow(), "LA.fxml");
+                        newScene((Stage)mainTree.getParent().getScene().getWindow(), "LA.fxml");
                     if (newValue.getValue() instanceof LearningCategory)
-                        newScene((Stage)tree.getParent().getScene().getWindow(), "categories.fxml");
+                        newScene((Stage)mainTree.getParent().getScene().getWindow(), "categories.fxml");
                 }));
 
     }
 
     //Initialize the tree with LA and LC
-    void treeInitializer() {
+    public void treeInitializer() {
         TreeItem<LearningInstance> rootTree = new TreeItem<>(new LearningInstance(0,"root","root"));
         rootTree.setExpanded(true);
         ArrayList<TreeItem<LearningInstance>> LAitems = new ArrayList<>();
@@ -65,9 +74,28 @@ class TreeController extends Controller {
             }
             counter++;
         }
-
-        actionHandler(mainTree);
-
     }
+
+//    //Initialize the tree with LA and LC
+//    void treeInitializer() {
+//        TreeItem<LearningInstance> rootTree = new TreeItem<>(new LearningInstance(0,"root","root"));
+//        rootTree.setExpanded(true);
+//        ArrayList<TreeItem<LearningInstance>> LAitems = new ArrayList<>();
+//        mainTree.setRoot(rootTree);
+//        mainTree.setShowRoot(false);
+//        int counter = 0;
+//        for(LearningApplication la : systemData.getInstance().getDataLA()) {
+//            LAitems.add(makeBranch(la, rootTree));
+//            for(LearningCategory lc : systemData.getInstance().getDataLC()) {
+//                if(lc.getLa_id() == la.getId()) {
+//                    makeBranch(lc, LAitems.get(counter));
+//                }
+//            }
+//            counter++;
+//        }
+//
+//        actionHandler();
+//
+//    }
 
 }

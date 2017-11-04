@@ -11,12 +11,7 @@ public class SettingsController extends Controller {
 
     @FXML
     private void initialize() {
-        settingsButton.setDisable(true);
-        // get tree root from singleton class
-        settingsTree.setRoot(TreeController.getInstance().mainTree.getRoot());
-        settingsTree.setShowRoot(false);
-        // start actionHandler with tree from this scene
-        TreeController.getInstance().actionHandler(settingsTree);
+        buildTree(settingsTree);
 
     }
 }

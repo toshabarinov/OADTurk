@@ -14,12 +14,7 @@ public class LAController extends Controller{
     TreeView<LearningInstance> LATree;
     @FXML
     private void initialize() {
-        // get tree root from singleton class
-        LATree.setRoot(TreeController.getInstance().mainTree.getRoot());
-        LATree.setShowRoot(false);
-        // start actionHandler with tree from this scene
-        TreeController.getInstance().actionHandler(LATree);
-
+        buildTree(LATree);
     }
 
 }

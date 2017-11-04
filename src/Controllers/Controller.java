@@ -8,7 +8,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
+import service.LearningInstance;
 
 import java.io.IOException;
 
@@ -27,7 +29,7 @@ public class Controller {
     Button settingsButton;
 
     // function to add a new scene to active stage
-    protected void newScene(Stage window, String newFxml) {
+    void newScene(Stage window, String newFxml) {
         Parent root;
 
         try {
@@ -39,6 +41,18 @@ public class Controller {
         } catch ( IOException e ) {
             e.printStackTrace();
         }
+    }
+
+    // function to set up tree on new scene
+    void buildTree(TreeView<LearningInstance> tree){
+        // get tree root from singleton class
+        tree.setRoot(TreeController.getInstance(tree).mainTree.getRoot());
+        tree.setShowRoot(false);
+        // set main tree from singleton class to this tree
+        TreeController.getInstance().mainTree = tree;
+        // start actionHandler with tree from this scene
+        TreeController.getInstance().actionHandler();
+
     }
 
     // button functions

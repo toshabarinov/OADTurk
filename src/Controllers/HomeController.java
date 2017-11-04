@@ -47,8 +47,7 @@ public class HomeController extends Controller{
     @FXML
     private void initialize() {
         homeButton.setDisable(true);
-        TreeController.getInstance().mainTree = homeTree;
-        TreeController.getInstance().treeInitializer();
+        buildTree(homeTree);
         choiceBoxInitializer();
         recommendationsInitializer();
     }
