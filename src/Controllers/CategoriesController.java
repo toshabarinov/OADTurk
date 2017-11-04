@@ -14,7 +14,6 @@ public class CategoriesController extends Controller {
     @FXML
     private void initialize() {
         buildTree(categoriesTree);
-
     }
 
 }
