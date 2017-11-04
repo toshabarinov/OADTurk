@@ -32,12 +32,6 @@ class TreeController extends Controller {
         return TreeController.instance;
     }
 
-    // function gets called at first initialisation
-    private void start(){
-        rootTree = new TreeItem<>(new LearningInstance(0,"root","root"));
-        rootTree.setExpanded(true);
-    }
-
     //This function makes the new branch of treeView
     private TreeItem<LearningInstance> makeBranch(LearningInstance li, TreeItem<LearningInstance> parent) {
         TreeItem<LearningInstance> item = new TreeItem<>(li);
@@ -47,7 +41,7 @@ class TreeController extends Controller {
     }
 
 
-    public void actionHandler(){
+    private void actionHandler(){
         mainTree.getSelectionModel().selectedItemProperty()
                 .addListener(((observable, oldValue, newValue) -> {
                         // System.out.println(newValue.getValue().getDescription());
@@ -61,30 +55,23 @@ class TreeController extends Controller {
 
     }
 
-    void actionHandler(TreeView<LearningInstance> tree){
-        tree.getSelectionModel().selectedItemProperty()
-                .addListener(((observable, oldValue, newValue) -> {
-                    // System.out.println(newValue.getValue().getDescription());
-                    //TODO: make the screens of LA/LC dynamic corresponding to their application or category
-                    //TODO: enable double click for colapsing/expanding instead of opening new screen
-                    if (newValue.getValue() instanceof LearningApplication)
-                        try {
-                            newScene((Stage)tree.getParent().getScene().getWindow(), "LA.fxml");
-                        }
-                        catch (NullPointerException e){
-                            // TODO: figure out why error when arrow in tree is clicked
-                            System.out.println(e.getMessage());
-                        }
-                    if (newValue.getValue() instanceof LearningCategory)
-                        newScene((Stage)tree.getParent().getScene().getWindow(), "categories.fxml");
-                }));
-
-    }
-
     //Initialize the tree with LA and LC
     void treeInitializer() {
-        if (rootTree == null)
-            start();
+        if (rootTree == null){
+            rootTree = new TreeItem<>(new LearningInstance(0,"root","root"));
+            rootTree.setExpanded(true);
+        }
+        else{
+            TreeItem<LearningInstance> newRoot = new TreeItem<>
+                    (new LearningInstance(0, "root", "root"));
+            newRoot.setExpanded(true);
+            for (TreeItem<LearningInstance> child : rootTree.getChildren()) {
+                newRoot.getChildren().add(child);
+            }
+            rootTree = newRoot;
+
+        }
+
         mainTree.setRoot(rootTree);
         mainTree.setShowRoot(false);
         if ((LAitems.size() == 0) |  newTreeItemFlag) {
@@ -97,6 +84,8 @@ class TreeController extends Controller {
                 }
                 LAcounter++;
             }
+            newTreeItemFlag = false;
         }
+        actionHandler();
     }
 }

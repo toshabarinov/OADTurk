@@ -47,7 +47,6 @@ public class Controller {
     void buildTree(TreeView<LearningInstance> tree){
         TreeController.getInstance().mainTree = tree;
         TreeController.getInstance().treeInitializer();
-        TreeController.getInstance().actionHandler(tree);
 
     }
 
