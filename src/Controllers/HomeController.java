@@ -23,8 +23,6 @@ import java.util.ArrayList;
  */
 public class HomeController extends Controller{
     @FXML
-    Button logOutbutton;
-    @FXML
     ChoiceBox<String> searchChoiceBox;
     @FXML
     TextField searchTextField;

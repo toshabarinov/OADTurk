@@ -10,20 +10,21 @@ import service.LearningInstance;
 import service.systemData;
 import java.util.ArrayList;
 
-// singleton class with Tree functionality
+/** singleton class with Tree functionality
+ *
+ */
 class TreeController extends Controller {
 
     // member variables
-
     TreeView<LearningInstance> mainTree;
-    private int LAcounter = 0;
-    private boolean newTreeItemFlag = false;        //< should be set when tree gets updated
-    private ArrayList<TreeItem<LearningInstance>> LAitems = new ArrayList<>();
+    private boolean newTreeItemFlag;
     private TreeItem<LearningInstance> rootTree;
 
     // singleton instance and constructor
     private static TreeController instance;
-    private TreeController() {}
+    private TreeController() {
+        newTreeItemFlag = true;
+    }
 
     static TreeController getInstance() {
         if (TreeController.instance == null)
@@ -32,7 +33,11 @@ class TreeController extends Controller {
         return TreeController.instance;
     }
 
-    //This function makes the new branch of treeView
+    /** This function makes the new branch of treeView
+     *
+     * @param li LearningInstance object
+     * @param parent corresponding tree root
+     */
     private TreeItem<LearningInstance> makeBranch(LearningInstance li, TreeItem<LearningInstance> parent) {
         TreeItem<LearningInstance> item = new TreeItem<>(li);
         item.setExpanded(true);
@@ -40,7 +45,9 @@ class TreeController extends Controller {
         return item;
     }
 
-
+    /** handles click action on tree item
+     *
+     */
     private void actionHandler(){
         mainTree.getSelectionModel().selectedItemProperty()
                 .addListener(((observable, oldValue, newValue) -> {
@@ -55,7 +62,9 @@ class TreeController extends Controller {
 
     }
 
-    //Initialize the tree with LA and LC
+    /** Initialize the tree with LA and LC and update it when more data is added
+     *
+     */
     void treeInitializer() {
         if (rootTree == null){
             rootTree = new TreeItem<>(new LearningInstance(0,"root","root"));
@@ -74,18 +83,27 @@ class TreeController extends Controller {
 
         mainTree.setRoot(rootTree);
         mainTree.setShowRoot(false);
-        if ((LAitems.size() == 0) |  newTreeItemFlag) {
+        if (newTreeItemFlag) {
+            int LACounter = 0;
+            ArrayList<TreeItem<LearningInstance>> LAItems = new ArrayList<>();
             for(LearningApplication la : systemData.getInstance().getDataLA()) {
-                LAitems.add(makeBranch(la, rootTree));
+                LAItems.add(makeBranch(la, rootTree));
                 for(LearningCategory lc : systemData.getInstance().getDataLC()) {
                     if(lc.getLa_id() == la.getId()) {
-                        makeBranch(lc, LAitems.get(LAcounter));
+                        makeBranch(lc, LAItems.get(LACounter));
                     }
                 }
-                LAcounter++;
+                LACounter++;
             }
             newTreeItemFlag = false;
         }
         actionHandler();
+    }
+
+    /** sets the newTreeItemFlag to true
+     *  should be called when data for the tree is added
+     */
+    void updateTree(){
+        newTreeItemFlag = true;
     }
 }

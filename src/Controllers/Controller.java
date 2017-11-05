@@ -14,7 +14,9 @@ import service.LearningInstance;
 
 import java.io.IOException;
 
-// class which contains the standard functionality
+/**class which contains the standard controller functionality
+ *
+ */
 public class Controller {
 
     // TODO: logout button on every screen
@@ -27,8 +29,14 @@ public class Controller {
     Button createButton;
     @FXML
     Button settingsButton;
+    @FXML
+    Button logOutButton;
 
-    // function to add a new scene to active stage
+    /**function to add a new scene to active stage
+     *
+     * @param window    corresponding window
+     * @param newFxml   new .fxml file (scene) to load
+     */
     void newScene(Stage window, String newFxml) {
         Parent root;
 
@@ -43,7 +51,10 @@ public class Controller {
         }
     }
 
-    // function to set up tree on new scene
+    /**function to set up tree on new scene
+     *
+     * @param tree  TreeView item of current screen
+     */
     void buildTree(TreeView<LearningInstance> tree){
         TreeController.getInstance().mainTree = tree;
         TreeController.getInstance().treeInitializer();
