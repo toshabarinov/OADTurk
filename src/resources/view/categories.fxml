@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CategoriesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CategoriesController">
    <children>
       <VBox layoutX="162.0" layoutY="55.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -39,57 +39,37 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <TreeView fx:id="categoriesTree" layoutX="-8.0" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TreeView layoutX="-8.0" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <VBox style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox alignment="CENTER" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Category" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description line 1&#10;Description line 2&#10;">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <HBox>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Category" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description line 1&#10;Description line 2&#10;">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Text>
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <TextField promptText="Search in Category">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin></TextField>
+                                    <Button mnemonicParsing="false" prefWidth="100.0" text="Find" />
+                                    <Region HBox.hgrow="ALWAYS" />
                                  </children>
-                                 <padding>
-                                    <Insets bottom="15.0" top="25.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <HBox alignment="CENTER">
-                                       <children>
-                                          <TextField promptText="Search in Category" HBox.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                <Insets left="50.0" right="5.0" />
-                                             </HBox.margin>
-                                          </TextField>
-                                          <Button mnemonicParsing="false" prefWidth="50.0" text="Find">
-                                             <HBox.margin>
-                                                <Insets left="5.0" right="50.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                       <padding>
-                                          <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
-                                       </padding>
-                                    </HBox>
-                                 </children>
-                              </VBox>
+                              </HBox>
                               <VBox>
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Learning Units in this Category:">
@@ -104,40 +84,27 @@
                                     </ListView>
                                  </children>
                                  <VBox.margin>
-                                    <Insets />
+                                    <Insets left="10.0" right="10.0" />
                                  </VBox.margin>
-                                 <padding>
-                                    <Insets bottom="25.0" left="50.0" right="50.0" />
-                                 </padding>
                               </VBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Button fx:id="goToExamsButton" mnemonicParsing="false" prefWidth="100.0" text="Go to Exams" />
-                                 </children>
+                              <Button fx:id="goToExamsButton" mnemonicParsing="false" prefWidth="100.0" text="Go to Exams">
                                  <VBox.margin>
-                                    <Insets bottom="25.0" />
+                                    <Insets bottom="10.0" top="10.0" />
                                  </VBox.margin>
-                              </HBox>
+                              </Button>
                            </children>
                         </VBox>
                      </children></AnchorPane>
               </items>
             </SplitPane>
-            <HBox maxHeight="47.0" prefHeight="47.0" prefWidth="200.0">
-               <children>
-                  <Label maxHeight="56.0" prefHeight="47.0" prefWidth="204.0" text="Some text here" HBox.hgrow="ALWAYS">
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </Label>
-                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#logOutButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Log Out" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
+            <Label maxHeight="56.0" prefHeight="47.0" prefWidth="800.0" text="Some text here">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
          </children>
       </VBox>
    </children>
