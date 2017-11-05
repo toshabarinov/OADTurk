@@ -21,23 +21,11 @@ import java.util.ArrayList;
 /**
  * Created by a1 on 28.10.17.
  */
-public class HomeController {
-    @FXML
-    Button logOutbutton;
-    @FXML
-    Button homeButton;
-    @FXML
-    Button myContentButton;
-    @FXML
-    Button createButton;
-    @FXML
-    Button settingsButton;
+public class HomeController extends Controller{
     @FXML
     ChoiceBox<String> searchChoiceBox;
     @FXML
     TextField searchTextField;
-    @FXML
-    TreeView<LearningInstance> mainTree;
     @FXML
     TextFlow firstRecommendation;
     @FXML
@@ -46,31 +34,22 @@ public class HomeController {
     TextFlow thirdRecommendation;
     @FXML
     TextFlow fourthRecommendation;
+    @FXML
+    TreeView<LearningInstance> homeTree;
 
     ObservableList listFirstRec;
     ObservableList listSecondRec;
     ObservableList listThirdRec;
     ObservableList listFourthRec;
 
-    Parent root;
-
     @FXML
     private void initialize() {
         homeButton.setDisable(true);
-        treeInitializer();
+
+        buildTree(homeTree);
+
         choiceBoxInitializer();
         recommendationsInitializer();
-    }
-
-    public void logOutButtonClicked(ActionEvent event) {
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        try {
-            root = FXMLLoader.load(getClass().getResource("../resources/view/login.fxml"));
-        } catch ( IOException e ) {
-            e.printStackTrace();
-        }
-        window.setTitle("OADTurk");
-        window.setScene(new Scene(root, 800, 600));
     }
 
     public void searchOnAction() {
@@ -84,13 +63,6 @@ public class HomeController {
 
     }
 
-    //This function make the new branch of treeView
-    private TreeItem<LearningInstance> makeBranch(LearningInstance li, TreeItem<LearningInstance> parent) {
-        TreeItem<LearningInstance> item = new TreeItem<>(li);
-        item.setExpanded(true);
-        parent.getChildren().add(item);
-        return item;
-    }
 
     //INITIALIZE FUNCTIONS :
 
@@ -102,30 +74,6 @@ public class HomeController {
 
     }
 
-    //Initialize the tree with LA and LC
-    private void treeInitializer() {
-        TreeItem<LearningInstance> rootTree = new TreeItem<>(new LearningInstance(0,"root","root"));
-        rootTree.setExpanded(true);
-        ArrayList<TreeItem<LearningInstance>> LAitems = new ArrayList<>();
-        mainTree.setRoot(rootTree);
-        mainTree.setShowRoot(false);
-        int counter = 0;
-        for(LearningApplication la : systemData.getInstance().getDataLA()) {
-            LAitems.add(makeBranch(la, rootTree));
-            for(LearningCategory lc : systemData.getInstance().getDataLC()) {
-                if(lc.getLa_id() == la.getId()) {
-                    makeBranch(lc, LAitems.get(counter));
-                }
-            }
-            counter++;
-        }
-
-        mainTree.getSelectionModel().selectedItemProperty()
-                .addListener(((observable, oldValue, newValue) -> {
-                    System.out.println(newValue.getValue().getDescription());
-                    //TODO: open scenes of LA/LC depending on choice
-                }));
-    }
 
     //Initialize 4 recommendations blocks
     private void recommendationsInitializer() {
