@@ -12,15 +12,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import service.AlertBox;
-import service.DBConnector;
-import service.User;
 import service.systemData;
-
-import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+
 
 /**
  * Created by a1 on 25.10.17.
