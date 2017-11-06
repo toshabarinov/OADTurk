@@ -1,22 +1,11 @@
 package Controllers;
 
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
-import service.LearningApplication;
-import service.LearningCategory;
 import service.LearningInstance;
-import service.systemData;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by a1 on 28.10.17.
