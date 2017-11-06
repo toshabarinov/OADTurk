@@ -12,6 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import service.AlertBox;
+import service.ResetPasswordBox;
 import service.systemData;
 import java.io.IOException;
 
@@ -52,6 +53,9 @@ public class LoginScreenController {
         }
     }
 
+    public void resetPasswordOnAction() {
+        ResetPasswordBox.display();
+    }
 
 
     public void passwordFiledOnAction(ActionEvent event) {
