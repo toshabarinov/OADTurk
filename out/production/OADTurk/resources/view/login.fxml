@@ -36,7 +36,7 @@
                               </Button>
                            </children>
                         </HBox>
-                        <Hyperlink fx:id="restPasswordLink" text="Reset Password" />
+                        <Hyperlink fx:id="restPasswordLink" onAction="#resetPasswordOnAction" text="Reset Password" />
                      </children>
                   </VBox>
                </children>

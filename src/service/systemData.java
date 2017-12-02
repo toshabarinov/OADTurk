@@ -1,11 +1,13 @@
 package service;
 
+import javax.swing.text.html.ListView;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class systemData { // Singeltion class
@@ -16,6 +18,56 @@ public final class systemData { // Singeltion class
     DBConnector connector = new DBConnector();
     ArrayList<LearningApplication> dataLA = new ArrayList<>();
     ArrayList<LearningCategory> dataLC = new ArrayList<>();
+
+    private  Map<Integer, List<LearningUnit>> learningUnitMap;
+    private List<LearningUnit> learningUnitList;
+    private Map<Integer, LuText> luTextMap;
+    private Map<Integer, LuDiagram> luDiagramMap;
+    private Map<Integer, LuTextPicture> luTextPictureMap;
+
+    public Map<Integer, LuText> getLuTextMap() {
+        return luTextMap;
+    }
+
+    public Map<Integer, LuDiagram> getLuDiagramMap() {
+        return luDiagramMap;
+    }
+
+    public Map<Integer, LuTextPicture> getLuTextPictureMap() {
+        return luTextPictureMap;
+    }
+
+    public List<LearningUnit> getLearningUnitList() {
+        return learningUnitList;
+    }
+
+    private int lastCategoryId;
+    private int lastLUid;
+
+    public int getLastLUid() {
+        return lastLUid;
+    }
+
+    public void setLastLUid(int lastLUid) {
+        this.lastLUid = lastLUid;
+    }
+
+    public int getLastCategoryId() {
+        return lastCategoryId;
+    }
+
+    public void setLastCategoryId(int lastCategoryId) {
+        this.lastCategoryId = lastCategoryId;
+    }
+
+    public Map<Integer, List<LearningUnit>> getLearningUnitMap() {
+        return learningUnitMap;
+    }
+
+    public void setLearningUnitMap(Map<Integer, List<LearningUnit>> learningUnitMap) {
+        this.learningUnitMap = learningUnitMap;
+    }
+
     private int lastUserId;
 
     private systemData() {
@@ -23,6 +75,7 @@ public final class systemData { // Singeltion class
         setLoginData();
         setDataLA();
         setDataLC();
+        setLearningUnit();
     }
 
     private void setLoginData() {
@@ -159,4 +212,111 @@ public final class systemData { // Singeltion class
     public void setLastUserId(int lastUserId) {
         this.lastUserId = lastUserId;
     }
+
+    private void setLearningUnit(){
+        learningUnitList = new ArrayList<>();
+
+        try {
+            statement = connector.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM learning_units");
+            while(resultSet.next()) {
+                LearningUnit learningUnit = new LearningUnit();
+                learningUnit.setId(resultSet.getInt("id"));
+                learningUnit.setName(resultSet.getString("name"));
+                learningUnit.setQuestion(resultSet.getString("question"));
+                learningUnit.setQuestion_type( resultSet.getInt("question_type"));
+                learningUnit.setQuestion_id(resultSet.getInt("question_id"));
+                learningUnit.setAnswer_type(resultSet.getInt("answer_type"));
+                learningUnit.setAnswer_id1(resultSet.getInt("answer_id1"));
+                learningUnit.setAnswer_id2( resultSet.getInt("answer_id2"));
+                learningUnit.setAnswer_id3(resultSet.getInt("answer_id2"));
+                learningUnit.setCategory_id( resultSet.getInt("category_id"));
+                learningUnitList.add(learningUnit);
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        learningUnitMap = new HashMap<Integer, List<LearningUnit>>();
+
+        for (int countCategorys = 0; countCategorys < dataLC.size(); countCategorys++){
+            List<LearningUnit> learningUnitL = new ArrayList<>();
+            for (int count = 0; count < learningUnitList.size(); count++){
+                if (learningUnitList.get(count).getCategory_id() == dataLC.get(countCategorys).getId()){
+                    learningUnitL.add(learningUnitList.get(count));
+                }
+            }
+            learningUnitMap.put(dataLC.get(countCategorys).getId(), learningUnitL);
+        }
+
+        setOther();
+    }
+
+    private void setOther(){
+
+        luDiagramMap = new HashMap<>();
+        luTextMap = new HashMap<>();
+        luTextPictureMap = new HashMap<>();
+
+        try {
+            statement = connector.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_diagram");
+            while(resultSet.next()) {
+                LuDiagram luDiagram = new LuDiagram();
+                luDiagram.setId(resultSet.getInt("id"));
+                luDiagram.setObject1_name(resultSet.getString("object1_name"));
+                luDiagram.setObject1_parameters(resultSet.getString("object1_parameters"));
+                luDiagram.setObject1_num( resultSet.getInt("object1_num"));
+                luDiagram.setObject2_name(resultSet.getString("object2_name"));
+                luDiagram.setObject2_num(resultSet.getInt("object2_num"));
+                luDiagram.setObject2_parameters(resultSet.getString("object2_parameters"));
+                luDiagram.setRelationship( resultSet.getString("relationship"));
+
+                luDiagramMap.put(luDiagram.getId(), luDiagram);
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            statement = connector.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text");
+            while(resultSet.next()) {
+                LuText luText = new LuText();
+                luText.setId(resultSet.getInt("id"));
+                luText.setText(resultSet.getString("text"));
+
+
+                luTextMap.put(luText.getId(), luText);
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            statement = connector.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text_picture");
+            while(resultSet.next()) {
+                LuTextPicture luTextPicture = new LuTextPicture();
+                luTextPicture.setId(resultSet.getInt("id"));
+                luTextPicture.setType(resultSet.getInt("type"));
+                luTextPicture.setText1(resultSet.getString("text1"));
+                luTextPicture.setText2( resultSet.getString("text2"));
+                luTextPicture.setText3(resultSet.getString("text3"));
+                luTextPicture.setText4(resultSet.getString("text4"));
+
+                luTextPictureMap.put(luTextPicture.getId(), luTextPicture);
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }
+
+

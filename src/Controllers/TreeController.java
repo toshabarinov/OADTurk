@@ -1,6 +1,7 @@
 package Controllers;
 
 
+import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
@@ -19,6 +20,7 @@ class TreeController extends Controller {
     TreeView<LearningInstance> mainTree;
     private boolean newTreeItemFlag;
     private TreeItem<LearningInstance> rootTree;
+    private CategoriesController categoriesController;
 
     // singleton instance and constructor
     private static TreeController instance;
@@ -54,10 +56,18 @@ class TreeController extends Controller {
                         // System.out.println(newValue.getValue().getDescription());
                         //TODO: make the screens of LA/LC dynamic corresponding to their application or category
                         //TODO: enable double click for collapsing/expanding instead of opening new screen
-                        if (newValue.getValue() instanceof LearningApplication)
+                        if (newValue.getValue() instanceof LearningApplication){
                             newScene((Stage)mainTree.getParent().getScene().getWindow(), "LA.fxml");
-                        if (newValue.getValue() instanceof LearningCategory)
+
+                        }
+
+                        if (newValue.getValue() instanceof LearningCategory){
+                           systemData.getInstance().setLastCategoryId(mainTree.getTreeItem(mainTree.getRow(newValue)).getValue().getId());
                             newScene((Stage)mainTree.getParent().getScene().getWindow(), "categories.fxml");
+
+                        }
+
+
                 }));
 
     }

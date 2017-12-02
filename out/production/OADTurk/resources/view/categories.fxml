@@ -48,7 +48,7 @@
                            <children>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Category" textAlignment="CENTER">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0"  text="Name of Category" textAlignment="CENTER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -90,14 +90,14 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <VBox>
+                              <VBox >
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Learning Units in this Category:">
                                        <VBox.margin>
                                           <Insets bottom="10.0" top="10.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <ListView>
+                                    <ListView fx:id="lisViewLU">
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>
