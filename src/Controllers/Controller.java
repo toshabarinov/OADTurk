@@ -1,6 +1,7 @@
 package Controllers;
 
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,17 +10,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import service.LearningInstance;
 
 import java.io.IOException;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**class which contains the standard controller functionality
  *
  */
 public class Controller {
-
-    // TODO: logout button on every screen
 
     @FXML
     Button homeButton;
@@ -73,7 +77,34 @@ public class Controller {
 
     public void settingsButtonClick(ActionEvent event) {
 
-        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "settings.fxml");
+        Parent root;
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/settings.fxml"));
+            root = fxmlLoader.load();
+            //create a new scene with root and set the stage
+            double width = 600;
+            double height = 400;
+
+            // New stage init
+            Stage window = new Stage();
+            window.setResizable(false);
+            window.initModality(Modality.APPLICATION_MODAL); // block main stage during this stage is open
+            window.setTitle("Settings");
+
+            SettingsController controller = fxmlLoader.getController();
+            controller.parentStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            //Scene
+            Scene scene = new Scene(root, width, height);
+            //Start
+            window.setScene(scene);
+            window.show();
+            // with this call the curser does not jump automatically into the first text field
+            Platform.runLater(()->root.requestFocus());
+
+        } catch ( IOException e ) {
+            e.printStackTrace();
+        }
 
     }
 

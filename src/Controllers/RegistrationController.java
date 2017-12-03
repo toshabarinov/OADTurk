@@ -75,6 +75,11 @@ public class RegistrationController {
             }
             window.setTitle("Home");
             window.setScene(new Scene(root, 800, 600));
+
+            // KRJO added these for instant delete account functionality
+            systemData.getInstance().reInit();
+            systemData.getInstance().setCurrentUserID(systemData.getInstance().getLastUserId());
+
         }
     }
 

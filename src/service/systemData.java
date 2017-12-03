@@ -1,9 +1,6 @@
 package service;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,12 +14,20 @@ public final class systemData { // Singeltion class
     ArrayList<LearningApplication> dataLA = new ArrayList<>();
     ArrayList<LearningCategory> dataLC = new ArrayList<>();
     private int lastUserId;
+    private int currentUserID;
 
     private systemData() {
         setUsersData();
         setLoginData();
         setDataLA();
         setDataLC();
+    }
+
+    /** to reinitialize the systemData instance
+     *
+     */
+    public void reInit(){
+        instance = new systemData();
     }
 
     private void setLoginData() {
@@ -86,8 +91,14 @@ public final class systemData { // Singeltion class
                     user.getBirthdate() + "\")";
             statement.executeUpdate(query);
             setLastUserId(getLastUserId()+1);
+            // KRJO: changed this a bit, login_data user_id should not depend on users user_id
+            // get UserID
+            ResultSet resultSet = statement.executeQuery("SELECT user_id FROM users");
+            resultSet.last();
+            int UserId = resultSet.getInt("user_id");
+
             String query2 = "INSERT INTO login_data (username, password, user_id) VALUES (\"" + username +
-                    "\", \"" + password + "\", \"" + getLastUserId() + "\")";
+                    "\", \"" + password + "\", \"" + UserId + "\")";
             statement.executeUpdate(query2);
             statement.close();
             users.add(user);
@@ -122,12 +133,29 @@ public final class systemData { // Singeltion class
         return users;
     }
 
-    public boolean isLoginSuccsessful(String username, String password) {
-        for(Map.Entry<String, String> entry : loginData.entrySet())
-            if (entry.getKey().equals(username) && entry.getValue().equals(password))
-                return true;
+    public boolean isLoginSuccessful(String username, String password) {
+        try {
+            statement = connector.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM login_data");
+            for(Map.Entry<String, String> entry : loginData.entrySet()){
+                if (entry.getKey().equals(username) && entry.getValue().equals(password)){
+                    // KRJO: to set the user id of the current user to know who is logged in
+                    while (resultSet.next())
+                        if (resultSet.getString("username").equals(username)){
+                            currentUserID = resultSet.getInt("user_id");
+                            break;
+                        }
 
-        return false;
+                    statement.close();
+                    return true;
+                }
+            }
+            statement.close();
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public ArrayList<LearningApplication> getDataLA() {
@@ -156,7 +184,43 @@ public final class systemData { // Singeltion class
         return lastUserId;
     }
 
+    public int getCurrentUserID() {
+        return currentUserID;
+    }
+    public void setCurrentUserID(int userId) {
+        currentUserID = userId;
+    }
+
+    /** returns some data from the data base
+     *
+     * @param UserID user id of the user from which the data should be received
+     * @param tableName table from which the data is of interest
+     * @param columnNme column of that table
+     */
+    public String getDBData(int UserID, String tableName, String columnNme){
+        String output = "";
+        try {
+            statement = connector.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
+            while(resultSet.next()) {
+                if (resultSet.getInt("user_id") == UserID){
+                    output = resultSet.getString(columnNme);
+                    break;
+                }
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
+
     public void setLastUserId(int lastUserId) {
         this.lastUserId = lastUserId;
     }
+
+    public Connection getDBConnection(){
+            return connector.getConnection();
+    }
+
 }
