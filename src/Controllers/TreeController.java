@@ -1,6 +1,7 @@
 package Controllers;
 
 
+import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
@@ -19,6 +20,7 @@ class TreeController extends Controller {
     TreeView<LearningInstance> mainTree;
     private boolean newTreeItemFlag;
     private TreeItem<LearningInstance> rootTree;
+    private CategoriesController categoriesController;
 
     // singleton instance and constructor
     private static TreeController instance;
@@ -58,6 +60,7 @@ class TreeController extends Controller {
                         }
                         if (newValue.getValue() instanceof LearningCategory){
                             systemData.getInstance().setActiveLI(newValue.getValue());
+                           systemData.getInstance().setLastCategoryId(mainTree.getTreeItem(mainTree.getRow(newValue)).getValue().getId());
                             newScene((Stage)mainTree.getParent().getScene().getWindow(), "categories.fxml");
                         }
                 }));

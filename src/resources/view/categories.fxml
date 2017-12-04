@@ -90,14 +90,14 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <VBox>
+                              <VBox >
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Learning Units in this Category:">
                                        <VBox.margin>
                                           <Insets bottom="10.0" top="10.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <ListView>
+                                    <ListView fx:id="lisViewLU">
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>
