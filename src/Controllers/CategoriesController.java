@@ -7,10 +7,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import javafx.scene.text.Text;
 import javafx.scene.control.TreeView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import service.LearningInstance;
 import service.LearningUnit;
@@ -44,6 +49,9 @@ public class CategoriesController extends Controller {
     @FXML
     private void initialize() {
         buildTree(categoriesTree);
+
+        LCName.setText(systemData.getInstance().getActiveLI().getName());
+        LCDescription.setText(systemData.getInstance().getActiveLI().getDescription());
 
         learningUnitMap = systemData.getInstance().getLearningUnitMap();
         createList(systemData.getInstance().getLastCategoryId());
@@ -108,8 +116,12 @@ public class CategoriesController extends Controller {
 
     }
 
+    public void searchOnAction() {
+        //TODO: implement search functionality
+        System.out.println(searchTextField.getText());
+        }
 
 
-}
+    }
 
 
