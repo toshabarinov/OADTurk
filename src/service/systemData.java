@@ -17,6 +17,7 @@ public final class systemData { // Singeltion class
     ArrayList<LearningApplication> dataLA = new ArrayList<>();
     ArrayList<LearningCategory> dataLC = new ArrayList<>();
     private int lastUserId;
+    LearningInstance activeLI;
 
     private systemData() {
         setUsersData();
@@ -50,7 +51,9 @@ public final class systemData { // Singeltion class
                 String user_surname = resultSet.getString("user_surname");
                 String email = resultSet.getString("email");
                 Date birthdate = resultSet.getDate("birthdate");
-                User user = new User(id, user_name, user_surname, email, birthdate);
+                String gender = resultSet.getString("gender");
+
+                User user = new User(id, user_name, user_surname, email, birthdate, gender);
                 users.add(user);
                 lastUserId = id;
 
@@ -81,9 +84,9 @@ public final class systemData { // Singeltion class
     public void addUser(User user, String username, String password) {
         try {
             statement = connector.getConnection().createStatement();
-            String query = "INSERT INTO users (user_name, user_surname, email, birthdate) VALUES (\"" +
+            String query = "INSERT INTO users (user_name, user_surname, email, birthdate, gender) VALUES (\"" +
                     user.getUser_name() + "\", \"" + user.getUser_surname() + "\", \"" + user.getEmail() + "\", \"" +
-                    user.getBirthdate() + "\")";
+                    user.getBirthdate() + "\", \"" + user.getGender() + "\")";
             statement.executeUpdate(query);
             setLastUserId(getLastUserId()+1);
             String query2 = "INSERT INTO login_data (username, password, user_id) VALUES (\"" + username +
@@ -159,4 +162,13 @@ public final class systemData { // Singeltion class
     public void setLastUserId(int lastUserId) {
         this.lastUserId = lastUserId;
     }
+
+    public LearningInstance getActiveLI() {
+        return activeLI;
+    }
+
+    public void setActiveLI(LearningInstance activeLI) {
+        this.activeLI = activeLI;
+    }
+
 }

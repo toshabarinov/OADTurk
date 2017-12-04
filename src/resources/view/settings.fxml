@@ -18,7 +18,7 @@
                      </HBox.margin>
                   </Button>
                   <Region prefHeight="200.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" prefWidth="100.0" text="My Content">
+                  <Button fx:id="myContentButton" mnemonicParsing="false" onAction="#myContentButtonClick" prefWidth="100.0" text="My Content">
                      <HBox.margin>
                         <Insets bottom="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -46,25 +46,21 @@
                      <children>
                         <VBox style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Settings" textAlignment="CENTER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                        <VBox.margin>
-                                          <Insets />
+                                          <Insets top="75.0" />
                                        </VBox.margin>
                                     </Text>
                                  </children>
                               </VBox>
                               <VBox>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Account">
-                                       <VBox.margin>
-                                          <Insets left="50.0" />
-                                       </VBox.margin></Text>
-                                    <HBox alignment="CENTER">
+                                    <HBox>
                                        <children>
                                           <TextField promptText="New email adress" HBox.hgrow="ALWAYS">
                                              <HBox.margin>
@@ -96,7 +92,7 @@
                                           </Button>
                                        </children>
                                        <VBox.margin>
-                                          <Insets top="20.0" />
+                                          <Insets top="30.0" />
                                        </VBox.margin>
                                        <padding>
                                           <Insets left="50.0" right="50.0" />
@@ -110,7 +106,7 @@
                                              </HBox.margin></TextField>
                                        </children>
                                        <VBox.margin>
-                                          <Insets top="20.0" />
+                                          <Insets top="30.0" />
                                        </VBox.margin>
                                        <padding>
                                           <Insets left="50.0" right="50.0" />
@@ -151,7 +147,7 @@
                                     </HBox>
                                  </children>
                                  <VBox.margin>
-                                    <Insets bottom="10.0" top="50.0" />
+                                    <Insets bottom="10.0" top="35.0" />
                                  </VBox.margin>
                                  <padding>
                                     <Insets left="10.0" right="10.0" />
@@ -161,14 +157,14 @@
                                  <children>
                                     <Button mnemonicParsing="false" text="Change preferences">
                                        <HBox.margin>
-                                          <Insets left="50.0" />
+                                          <Insets />
                                        </HBox.margin></Button>
                                  </children>
                                  <VBox.margin>
-                                    <Insets bottom="50.0" top="50.0" />
+                                    <Insets bottom="75.0" top="50.0" />
                                  </VBox.margin>
                                  <padding>
-                                    <Insets left="10.0" right="10.0" />
+                                    <Insets left="85.0" right="60.0" />
                                  </padding>
                               </HBox>
                            </children>

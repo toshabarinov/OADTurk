@@ -43,6 +43,8 @@ public class RegistrationController {
     @FXML
     PasswordField passwordField;
     @FXML
+    ChoiceBox genderField;
+    @FXML
     PasswordField confirmPasswordField;
     @FXML
     ListView<LearningApplication> chooseLAListView;
@@ -66,7 +68,8 @@ public class RegistrationController {
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         if(checkInputData()) {
             User user = new User(systemData.getInstance().getLastUserId()+1, nameTextField.getText(),
-                    surnameTextField.getText(), emailTextField.getText(), Date.valueOf(dateOfBirthField.getValue()));
+                    surnameTextField.getText(), emailTextField.getText(), Date.valueOf(dateOfBirthField.getValue()),
+                    genderField.getValue().toString());
             systemData.getInstance().addUser(user, username.getText(), passwordField.getText());
             try {
                 root = FXMLLoader.load(getClass().getResource("../resources/view/home.fxml"));
@@ -85,6 +88,7 @@ public class RegistrationController {
         list.add(inputText);
         initializeLAListView();
         initializeLCCheckedListView();
+        initializeGender();
     }
 
     private void initializeLAListView() {
@@ -107,6 +111,12 @@ public class RegistrationController {
         }
         chooseCategoryListView.getSelectionModel().select(0);
         chooseCategoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    }
+
+    private void initializeGender() {
+        genderField.getItems().addAll("Male", "Female");
+        genderField.setValue("Female");
+
     }
 
     private boolean checkInputData () {

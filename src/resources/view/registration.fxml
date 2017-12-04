@@ -51,6 +51,7 @@
                                        </VBox.margin></TextField>
                                     <PasswordField fx:id="passwordField" layoutX="14.0" layoutY="221.0" prefHeight="29.0" promptText="Password*" VBox.vgrow="NEVER" />
                                     <PasswordField fx:id="confirmPasswordField" layoutX="14.0" layoutY="265.0" prefHeight="29.0" promptText="Confirm Password*" VBox.vgrow="NEVER" />
+                                    <ChoiceBox fx:id="genderField" prefHeight="35.0" prefWidth="272.0" />
                                     <ScrollPane VBox.vgrow="ALWAYS">
                                        <content>
                                        <TextFlow fx:id="errorLogTextFlow" lineSpacing="5.0" prefHeight="96.0" prefWidth="244.0" VBox.vgrow="ALWAYS">

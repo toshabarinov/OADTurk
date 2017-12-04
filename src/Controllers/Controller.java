@@ -19,8 +19,6 @@ import java.io.IOException;
  */
 public class Controller {
 
-    // TODO: logout button on every screen
-
     @FXML
     Button homeButton;
     @FXML
@@ -43,7 +41,9 @@ public class Controller {
         try {
             root = FXMLLoader.load(getClass().getResource("../resources/view/" + newFxml));
             //create a new scene with root and set the stage
-            Scene scene = new Scene(root, 800, 600);
+            double width = window.getScene().getWidth();
+            double height = window.getScene().getHeight();
+            Scene scene = new Scene(root, width, height);
             window.setScene(scene);
             window.show();
         } catch ( IOException e ) {
@@ -58,7 +58,6 @@ public class Controller {
     void buildTree(TreeView<LearningInstance> tree){
         TreeController.getInstance().mainTree = tree;
         TreeController.getInstance().treeInitializer();
-
     }
 
     // button functions
@@ -75,10 +74,16 @@ public class Controller {
 
     }
 
+
     public void logOutButtonClicked(ActionEvent event) {
 
         newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "login.fxml");
 
     }
 
+    public void myContentButtonClick(ActionEvent event) {
+
+        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "myContent.fxml");
+
+    }
 }

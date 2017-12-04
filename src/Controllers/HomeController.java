@@ -49,7 +49,6 @@ public class HomeController extends Controller{
     //Return the searching area from ChoiceBox
     private String getChoice() {
         return searchChoiceBox.getValue();
-
     }
 
 
