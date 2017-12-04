@@ -51,13 +51,15 @@ class TreeController extends Controller {
     private void actionHandler(){
         mainTree.getSelectionModel().selectedItemProperty()
                 .addListener(((observable, oldValue, newValue) -> {
-                        // System.out.println(newValue.getValue().getDescription());
-                        //TODO: make the screens of LA/LC dynamic corresponding to their application or category
                         //TODO: enable double click for collapsing/expanding instead of opening new screen
-                        if (newValue.getValue() instanceof LearningApplication)
+                        if (newValue.getValue() instanceof LearningApplication){
+                            systemData.getInstance().setActiveLI(newValue.getValue());
                             newScene((Stage)mainTree.getParent().getScene().getWindow(), "LA.fxml");
-                        if (newValue.getValue() instanceof LearningCategory)
+                        }
+                        if (newValue.getValue() instanceof LearningCategory){
+                            systemData.getInstance().setActiveLI(newValue.getValue());
                             newScene((Stage)mainTree.getParent().getScene().getWindow(), "categories.fxml");
+                        }
                 }));
 
     }

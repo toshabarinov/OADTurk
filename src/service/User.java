@@ -8,13 +8,15 @@ public class User {
     String user_surname;
     String email;
     Date birthdate;
+    String gender;
 
-    public User(int user_id, String user_name, String user_surname, String email, Date birthdate) {
+    public User(int user_id, String user_name, String user_surname, String email, Date birthdate, String gender) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_surname = user_surname;
         this.email = email;
         this.birthdate = birthdate;
+        this.gender = gender;
     }
 
     public int getUser_id() {
@@ -57,6 +59,10 @@ public class User {
         this.birthdate = birthdate;
     }
 
+    public String getGender() { return gender; }
+
+    public void setGender(String gender) {this.gender = gender; }
+
     @Override
     public String toString() {
         return "User{" +
@@ -65,6 +71,7 @@ public class User {
                 ", user_surname='" + user_surname + '\'' +
                 ", email='" + email + '\'' +
                 ", birthdate=" + birthdate +
+                ", gender=" + gender +
                 '}';
     }
 }

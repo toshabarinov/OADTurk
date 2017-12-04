@@ -64,7 +64,6 @@ public class Controller {
     void buildTree(TreeView<LearningInstance> tree){
         TreeController.getInstance().mainTree = tree;
         TreeController.getInstance().treeInitializer();
-
     }
 
     // button functions
@@ -107,6 +106,7 @@ public class Controller {
         }
 
     }
+
 
     public void logOutButtonClicked(ActionEvent event) {
 
