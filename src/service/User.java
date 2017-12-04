@@ -10,14 +10,23 @@ public class User {
     Date birthdate;
     String gender;
 
-    public User(int user_id, String user_name, String user_surname, String email, Date birthdate, String gender) {
+//    public User(int user_id, String user_name, String user_surname, String email, Date birthdate, String gender) {
+//        this.user_id = user_id;
+//        this.user_name = user_name;
+//        this.user_surname = user_surname;
+//        this.email = email;
+//        this.birthdate = birthdate;
+//        this.gender = gender;
+//    }
+
+    public User(int user_id, String user_name, String user_surname, String email, Date birthdate) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_surname = user_surname;
         this.email = email;
         this.birthdate = birthdate;
-        this.gender = gender;
     }
+
 
     public int getUser_id() {
         return user_id;

@@ -56,9 +56,10 @@ public final class systemData { // Singeltion class
                 String user_surname = resultSet.getString("user_surname");
                 String email = resultSet.getString("email");
                 Date birthdate = resultSet.getDate("birthdate");
-                String gender = resultSet.getString("gender");
+                //String gender = resultSet.getString("gender");
 
-                User user = new User(id, user_name, user_surname, email, birthdate, gender);
+                // User user = new User(id, user_name, user_surname, email, birthdate, gender);
+                User user = new User(id, user_name, user_surname, email, birthdate);
                 users.add(user);
                 lastUserId = id;
 
@@ -89,9 +90,12 @@ public final class systemData { // Singeltion class
     public void addUser(User user, String username, String password) {
         try {
             statement = connector.getConnection().createStatement();
-            String query = "INSERT INTO users (user_name, user_surname, email, birthdate, gender) VALUES (\"" +
+//            String query = "INSERT INTO users (user_name, user_surname, email, birthdate, gender) VALUES (\"" +
+//                    user.getUser_name() + "\", \"" + user.getUser_surname() + "\", \"" + user.getEmail() + "\", \"" +
+//                    user.getBirthdate() + "\", \"" + user.getGender() + "\")";
+            String query = "INSERT INTO users (user_name, user_surname, email, birthdate) VALUES (\"" +
                     user.getUser_name() + "\", \"" + user.getUser_surname() + "\", \"" + user.getEmail() + "\", \"" +
-                    user.getBirthdate() + "\", \"" + user.getGender() + "\")";
+                    user.getBirthdate() + "\")";
             statement.executeUpdate(query);
             setLastUserId(getLastUserId()+1);
             // KRJO: changed this a bit, login_data user_id should not depend on users user_id

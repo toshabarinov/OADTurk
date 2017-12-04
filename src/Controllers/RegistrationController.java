@@ -67,9 +67,11 @@ public class RegistrationController {
     public void confirmButtonPressed(ActionEvent event) {
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         if(checkInputData()) {
+//            User user = new User(systemData.getInstance().getLastUserId()+1, nameTextField.getText(),
+//                    surnameTextField.getText(), emailTextField.getText(), Date.valueOf(dateOfBirthField.getValue()),
+//                    genderField.getValue().toString());
             User user = new User(systemData.getInstance().getLastUserId()+1, nameTextField.getText(),
-                    surnameTextField.getText(), emailTextField.getText(), Date.valueOf(dateOfBirthField.getValue()),
-                    genderField.getValue().toString());
+                    surnameTextField.getText(), emailTextField.getText(), Date.valueOf(dateOfBirthField.getValue()));
             systemData.getInstance().addUser(user, username.getText(), passwordField.getText());
             try {
                 root = FXMLLoader.load(getClass().getResource("../resources/view/home.fxml"));
