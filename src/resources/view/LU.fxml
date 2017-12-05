@@ -27,7 +27,7 @@
                         <Insets bottom="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="100.0" text="Create">
+                  <Button fx:id="createButton" mnemonicParsing="false" onAction="#createButtonClick" prefWidth="100.0" text="Create">
                      <HBox.margin>
                         <Insets bottom="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -112,7 +112,7 @@
                               <VBox alignment="CENTER" prefHeight="49.0" prefWidth="556.0" />
                               <VBox alignment="CENTER" prefHeight="49.0" prefWidth="556.0">
                                  <children>
-                                    <Pane  prefHeight="200.0" prefWidth="200.0">
+                                    <Pane prefHeight="200.0" prefWidth="200.0">
                                        <children>
                                           <Text fx:id="text1" layoutX="43.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                                           <CheckBox layoutX="488.0" layoutY="14.0" mnemonicParsing="false" />
@@ -122,7 +122,7 @@
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="49.0" prefWidth="556.0">
                                  <children>
-                                    <Pane  prefHeight="200.0" prefWidth="200.0">
+                                    <Pane prefHeight="200.0" prefWidth="200.0">
                                        <children>
                                           <Text fx:id="text2" layoutX="43.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                                           <CheckBox layoutX="488.0" layoutY="14.0" mnemonicParsing="false" />
@@ -132,7 +132,7 @@
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="49.0" prefWidth="556.0">
                                  <children>
-                                    <Pane  prefHeight="200.0" prefWidth="200.0">
+                                    <Pane prefHeight="200.0" prefWidth="200.0">
                                        <children>
                                           <Text fx:id="text3" layoutX="43.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                                           <CheckBox layoutX="488.0" layoutY="14.0" mnemonicParsing="false" />

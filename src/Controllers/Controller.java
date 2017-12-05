@@ -120,4 +120,10 @@ public class Controller {
 
     }
 
+    public void createButtonClick(ActionEvent event) {
+
+        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "create.fxml");
+
+    }
+
 }
