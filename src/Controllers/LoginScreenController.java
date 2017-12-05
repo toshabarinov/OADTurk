@@ -38,7 +38,7 @@ public class LoginScreenController {
 
 
     public void loginButtonClicked(ActionEvent event) {
-        if(systemData.getInstance().isLoginSuccsessful(usernameField.getText(), passwordField.getText())) {
+        if(systemData.getInstance().isLoginSuccessful(usernameField.getText(), passwordField.getText())) {
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             try {
                 root = FXMLLoader.load(getClass().getResource("../resources/view/home.fxml"));

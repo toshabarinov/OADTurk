@@ -6,187 +6,138 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SettingsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SettingsController">
    <children>
-      <VBox layoutX="162.0" layoutY="55.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" layoutX="162.0" layoutY="55.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="47.0" prefWidth="200.0">
+            <VBox VBox.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="homeButton" mnemonicParsing="false" onAction="#homeButtonClick" prefWidth="100.0" text="Home">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Region prefHeight="200.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" prefWidth="100.0" text="My Content">
-                     <HBox.margin>
-                        <Insets bottom="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" prefWidth="100.0" text="Create">
-                     <HBox.margin>
-                        <Insets bottom="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#settingsButtonClick" prefWidth="100.0" text="Settings">
-                     <HBox.margin>
-                        <Insets bottom="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-            <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-              <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                  <HBox>
                      <children>
-                        <TreeView fx:id="settingsTree" layoutX="-8.0" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TextField fx:id="mailTextField" onAction="#changeMailButtonClick" promptText="New email adress" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="changeMailButton" mnemonicParsing="false" onAction="#changeMailButtonClick" prefWidth="100.0" text="Change">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
-                  </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox>
                      <children>
-                        <VBox style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Settings" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </Text>
-                                 </children>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Account">
-                                       <VBox.margin>
-                                          <Insets left="50.0" />
-                                       </VBox.margin></Text>
-                                    <HBox alignment="CENTER">
-                                       <children>
-                                          <TextField promptText="New email adress" HBox.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                <Insets left="25.0" right="5.0" />
-                                             </HBox.margin></TextField>
-                                          <Button mnemonicParsing="false" prefWidth="100.0" text="Change">
-                                             <HBox.margin>
-                                                <Insets left="5.0" right="50.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets top="5.0" />
-                                       </VBox.margin>
-                                       <padding>
-                                          <Insets left="50.0" right="50.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox>
-                                       <children>
-                                          <TextField promptText="New user name" HBox.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                <Insets left="25.0" right="5.0" />
-                                             </HBox.margin></TextField>
-                                          <Button mnemonicParsing="false" prefWidth="100.0" text="Change">
-                                             <HBox.margin>
-                                                <Insets left="5.0" right="50.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets top="20.0" />
-                                       </VBox.margin>
-                                       <padding>
-                                          <Insets left="50.0" right="50.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox>
-                                       <children>
-                                          <TextField promptText="Old password" HBox.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                <Insets left="25.0" right="160.0" />
-                                             </HBox.margin></TextField>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets top="20.0" />
-                                       </VBox.margin>
-                                       <padding>
-                                          <Insets left="50.0" right="50.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox>
-                                       <children>
-                                          <TextField promptText="New password" HBox.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                <Insets left="25.0" right="5.0" />
-                                             </HBox.margin></TextField>
-                                          <Button mnemonicParsing="false" prefWidth="100.0" text="Change">
-                                             <HBox.margin>
-                                                <Insets left="5.0" right="50.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                       <padding>
-                                          <Insets left="50.0" right="50.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox>
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                       <children>
-                                          <Hyperlink text="Delete Account">
-                                             <HBox.margin>
-                                                <Insets left="25.0" />
-                                             </HBox.margin></Hyperlink>
-                                       </children>
-                                       <padding>
-                                          <Insets left="50.0" right="50.0" />
-                                       </padding>
-                                    </HBox>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" top="50.0" />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets left="10.0" right="10.0" />
-                                 </padding>
-                              </VBox>
-                              <HBox prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Button mnemonicParsing="false" text="Change preferences">
-                                       <HBox.margin>
-                                          <Insets left="50.0" />
-                                       </HBox.margin></Button>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets bottom="50.0" top="50.0" />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets left="10.0" right="10.0" />
-                                 </padding>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </children></AnchorPane>
-              </items>
-            </SplitPane>
-            <HBox maxHeight="47.0" prefHeight="47.0" prefWidth="200.0">
+                        <TextField fx:id="nameTextField" onAction="#changeUserNameButtonClick" promptText="New user name" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="changeUserNameButton" mnemonicParsing="false" onAction="#changeUserNameButtonClick" prefWidth="100.0" text="Change">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <PasswordField fx:id="oldPasswordTextField" promptText="Old password" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="110.0" />
+                           </HBox.margin>
+                        </PasswordField>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <PasswordField fx:id="newPasswordTextField1" promptText="New password" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="110.0" />
+                           </HBox.margin>
+                        </PasswordField>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <PasswordField fx:id="newPasswordTextField2" onAction="#ChangePasswordButtonClick" promptText="New password" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </PasswordField>
+                        <Button fx:id="changePasswordButton" mnemonicParsing="false" onAction="#ChangePasswordButtonClick" prefWidth="100.0" text="Change">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                     <children>
+                        <Hyperlink fx:id="deleteAccountLink" onAction="#deleteAccountLinkClick" text="Delete Account">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Hyperlink>
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_CENTER">
+                     <children>
+                        <Button fx:id="changePreferencesButton" mnemonicParsing="false" onAction="#changePreferencesButtonClick" text="Change preferences">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="25.0" top="35.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets left="100.0" right="100.0" />
+               </padding>
+            </VBox>
+            <HBox alignment="CENTER" maxHeight="40.0" prefHeight="40.0" style="-fx-border-width: 1 0 0 0; -fx-border-color: grey; -fx-background-color: #f2f2f2;">
                <children>
-                  <Label maxHeight="56.0" prefHeight="47.0" prefWidth="204.0" text="Some text here" HBox.hgrow="ALWAYS">
+                  <Label fx:id="messageLabel" maxHeight="40.0" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets left="10.0" />
                      </padding>
-                  </Label>
-                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#logOutButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Log Out" HBox.hgrow="ALWAYS">
                      <HBox.margin>
-                        <Insets right="10.0" top="10.0" />
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button fx:id="yesButton" mnemonicParsing="false" onAction="#yesButtonClick" prefWidth="45.0" text="Yes">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="noButton" mnemonicParsing="false" onAction="#noButtonClick" prefWidth="45.0" text="No">
+                     <HBox.margin>
+                        <Insets right="10.0" />
                      </HBox.margin>
                   </Button>
                </children>

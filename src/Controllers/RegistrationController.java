@@ -43,6 +43,8 @@ public class RegistrationController {
     @FXML
     PasswordField passwordField;
     @FXML
+    ChoiceBox genderField;
+    @FXML
     PasswordField confirmPasswordField;
     @FXML
     ListView<LearningApplication> chooseLAListView;
@@ -65,6 +67,9 @@ public class RegistrationController {
     public void confirmButtonPressed(ActionEvent event) {
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         if(checkInputData()) {
+//            User user = new User(systemData.getInstance().getLastUserId()+1, nameTextField.getText(),
+//                    surnameTextField.getText(), emailTextField.getText(), Date.valueOf(dateOfBirthField.getValue()),
+//                    genderField.getValue().toString());
             User user = new User(systemData.getInstance().getLastUserId()+1, nameTextField.getText(),
                     surnameTextField.getText(), emailTextField.getText(), Date.valueOf(dateOfBirthField.getValue()));
             systemData.getInstance().addUser(user, username.getText(), passwordField.getText());
@@ -75,6 +80,11 @@ public class RegistrationController {
             }
             window.setTitle("Home");
             window.setScene(new Scene(root, 800, 600));
+
+            // KRJO added these for instant delete account functionality
+            systemData.getInstance().reInit();
+            systemData.getInstance().setCurrentUserID(systemData.getInstance().getLastUserId());
+
         }
     }
 
@@ -85,6 +95,7 @@ public class RegistrationController {
         list.add(inputText);
         initializeLAListView();
         initializeLCCheckedListView();
+        initializeGender();
     }
 
     private void initializeLAListView() {
@@ -107,6 +118,12 @@ public class RegistrationController {
         }
         chooseCategoryListView.getSelectionModel().select(0);
         chooseCategoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    }
+
+    private void initializeGender() {
+        genderField.getItems().addAll("Male", "Female");
+        genderField.setValue("Female");
+
     }
 
     private boolean checkInputData () {

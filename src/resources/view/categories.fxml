@@ -18,7 +18,7 @@
                      </HBox.margin>
                   </Button>
                   <Region prefHeight="200.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" prefWidth="100.0" text="My Content">
+                  <Button fx:id="myContentButton" mnemonicParsing="false" onAction="#myContentButtonClick" prefWidth="100.0" text="My Content">
                      <HBox.margin>
                         <Insets bottom="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -48,7 +48,7 @@
                            <children>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Category" textAlignment="CENTER">
+                                    <Text fx:id="LCName" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Category" textAlignment="CENTER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -56,7 +56,7 @@
                                           <Insets top="10.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description line 1&#10;Description line 2&#10;">
+                                    <Text fx:id="LCDescription" strokeType="OUTSIDE" strokeWidth="0.0" text="Description line 1&#10;Description line 2&#10;">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
@@ -70,14 +70,14 @@
                                  <children>
                                     <HBox alignment="CENTER">
                                        <children>
-                                          <TextField promptText="Search in Category" HBox.hgrow="ALWAYS">
+                                          <TextField fx:id="searchTextField" onAction="#searchOnAction" promptText="Search in Category" HBox.hgrow="ALWAYS">
                                              <HBox.margin>
                                                 <Insets left="50.0" right="5.0" />
                                              </HBox.margin>
                                           </TextField>
-                                          <Button mnemonicParsing="false" prefWidth="50.0" text="Find">
+                                          <Button onAction="#searchOnAction" mnemonicParsing="false" prefWidth="100.0" text="Find">
                                              <HBox.margin>
-                                                <Insets left="5.0" right="50.0" />
+                                                <Insets left="5.0" right="25.0" />
                                              </HBox.margin>
                                           </Button>
                                        </children>
@@ -90,14 +90,14 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <VBox>
+                              <VBox >
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Learning Units in this Category:">
                                        <VBox.margin>
                                           <Insets bottom="10.0" top="10.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <ListView>
+                                    <ListView fx:id="lisViewLU">
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>
@@ -112,7 +112,7 @@
                               </VBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="goToExamsButton" mnemonicParsing="false" prefWidth="100.0" text="Go to Exams" />
+                                    <Button fx:id="goToExamsButton" mnemonicParsing="false" prefWidth="100.0" text="Exam" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="25.0" />
