@@ -76,6 +76,9 @@ public class LUController extends Controller {
 
     @FXML
     private void initialize() {
+        if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
+            adminPanelButton.setVisible(false);
+        }
         buildTree(settingsTree);
 
         learningUnitList = systemData.getInstance().getLearningUnitList();

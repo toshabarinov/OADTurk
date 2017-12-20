@@ -22,6 +22,11 @@
                      </HBox.margin>
                   </Button>
                   <Region prefHeight="200.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="adminPanelButton" mnemonicParsing="false" onAction="#adminPanelButtonClicked" prefWidth="100.0" text="Admin Panel">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button mnemonicParsing="false" prefWidth="100.0" text="My Content">
                      <HBox.margin>
                         <Insets bottom="10.0" right="10.0" top="10.0" />
@@ -95,7 +100,7 @@
                                        <children>
                                           <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="124.0" layoutX="42.0" stroke="BLACK" strokeType="INSIDE" width="125.0" />
                                           <Line endX="55.0" layoutX="112.0" layoutY="46.0" startX="-70.0" />
-                                          <Text fx:id="object1" layoutX="52.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="object_name" ></Text>
+                                          <Text fx:id="object1" layoutX="52.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="object_name" />
                                           <Text fx:id="object1_parameters" layoutX="52.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="object_paramters" />
                                           <Text fx:id="object1_num" layoutX="182.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="num1" />
                                        </children>
@@ -213,7 +218,7 @@
             </SplitPane>
             <HBox maxHeight="47.0" prefHeight="47.0" prefWidth="200.0">
                <children>
-                  <Label maxHeight="56.0" prefHeight="47.0" prefWidth="204.0" text="Some text here" HBox.hgrow="ALWAYS">
+                  <Label fx:id="statementLabel" maxHeight="56.0" prefHeight="47.0" prefWidth="204.0" text="Some text here" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets left="10.0" />
                      </padding>

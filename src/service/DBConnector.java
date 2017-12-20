@@ -32,7 +32,5 @@ public class DBConnector {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
-
 }

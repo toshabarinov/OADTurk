@@ -18,6 +18,11 @@
                      </HBox.margin>
                   </Button>
                   <Region prefHeight="200.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="adminPanelButton" mnemonicParsing="false" onAction="#adminPanelButtonClicked" prefWidth="100.0" text="Admin Panel">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button fx:id="myContentButton" mnemonicParsing="false" onAction="#myContentButtonClick" prefWidth="100.0" text="My Content">
                      <HBox.margin>
                         <Insets bottom="10.0" right="10.0" top="10.0" />
@@ -78,7 +83,7 @@
                                                 <Insets left="50.0" right="5.0" />
                                              </HBox.margin>
                                           </TextField>
-                                          <Button onAction="#searchOnAction" mnemonicParsing="false" prefWidth="100.0" text="Find">
+                                          <Button mnemonicParsing="false" onAction="#searchOnAction" prefWidth="100.0" text="Find">
                                              <HBox.margin>
                                                 <Insets left="5.0" right="25.0" />
                                              </HBox.margin>
@@ -113,7 +118,10 @@
                                     </VBox>
                                     <HBox alignment="CENTER">
                                        <children>
-                                          <Button fx:id="goToExamsButton" mnemonicParsing="false" prefWidth="100.0" text="Exam" />
+                                          <Button fx:id="goToExamsButton" mnemonicParsing="false" prefWidth="100.0" text="Exam">
+                                             <HBox.margin>
+                                                <Insets bottom="10.0" top="10.0" />
+                                             </HBox.margin></Button>
                                        </children>
                                     </HBox>
                                  </children>
@@ -125,7 +133,7 @@
             </SplitPane>
             <HBox maxHeight="47.0" prefHeight="47.0" prefWidth="200.0">
                <children>
-                  <Label maxHeight="56.0" prefHeight="47.0" prefWidth="204.0" text="Some text here" HBox.hgrow="ALWAYS">
+                  <Label fx:id="statementLabel" maxHeight="56.0" prefHeight="47.0" prefWidth="204.0" text="Some text here" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets left="10.0" />
                      </padding>

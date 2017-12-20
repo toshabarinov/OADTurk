@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import service.LearningInstance;
 import service.LearningUnit;
+import service.currentUser;
 import service.systemData;
 
 import java.awt.event.MouseEvent;
@@ -48,6 +49,9 @@ public class CategoriesController extends Controller {
 
     @FXML
     private void initialize() {
+        if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
+            adminPanelButton.setVisible(false);
+        }
         buildTree(categoriesTree);
 
         LCName.setText(systemData.getInstance().getActiveLI().getName());

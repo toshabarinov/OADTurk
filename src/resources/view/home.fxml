@@ -18,6 +18,11 @@
                      </HBox.margin>
                   </Button>
                   <Region prefHeight="200.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="adminPanelButton" mnemonicParsing="false" onAction="#adminPanelButtonClicked" prefWidth="100.0" text="Admin Panel">
+                     <HBox.margin>
+                        <Insets bottom="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button fx:id="myContentButton" mnemonicParsing="false" onAction="#myContentButtonClick" prefWidth="100.0" text="My Content">
                      <HBox.margin>
                         <Insets bottom="10.0" right="10.0" top="10.0" />
@@ -66,39 +71,20 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </HBox>
+                              <ListView fx:id="searchListView" prefHeight="252.0" prefWidth="556.0" />
                               <HBox prefHeight="100.0" prefWidth="200.0" spacing="50.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TextFlow fx:id="firstRecommendation" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                    <TextFlow fx:id="firstRecommendation" onMouseClicked="#firstRecClicked" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <padding>
                                           <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                        </padding>
                                     </TextFlow>
-                                    <TextFlow fx:id="secondRecommendation" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                    <TextFlow fx:id="secondRecommendation" onMouseClicked="#secondRecClicked" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <padding>
                                           <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                        </padding>
                                     </TextFlow>
                                  </children>
-                              </HBox>
-                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="50.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <TextFlow fx:id="thirdRecommendation" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                       <padding>
-                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                       </padding>
-                                    </TextFlow>
-                                    <TextFlow fx:id="fourthRecommendation" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                                       <padding>
-                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                       </padding>
-                                    </TextFlow>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
                               </HBox>
                            </children>
                         </VBox>
@@ -107,7 +93,7 @@
             </SplitPane>
             <HBox maxHeight="47.0" prefHeight="47.0" prefWidth="200.0">
                <children>
-                  <Label maxHeight="56.0" prefHeight="47.0" prefWidth="204.0" text="Some text here" HBox.hgrow="ALWAYS">
+                  <Label fx:id="statementLabel" maxHeight="56.0" prefHeight="47.0" prefWidth="204.0" text="Some text here" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets left="10.0" />
                      </padding>

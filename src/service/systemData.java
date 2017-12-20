@@ -103,6 +103,46 @@ public final class systemData { // Singeltion class
         }
     }
 
+    private void setCurrentUser(String username) {
+        for(User user : users) {
+            if(user.user_id == currentUserID) {
+                currentUser.setInstance(user);
+            }
+        }
+    }
+
+    // keys :
+    // 1 --> Learning App
+    // 2 --> Learning Category
+    // 3 --> Learning Unit
+    public ArrayList<LearningInstance> search(int key, String word) {
+        word = word.toLowerCase();
+        ArrayList<LearningInstance> output = new ArrayList<>();
+        switch (key) {
+            case 1 : {
+                for(LearningApplication la : dataLA) {
+                    if(la.name.toLowerCase().contains(word) || la.description.toLowerCase().contains(word)) {
+                        output.add(la);
+                    }
+                }
+                break;
+            }
+            case 2 : {
+                for(LearningCategory lc : dataLC) {
+                    if(lc.name.toLowerCase().contains(word) || lc.description.toLowerCase().contains(word)) {
+                        output.add(lc);
+                    }
+                }
+                break;
+            }
+            case 3 : {
+                //implement LU
+                break;
+            }
+        }
+        return output;
+    }
+
     private void setUsersData() {
         try {
             statement = connector.getConnection().createStatement();
@@ -113,10 +153,12 @@ public final class systemData { // Singeltion class
                 String user_surname = resultSet.getString("user_surname");
                 String email = resultSet.getString("email");
                 Date birthdate = resultSet.getDate("birthdate");
+                boolean isAdmin = resultSet.getBoolean("isAdmin");
+                boolean isCreator = resultSet.getBoolean("isCreator");
                 //String gender = resultSet.getString("gender");
 
                 // User user = new User(id, user_name, user_surname, email, birthdate, gender);
-                User user = new User(id, user_name, user_surname, email, birthdate);
+                User user = new User(id, user_name, user_surname, email, birthdate, isAdmin, isCreator);
                 users.add(user);
                 lastUserId = id;
 
@@ -144,12 +186,24 @@ public final class systemData { // Singeltion class
         }
     }
 
+    public void addLA(String name, String description) {
+        try {
+            statement = connector.getConnection().createStatement();
+            String query = "INSERT INTO learning_applications (la_name, la_description) VALUES (\"" + name + "\", \"" +
+                    description + "\")";
+            statement.executeUpdate(query);
+            ResultSet resultSet = statement.executeQuery("SELECT la_id FROM learning_applications");
+            resultSet.last();
+            int laId = resultSet.getInt("la_id");
+            getDataLA().add(new LearningApplication(laId, name, description));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addUser(User user, String username, String password) {
         try {
             statement = connector.getConnection().createStatement();
-//            String query = "INSERT INTO users (user_name, user_surname, email, birthdate, gender) VALUES (\"" +
-//                    user.getUser_name() + "\", \"" + user.getUser_surname() + "\", \"" + user.getEmail() + "\", \"" +
-//                    user.getBirthdate() + "\", \"" + user.getGender() + "\")";
             String query = "INSERT INTO users (user_name, user_surname, email, birthdate) VALUES (\"" +
                     user.getUser_name() + "\", \"" + user.getUser_surname() + "\", \"" + user.getEmail() + "\", \"" +
                     user.getBirthdate() + "\")";
@@ -211,6 +265,7 @@ public final class systemData { // Singeltion class
                         }
 
                     statement.close();
+                    setCurrentUser(username);
                     return true;
                 }
             }

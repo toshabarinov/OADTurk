@@ -83,7 +83,6 @@ class TreeController extends Controller {
                 newRoot.getChildren().add(child);
             }
             rootTree = newRoot;
-
         }
 
         mainTree.setRoot(rootTree);

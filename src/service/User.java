@@ -9,8 +9,29 @@ public class User {
     String email;
     Date birthdate;
     String gender;
+    boolean isAdmin;
+    boolean isCreator;
 
-//    public User(int user_id, String user_name, String user_surname, String email, Date birthdate, String gender) {
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public boolean isCreator() {
+        return isCreator;
+    }
+
+    public void setCreator(boolean creator) {
+        isCreator = creator;
+    }
+
+    public User() {
+
+    }
+    //    public User(int user_id, String user_name, String user_surname, String email, Date birthdate, String gender) {
 //        this.user_id = user_id;
 //        this.user_name = user_name;
 //        this.user_surname = user_surname;
@@ -27,6 +48,16 @@ public class User {
         this.birthdate = birthdate;
     }
 
+    public User(int user_id, String user_name, String user_surname, String email, Date birthdate, boolean isAdmin, boolean isCreator) {
+        this.user_id = user_id;
+        this.user_name = user_name;
+        this.user_surname = user_surname;
+        this.email = email;
+        this.birthdate = birthdate;
+        this.gender = gender;
+        this.isAdmin = isAdmin;
+        this.isCreator = isCreator;
+    }
 
     public int getUser_id() {
         return user_id;

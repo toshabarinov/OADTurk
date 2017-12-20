@@ -5,10 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import service.LearningApplication;
-import service.LearningCategory;
-import service.LearningInstance;
-import service.systemData;
+import service.*;
 
 import java.util.ArrayList;
 
@@ -29,6 +26,9 @@ public class LAController extends Controller{
     TreeView<LearningInstance> LATree;
     @FXML
     private void initialize() {
+        if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
+            adminPanelButton.setVisible(false);
+        }
         buildTree(LATree);
         LearningInstance activeLI = systemData.getInstance().getActiveLI();
         LAName.setText(activeLI.getName());
