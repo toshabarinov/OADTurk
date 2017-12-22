@@ -24,6 +24,7 @@ public class adminPanAddApp extends adminPanelController {
             nameId.setText("");
             descriptionId.setText("");
             TreeController.getInstance().updateTree();
+            TreeController.getInstance().treeInitializer();
         }
     }
 }
