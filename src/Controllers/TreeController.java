@@ -108,6 +108,7 @@ class TreeController extends Controller {
      *  should be called when data for the tree is added
      */
     void updateTree(){
+        rootTree = null;
         newTreeItemFlag = true;
     }
 }
