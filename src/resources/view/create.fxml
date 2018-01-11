@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.canvas.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.LUController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CreateController">
    <children>
       <VBox layoutX="162.0" layoutY="55.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -22,11 +18,6 @@
                      </HBox.margin>
                   </Button>
                   <Region prefHeight="200.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="adminPanelButton" mnemonicParsing="false" onAction="#adminPanelButtonClicked" prefWidth="100.0" text="Admin Panel">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
                   <Button fx:id="myContentButton" mnemonicParsing="false" onAction="#myContentButtonClick" prefWidth="100.0" text="My Content">
                      <HBox.margin>
                         <Insets bottom="10.0" right="10.0" top="10.0" />
@@ -48,82 +39,78 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <TreeView fx:id="settingsTree" layoutX="-8.0" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TreeView fx:id="createTree" layoutX="-8.0" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
                         <VBox style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <VBox alignment="CENTER" prefHeight="49.0" prefWidth="556.0">
+                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LU Title Placeholder" textAlignment="CENTER">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A page to create LUs or LAs and show created content" textAlignment="CENTER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                        <VBox.margin>
-                                          <Insets />
+                                          <Insets top="30.0" />
                                        </VBox.margin>
                                     </Text>
                                  </children>
                               </VBox>
-                              <VBox alignment="CENTER" prefHeight="49.0" prefWidth="556.0">
+                              <VBox>
                                  <children>
-                                    <Text fx:id="question" strokeType="OUTSIDE" strokeWidth="0.0" text="Question" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
+                                    <HBox alignment="TOP_CENTER">
+                                       <children>
+                                          <ComboBox prefWidth="150.0" promptText="Question Type">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </ComboBox>
+                                          <ComboBox prefWidth="150.0" promptText="Answer Type">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </ComboBox>
+                                          <Button fx:id="createLUButton" mnemonicParsing="false" onAction="#createLUButtonClick" prefWidth="100.0" text="Create LU" />
+                                       </children>
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>
-                                    </Text>
+                                    </HBox>
+                                    <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Button fx:id="createLAButton" mnemonicParsing="false" onAction="#createLAButtonClick" prefWidth="100.0" text="Create LA">
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </HBox>
                                  </children>
                                  <VBox.margin>
-                                    <Insets />
+                                    <Insets left="50.0" right="50.0" top="50.0" />
                                  </VBox.margin>
                               </VBox>
-                              <VBox alignment="CENTER" prefHeight="49.0" prefWidth="556.0">
+                              <VBox>
                                  <children>
-                                    <Text fx:id="question1" strokeType="OUTSIDE" strokeWidth="0.0" text="Question" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="My Content:">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <ListView>
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>
-                                    </Text>
+                                    </ListView>
                                  </children>
-                              </VBox>
-                              <VBox alignment="CENTER" prefHeight="49.0" prefWidth="556.0" />
-                              <VBox alignment="CENTER" prefHeight="49.0" prefWidth="556.0">
-                                 <children>
-                                    <Pane prefHeight="200.0" prefWidth="200.0">
-                                       <children>
-                                          <Text fx:id="text1" layoutX="43.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-                                          <CheckBox layoutX="488.0" layoutY="14.0" mnemonicParsing="false" />
-                                       </children>
-                                    </Pane>
-                                 </children>
-                              </VBox>
-                              <VBox alignment="CENTER" prefHeight="49.0" prefWidth="556.0">
-                                 <children>
-                                    <Pane prefHeight="200.0" prefWidth="200.0">
-                                       <children>
-                                          <Text fx:id="text2" layoutX="43.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-                                          <CheckBox layoutX="488.0" layoutY="14.0" mnemonicParsing="false" />
-                                       </children>
-                                    </Pane>
-                                 </children>
-                              </VBox>
-                              <VBox alignment="CENTER" prefHeight="49.0" prefWidth="556.0">
-                                 <children>
-                                    <Pane prefHeight="200.0" prefWidth="200.0">
-                                       <children>
-                                          <Text fx:id="text3" layoutX="43.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-                                          <CheckBox layoutX="488.0" layoutY="14.0" mnemonicParsing="false" />
-                                       </children>
-                                    </Pane>
-                                 </children>
+                                 <padding>
+                                    <Insets bottom="50.0" left="50.0" right="50.0" top="25.0" />
+                                 </padding>
                               </VBox>
                            </children>
                         </VBox>
@@ -132,7 +119,7 @@
             </SplitPane>
             <HBox maxHeight="47.0" prefHeight="47.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="statementLabel" maxHeight="56.0" prefHeight="47.0" prefWidth="204.0" text="Some text here" HBox.hgrow="ALWAYS">
+                  <Label maxHeight="56.0" prefHeight="47.0" prefWidth="204.0" text="Some text here" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets left="10.0" />
                      </padding>
@@ -147,6 +134,5 @@
             </HBox>
          </children>
       </VBox>
-      <Line endX="100.0" startX="-100.0" />
    </children>
 </AnchorPane>

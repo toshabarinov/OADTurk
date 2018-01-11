@@ -130,4 +130,11 @@ public class Controller {
     public void myContentButtonClick(ActionEvent event) {
         newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "myContent.fxml");
     }
+
+    public void createButtonClick(ActionEvent event) {
+
+        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "create.fxml");
+
+    }
+
 }

@@ -1,6 +1,8 @@
 package Controllers;
 
 import java.sql.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -136,6 +138,11 @@ public class SettingsController extends Controller {
         String inputText = nameTextField.getText();
         String DBUsername = systemData.getInstance().getDBData(UserID, "login_data", "username");
 
+        // check for whitespace
+        Pattern pattern = Pattern.compile("\\s");
+        Matcher matcher = pattern.matcher(inputText);
+        boolean containsWhiteSpace = matcher.find();
+
         if (inputText.equals(DBUsername)){
             messageLabel.setTextFill(Color.web("#e60000"));
             messageLabel.setText("The entered and current user name are the same");
@@ -143,6 +150,14 @@ public class SettingsController extends Controller {
         else if(alreadyInUseCheck(inputText, "login_data", "username")){
             messageLabel.setTextFill(Color.web("#e60000"));
             messageLabel.setText("The entered user name is already in use");
+        }
+        else if(inputText.equals("")){
+            messageLabel.setTextFill(Color.web("#e60000"));
+            messageLabel.setText("User field is empty");
+        }
+        else if(containsWhiteSpace){
+            messageLabel.setTextFill(Color.web("#e60000"));
+            messageLabel.setText("User name should not contains white spaces");
         }
         else{
 
