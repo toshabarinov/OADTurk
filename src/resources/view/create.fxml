@@ -62,12 +62,12 @@
                                  <children>
                                     <HBox alignment="TOP_CENTER">
                                        <children>
-                                          <ComboBox prefWidth="150.0" promptText="Question Type">
+                                          <ComboBox fx:id="questionType" prefWidth="150.0" promptText="Question Type">
                                              <HBox.margin>
                                                 <Insets right="10.0" />
                                              </HBox.margin>
                                           </ComboBox>
-                                          <ComboBox prefWidth="150.0" promptText="Answer Type">
+                                          <ComboBox fx:id="answerType" prefWidth="150.0" promptText="Answer Type">
                                              <HBox.margin>
                                                 <Insets right="10.0" />
                                              </HBox.margin>

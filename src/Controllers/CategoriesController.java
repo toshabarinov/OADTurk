@@ -7,6 +7,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,15 +19,20 @@ import javafx.scene.text.Text;
 import javafx.scene.control.TreeView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import service.LearningInstance;
-import service.LearningUnit;
-import service.currentUser;
-import service.systemData;
+import service.*;
 
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.*;
 
 public class CategoriesController extends Controller {
+
+//    private FXMLLoader fxmlLoader;
+//    private Connection conn;
+//    LearningUnit LU;
 
     @FXML
     Button goToExamsButton;
@@ -47,65 +54,103 @@ public class CategoriesController extends Controller {
 
     Map<String, LearningUnit> mapOFleaningUnit;
 
+    // TODO JO only add approved LUs
     @FXML
     private void initialize() {
-        if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
-            adminPanelButton.setVisible(false);
-        }
-        buildTree(categoriesTree);
+        try {
 
-        LCName.setText(systemData.getInstance().getActiveLI().getName());
-        LCDescription.setText(systemData.getInstance().getActiveLI().getDescription());
-
-        learningUnitMap = systemData.getInstance().getLearningUnitMap();
-        createList(systemData.getInstance().getLastCategoryId());
-
-        ListProperty<String> listProperty = new SimpleListProperty<>();
-        ObservableList<String> list = FXCollections.observableArrayList(createList());
-        listProperty.set(FXCollections.observableArrayList(list));
-        lisViewLU.itemsProperty().bind(listProperty);
-        lisViewLU.setVisible(true);
-
-        createHashMap();
-
-        lisViewLU.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-
-                systemData.getInstance().setLastLUid(mapOFleaningUnit.get(newValue).getId());
-
-                if (mapOFleaningUnit.get(newValue).getQuestion_type().equals(0)) {
-                    newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU.fxml");
-                } else if (mapOFleaningUnit.get(newValue).getQuestion_type().equals(1)) {
-                    if (mapOFleaningUnit.get(newValue).getAnswer_type() == 0) {
-                        newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU1.fxml");
-                    } else if (mapOFleaningUnit.get(newValue).getAnswer_type() == 1) {
-                        newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU2.fxml");
-                    } else if (mapOFleaningUnit.get(newValue).getAnswer_type() == 2) {
-                        newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU3.fxml");
-                    }
-                }
+            if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
+                adminPanelButton.setVisible(false);
             }
-        });
+            buildTree(categoriesTree);
+
+            LCName.setText(systemData.getInstance().getActiveLI().getName());
+            LCDescription.setText(systemData.getInstance().getActiveLI().getDescription());
+
+            learningUnitMap = systemData.getInstance().getLearningUnitMap();
+            // TODO JO check if lastCategoryId is ok
+            createList(systemData.getInstance().getLastCategoryId());
+
+            ListProperty<String> listProperty = new SimpleListProperty<>();
+            ObservableList<String> list = FXCollections.observableArrayList(createList());
+            listProperty.set(FXCollections.observableArrayList(list));
+            lisViewLU.itemsProperty().bind(listProperty);
+            lisViewLU.setVisible(true);
+
+            createHashMap();
+
+            lisViewLU.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    try {
+                        LearningUnit LU = null;
+                        FXMLLoader fxmlLoader = null;
+                        Connection conn = systemData.getInstance().getDBConnection();
+                        systemData.getInstance().setLastLUid(mapOFleaningUnit.get(newValue).getId());
+                        String LastLUID = Integer.toString(systemData.getInstance().getLastLUid());
+                        ResultSet resultSet = null;
+                        LUController luController = null;
+                        Parent root = null;
+
+                        if ( (mapOFleaningUnit.get(newValue).getQuestion_type() == 't') &
+                                (mapOFleaningUnit.get(newValue).getAnswer_type() == 't') ){
+                            //newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU1.fxml");
+                            fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LU1.fxml"));
+
+                            Statement statement = conn.createStatement();
+                            resultSet = statement.executeQuery("SELECT * FROM lu_text_text WHERE id = " + LastLUID);
+                            LU = new LuText(resultSet);
+//                            resultSet.next();
+
+//                            root = fxmlLoader.load();
+//                            luController = fxmlLoader.getController();
+                        }
+//                else if (mapOFleaningUnit.get(newValue).getQuestion_type().equals(1)) {
+//                    if (mapOFleaningUnit.get(newValue).getAnswer_type() == 0) {
+//                        newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU1.fxml");
+//                    } else if (mapOFleaningUnit.get(newValue).getAnswer_type() == 1) {
+//                        newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU2.fxml");
+//                    } else if (mapOFleaningUnit.get(newValue).getAnswer_type() == 2) {
+//                        newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU3.fxml");
+//                    }
+//                }
+
+//                        assert luController != null;
+                        assert fxmlLoader != null;
+                        root = fxmlLoader.load();
+                        luController = fxmlLoader.getController();
+                        luController.learningUnit = LU;
+                        luController.setUp();
+//                        luController.titleText.setText(resultSet.getString("title"));
+                        newScene((Stage) lisViewLU.getParent().getScene().getWindow(), root);
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void createList(int categoryId) {
 
         learningUnitList = learningUnitMap.get(categoryId);
 
-    }
+}
 
     private List<String> createList(){
 
         List<String> returnList = new ArrayList<>();
-        for (int count = 0; count < learningUnitList.size(); count++){
-
-            returnList.add(learningUnitList.get(count).getName());
-
+        for (LearningUnit aLearningUnitList : learningUnitList) {
+            if (aLearningUnitList.isApprovedFlag())
+                returnList.add(aLearningUnitList.getName());
         }
         listForListView = new ArrayList<>(returnList);
         return returnList;
-
     }
 
     private void createHashMap(){

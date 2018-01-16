@@ -333,6 +333,40 @@ public final class systemData { // Singeltion class
         }
         return output;
     }
+    public int getCategoryID(String name, String tableName, String returnColumn, String searchColumn){
+        int output = 0;
+        try {
+            statement = connector.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
+            while(resultSet.next()) {
+                if (resultSet.getString(searchColumn).equals(name)){
+                    output = resultSet.getInt(returnColumn);
+                    break;
+                }
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
+    public String getStringData(String name, String tableName, String returnColumn, String searchColumn){
+        String output = "";
+        try {
+            statement = connector.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
+            while(resultSet.next()) {
+                if (resultSet.getString(searchColumn).equals(name)){
+                    output = resultSet.getString(returnColumn);
+                    break;
+                }
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
 
     public void setLastUserId(int lastUserId) {
         this.lastUserId = lastUserId;
@@ -361,15 +395,12 @@ public final class systemData { // Singeltion class
             while(resultSet.next()) {
                 LearningUnit learningUnit = new LearningUnit();
                 learningUnit.setId(resultSet.getInt("id"));
+                // TODO JO for now the reference name is shown frontend, maybe that's ok though!
                 learningUnit.setName(resultSet.getString("name"));
-                learningUnit.setQuestion(resultSet.getString("question"));
-                learningUnit.setQuestion_type( resultSet.getInt("question_type"));
-                learningUnit.setQuestion_id(resultSet.getInt("question_id"));
-                learningUnit.setAnswer_type(resultSet.getInt("answer_type"));
-                learningUnit.setAnswer_id1(resultSet.getInt("answer_id1"));
-                learningUnit.setAnswer_id2( resultSet.getInt("answer_id2"));
-                learningUnit.setAnswer_id3(resultSet.getInt("answer_id2"));
+                learningUnit.setQuestion_type(resultSet.getString("question_type").charAt(0));
+                learningUnit.setAnswer_type(resultSet.getString("answer_type").charAt(0));
                 learningUnit.setCategory_id( resultSet.getInt("category_id"));
+                learningUnit.setApprovedFlag(resultSet.getBoolean("approved"));
                 learningUnitList.add(learningUnit);
             }
             statement.close();
@@ -419,21 +450,21 @@ public final class systemData { // Singeltion class
             e.printStackTrace();
         }
 
-        try {
-            statement = connector.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text");
-            while(resultSet.next()) {
-                LuText luText = new LuText();
-                luText.setId(resultSet.getInt("id"));
-                luText.setText(resultSet.getString("text"));
-
-
-                luTextMap.put(luText.getId(), luText);
-            }
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            statement = connector.getConnection().createStatement();
+//            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text_text");
+//            while(resultSet.next()) {
+//                LuText luText = new LuText();
+//                luText.setId(resultSet.getInt("id"));
+//                luText.setText(resultSet.getString("text"));
+//
+//
+//                luTextMap.put(luText.getId(), luText);
+//            }
+//            statement.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
         try {
             statement = connector.getConnection().createStatement();

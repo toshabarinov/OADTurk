@@ -53,7 +53,7 @@ class TreeController extends Controller {
     private void actionHandler(){
         mainTree.getSelectionModel().selectedItemProperty()
                 .addListener(((observable, oldValue, newValue) -> {
-                        //TODO: enable double click for collapsing/expanding instead of opening new screen
+                        //TODO JO enable double click for collapsing/expanding instead of opening new screen
                         if (newValue.getValue() instanceof LearningApplication){
                             systemData.getInstance().setActiveLI(newValue.getValue());
                             newScene((Stage)mainTree.getParent().getScene().getWindow(), "LA.fxml");
