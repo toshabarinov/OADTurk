@@ -27,7 +27,7 @@
                      </HBox.margin>
                   </Label>
                   <Region prefHeight="35.0" prefWidth="35.0" HBox.hgrow="ALWAYS" />
-                  <ChoiceBox fx:id="choiceBoxId" prefWidth="800.0">
+                  <ChoiceBox id="appChoiceBox" fx:id="choiceBoxId" prefWidth="800.0">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>

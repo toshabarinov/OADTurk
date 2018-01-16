@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public final class systemData { // Singeltion class
     private static systemData instance = new systemData();
@@ -111,6 +114,14 @@ public final class systemData { // Singeltion class
         }
     }
 
+    public LearningApplication getLaByName(String name) {
+        for(LearningApplication la : dataLA) {
+            if(la.getName().equals(name))
+               return la;
+        }
+        return null;
+    }
+
     // keys :
     // 1 --> Learning App
     // 2 --> Learning Category
@@ -201,6 +212,29 @@ public final class systemData { // Singeltion class
         }
     }
 
+    public void addLC(String name, String description, String laName) {
+        try {
+            int laID = getLaByName(laName).getId();
+
+            statement = connector.getConnection().createStatement();
+            String query = "INSERT INTO learning_caterogies (lc_name, lc_description, la_id) VALUES (\"" + name + "\", \""
+                    + description + "\",\"" + laID + "\")";
+            statement.executeUpdate(query);
+            ResultSet resultSet = statement.executeQuery("SELECT lc_id FROM learning_caterogies");
+            resultSet.last();
+            int lcId = resultSet.getInt("lc_id");
+            getDataLC().add(new LearningCategory(lcId, name, description, laID));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeLAByName(String name) {
+        dataLA = (ArrayList<LearningApplication>) dataLA.stream()
+                .filter(la -> !la.getName().equals(name))
+                .collect(toList());
+    }
+
     public void addUser(User user, String username, String password) {
         try {
             statement = connector.getConnection().createStatement();
@@ -242,6 +276,17 @@ public final class systemData { // Singeltion class
             e.printStackTrace();
         }
     }
+
+    public LearningCategory getLCByName(String LAName, String LCName) {
+        int laId = getLaByName(LAName).getId();
+        for(LearningCategory lc : dataLC) {
+            if(lc.getName().equals(LCName) && lc.getLa_id() == laId) {
+                return lc;
+            }
+        }
+        return null;
+    }
+
 
     public static systemData getInstance() {
         return instance;

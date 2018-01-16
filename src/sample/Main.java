@@ -19,6 +19,12 @@ public class Main extends Application {
         window.show();
     }
 
+    @Override
+    public void stop() throws Exception {
+        System.out.println("Stop");
+        //TODO: update all data, that was changed, and save them into DB.
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
