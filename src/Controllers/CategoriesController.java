@@ -99,6 +99,7 @@ public class CategoriesController extends Controller {
 
                             Statement statement = conn.createStatement();
                             resultSet = statement.executeQuery("SELECT * FROM lu_text_text WHERE id = " + LastLUID);
+                            resultSet.next();
                             LU = new LuText(resultSet);
 //                            resultSet.next();
 

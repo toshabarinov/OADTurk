@@ -65,15 +65,15 @@ public class CreateLUBox extends Controller{
                     "learning_caterogies", "lc_id", "lc_name");
 
             Statement statement = conn.createStatement();
-            String query = "INSERT INTO learning_units (name, question_type, answer_type, category_id) VALUES (" +
+            String query = "INSERT INTO learning_units (refName, question_type, answer_type, category_id) VALUES (" +
                     "\"" + nameString + "\", \"" + questionType + "\", \"" + answerType + "\", \"" + Integer.toString(catID) + "\")";
             statement.executeUpdate(query);
             int LUID = systemData.getInstance().getCategoryID(nameString,
-                    "learning_units", "id", "name");
+                    "learning_units", "id", "refName");
 
             switch (questionAnswerCombi){
                 case "tt":
-                    query = "INSERT INTO lu_text_text (id, name, title, question, answer1, answer2, answer3, answer4, correctAnswers) VALUES (" +
+                    query = "INSERT INTO lu_text_text (id, refName, title, question, answer1, answer2, answer3, answer4, correctAnswers) VALUES (" +
                             "\"" + LUID + "\", \"" + nameString + "\", \"" + titleString + "\", \"" + questionString +
                             "\", \"" + answerString1 + "\", \"" + answerString2 + "\", \"" + answerString3 + "\", \"" +
                             answerString4 + "\", \"" + correctString + "\")";
