@@ -14,6 +14,8 @@ import javafx.scene.control.TreeView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import service.LearningInstance;
+import service.currentUser;
+
 import java.io.IOException;
 
 /**class which contains the standard controller functionality
@@ -34,6 +36,8 @@ public class Controller {
     Button adminPanelButton;
     @FXML
     Label statementLabel;
+    @FXML
+    Button examPanelButton;
 
     /**function to add a new scene to active stage
      *
@@ -84,15 +88,26 @@ public class Controller {
         }
     }
 
+    public void examPanelButtonClicked(ActionEvent event) {
+        Parent root;
+        try {
+            Stage window = new Stage();
+            window.setResizable(false);
+            window.initModality(Modality.NONE); // block main stage during this stage is open
+            window.setTitle("Exam panel");
+            root = FXMLLoader.load(getClass().getResource("../resources/view/examViews/createdExams.fxml"));
+            window.setScene(new Scene(root, 600, 400));
+            window.show();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+        }
+    }
 
     public void homeButtonClick(ActionEvent event) {
-
         newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "home.fxml");
-
     }
 
     public void settingsButtonClick(ActionEvent event) {
-
         Parent root;
 
         try {
@@ -119,6 +134,15 @@ public class Controller {
             Platform.runLater(()->root.requestFocus());
         } catch ( IOException e ) {
             e.printStackTrace();
+        }
+    }
+
+    public void viewInit() {
+        if(!currentUser.getInstance().isAdmin()) {
+            adminPanelButton.setVisible(false);
+        }
+        if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
+            examPanelButton.setVisible(false);
         }
     }
 

@@ -49,11 +49,8 @@ public class CategoriesController extends Controller {
 
     @FXML
     private void initialize() {
-        if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
-            adminPanelButton.setVisible(false);
-        }
+        viewInit();
         buildTree(categoriesTree);
-
         LCName.setText(systemData.getInstance().getActiveLI().getName());
         LCDescription.setText(systemData.getInstance().getActiveLI().getDescription());
 

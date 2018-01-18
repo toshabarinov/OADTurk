@@ -26,9 +26,7 @@ public class LAController extends Controller{
     TreeView<LearningInstance> LATree;
     @FXML
     private void initialize() {
-        if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
-            adminPanelButton.setVisible(false);
-        }
+        viewInit();
         buildTree(LATree);
         LearningInstance activeLI = systemData.getInstance().getActiveLI();
         LAName.setText(activeLI.getName());

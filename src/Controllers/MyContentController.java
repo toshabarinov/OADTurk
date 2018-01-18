@@ -12,9 +12,7 @@ public class MyContentController extends Controller {
 
     @FXML
     private void initialize() {
-        if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
-            adminPanelButton.setVisible(false);
-        }
+        viewInit();
         myContentButton.setDisable(true);
 
         buildTree(myContentTree);
