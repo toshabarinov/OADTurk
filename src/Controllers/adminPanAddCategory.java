@@ -1,6 +1,8 @@
 package Controllers;
 
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -34,7 +36,7 @@ public class adminPanAddCategory extends  adminPanelController {
     }
 
     public void confirmButtonPressed() {
-        if(systemData.getInstance().getLCByName(getChoice().getName(), nameId.getText()) != null) {
+        if(systemData.getInstance().getLC(nameId.getText(), getChoice().getId()) != null) {
             AlertBox.display("LC already exists.",
                     "Learning category with those name is already exists. Please, choose other name.");
         } else {

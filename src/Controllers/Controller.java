@@ -76,7 +76,7 @@ public class Controller {
             window.setResizable(false);
             window.initModality(Modality.NONE); // block main stage during this stage is open
             window.setTitle("Admin panel");
-            root = FXMLLoader.load(getClass().getResource("../resources/view/adminPanAddApp.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../resources/view/adminViews/adminPanAddApp.fxml"));
             window.setScene(new Scene(root, 600, 400));
             window.show();
         } catch ( IOException e ) {

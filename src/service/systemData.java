@@ -212,6 +212,18 @@ public final class systemData { // Singeltion class
         }
     }
 
+    public LearningCategory getLC(String name, int laId) {
+        return dataLC.stream()
+                .filter(lc -> lc.getLa_id() == laId && lc.getName().equals(name))
+                .findFirst().orElse(null);
+    }
+
+    public void deleteLC(String name, int laId) {
+                dataLC = (ArrayList<LearningCategory>) dataLC.stream()
+                .filter(lc -> lc != getLC(name, laId))
+                .collect(toList());
+    }
+
     public void addLC(String name, String description, String laName) {
         try {
             int laID = getLaByName(laName).getId();
@@ -277,15 +289,7 @@ public final class systemData { // Singeltion class
         }
     }
 
-    public LearningCategory getLCByName(String LAName, String LCName) {
-        int laId = getLaByName(LAName).getId();
-        for(LearningCategory lc : dataLC) {
-            if(lc.getName().equals(LCName) && lc.getLa_id() == laId) {
-                return lc;
-            }
-        }
-        return null;
-    }
+
 
 
     public static systemData getInstance() {
