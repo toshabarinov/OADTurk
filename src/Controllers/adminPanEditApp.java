@@ -38,15 +38,27 @@ public class adminPanEditApp extends adminPanelController {
 
 
     public void saveButtonPressed() {
+        if(nameId.getText().equals("")) {
+            AlertBox.display("Add name", "Please add the name to this Application");
+            return;
+        }
+
+        if(descriptionId.getText().equals("")) {
+            AlertBox.display("Add description", "Please add the description to this Application");
+            return;
+        }
+
         if(systemData.getInstance().getLaByName(nameId.getText()) != null &&
                 !systemData.getInstance().getLaByName(nameId.getText()).getName().equals(currentLAName)) {
             AlertBox.display("LA already exists",
-                    "Learning Application with this name is already exist. Please, choose another name.");
+                    "Learning Application with this name is already exist. Please, choose another name" +
+                            " or take the old one.");
         } else {
             LearningApplication la = systemData.getInstance().getLaByName(currentLAName);
+            systemData.getInstance().updateLA(nameId.getText(), descriptionId.getText(), la.getId());
             la.setName(nameId.getText());
             la.setDescription(descriptionId.getText());
-            AlertBox.display("Succsess", "Changes was successfully added.");
+            AlertBox.display("Success", "Changes was successfully added.");
             if(!nameId.getText().equals(currentLAName)) {
                 TreeController.getInstance().updateTree();
                 TreeController.getInstance().treeInitializer();
