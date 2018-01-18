@@ -4,17 +4,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-import service.LearningApplication;
+import service.Exam;
 import service.systemData;
 
 
 public class createdExams extends examPanelController{
 
-    //TODO: add class exam and change the parameter of ListView
     @FXML
-    ListView<LearningApplication> examsListView;
+    ListView<Exam> examsListView;
 
-    public static final ObservableList list =
+    private static final ObservableList list =
             FXCollections.observableArrayList();
 
 
@@ -33,8 +32,8 @@ public class createdExams extends examPanelController{
     }
 
     private void initListView() {
-        //TODO: change LA to Exams
-        list.addAll(systemData.getInstance().getDataLA());
+        list.clear();
+        list.addAll(systemData.getInstance().getDataExams());
         examsListView.setItems(list);
     }
 }

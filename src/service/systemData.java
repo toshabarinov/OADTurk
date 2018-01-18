@@ -22,6 +22,7 @@ public final class systemData { // Singeltion class
     DBConnector connector = new DBConnector();
     ArrayList<LearningApplication> dataLA = new ArrayList<>();
     ArrayList<LearningCategory> dataLC = new ArrayList<>();
+    ArrayList<Exam> dataExams = new ArrayList<>();
 
     private  Map<Integer, List<LearningUnit>> learningUnitMap;
     private List<LearningUnit> learningUnitList;
@@ -76,12 +77,16 @@ public final class systemData { // Singeltion class
     private int currentUserID;
     LearningInstance activeLI;
 
+
+
     private systemData() {
         setUsersData();
         setLoginData();
         setDataLA();
         setDataLC();
         setLearningUnit();
+        setExamData();
+
     }
 
     /** to reinitialize the systemData instance
@@ -99,6 +104,22 @@ public final class systemData { // Singeltion class
                 String username = resultSet.getString("username");
                 String password = resultSet.getString("password");
                 loginData.put(username, password);
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setExamData() {
+        try {
+            statement = connector.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM exams");
+            while(resultSet.next()) {
+                String name = resultSet.getString("exam_name");
+                String lu = resultSet.getString("learning_units");
+                int id = resultSet.getInt("exam_id");
+                dataExams.add(new Exam(name, 0, lu));
             }
             statement.close();
         } catch (SQLException e) {
@@ -245,6 +266,14 @@ public final class systemData { // Singeltion class
         dataLA = (ArrayList<LearningApplication>) dataLA.stream()
                 .filter(la -> !la.getName().equals(name))
                 .collect(toList());
+    }
+
+    public ArrayList<Exam> getDataExams() {
+        return dataExams;
+    }
+
+    public void setDataExams(ArrayList<Exam> dataExams) {
+        this.dataExams = dataExams;
     }
 
     public void addUser(User user, String username, String password) {
