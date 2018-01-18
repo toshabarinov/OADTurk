@@ -55,6 +55,7 @@ public class adminPanEditApp extends adminPanelController {
                             " or take the old one.");
         } else {
             LearningApplication la = systemData.getInstance().getLaByName(currentLAName);
+            systemData.getInstance().updateLA(nameId.getText(), descriptionId.getText(), la.getId());
             la.setName(nameId.getText());
             la.setDescription(descriptionId.getText());
             AlertBox.display("Success", "Changes was successfully added.");

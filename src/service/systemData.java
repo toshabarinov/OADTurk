@@ -240,7 +240,9 @@ public final class systemData { // Singeltion class
     }
 
     public void deleteLC(String name, int laId) {
-                dataLC = (ArrayList<LearningCategory>) dataLC.stream()
+        deleteLCFromDB(getLC(name, laId).getId());
+
+        dataLC = (ArrayList<LearningCategory>) dataLC.stream()
                 .filter(lc -> lc != getLC(name, laId))
                 .collect(toList());
     }
@@ -248,7 +250,6 @@ public final class systemData { // Singeltion class
     public void addLC(String name, String description, String laName) {
         try {
             int laID = getLaByName(laName).getId();
-
             statement = connector.getConnection().createStatement();
             String query = "INSERT INTO learning_caterogies (lc_name, lc_description, la_id) VALUES (\"" + name + "\", \""
                     + description + "\",\"" + laID + "\")";
@@ -262,10 +263,36 @@ public final class systemData { // Singeltion class
         }
     }
 
+
+    public void updateLA(String name, String description, int laId) {
+        try {
+            statement = connector.getConnection().createStatement();
+            String query = "UPDATE learning_applications SET la_name = \"" + name + "\", la_description = \"" +
+                    description + "\" WHERE la_id = "+ laId + ";";
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateLC(String name, String description, int lcId) {
+        try {
+            statement = connector.getConnection().createStatement();
+            String query = "UPDATE learning_caterogies SET lc_name = \"" + name + "\", lc_description = \"" +
+                    description + "\" WHERE lc_id = "+ lcId + ";";
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void removeLAByName(String name) {
+        deleteLAFromDB(getLaByName(name).getId());
+
         dataLA = (ArrayList<LearningApplication>) dataLA.stream()
                 .filter(la -> !la.getName().equals(name))
                 .collect(toList());
+
     }
 
     public ArrayList<Exam> getDataExams() {
@@ -274,6 +301,27 @@ public final class systemData { // Singeltion class
 
     public void setDataExams(ArrayList<Exam> dataExams) {
         this.dataExams = dataExams;
+    }
+
+    private void deleteLAFromDB(int id) {
+        try {
+            statement = connector.getConnection().createStatement();
+            String query = "DELETE FROM learning_applications WHERE la_id = \"" + id + "\";";
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void deleteLCFromDB(int id) {
+        try {
+            statement = connector.getConnection().createStatement();
+            String query = "DELETE FROM learning_caterogies WHERE lc_id = \"" + id + "\";";
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addUser(User user, String username, String password) {

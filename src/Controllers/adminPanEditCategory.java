@@ -64,6 +64,7 @@ public class adminPanEditCategory extends adminPanelController {
                     "Learning Category with this name is already exist. Please, choose another " +
                             "name or take the old one.");
         } else {
+            systemData.getInstance().updateLC(nameId.getText(), descriptionId.getText(), getChoiceLC().getId());
             getChoiceLC().setName(nameId.getText());
             getChoiceLC().setDescription(descriptionId.getText());
             AlertBox.display("Success", "Changes was successfully added.");
