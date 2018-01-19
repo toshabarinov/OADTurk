@@ -51,6 +51,7 @@ public class LUController extends Controller {
 
     @FXML
     private void initialize() {
+        viewInit();
         if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
             adminPanelButton.setVisible(false);
         }
@@ -60,7 +61,7 @@ public class LUController extends Controller {
 //        createHashMap();
 //        LearningUnit learningUnit = learningUnitMap.get(systemData.getInstance().getLastLUid());
     }
-        viewInit();
+
 
     public void confirmButtonClick(ActionEvent event) {
         String correctAnswers = learningUnit.correctAnswers;

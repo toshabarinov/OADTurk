@@ -26,6 +26,7 @@ public final class systemData { // Singeltion class
 
     private  Map<Integer, List<LearningUnit>> learningUnitMap;
     private Map<String, LearningUnit> mapStringLU;      //< map of all LUs (key=LU reference name; value=LU)
+    private Map<Integer, LearningUnit> mapIntLU;            //< map of all LUs (key=LU id; value=LU)
     private List<LearningUnit> learningUnitList;
     private Map<Integer, LuText> luTextMap;
     private Map<Integer, LuDiagram> luDiagramMap;
@@ -83,6 +84,7 @@ public final class systemData { // Singeltion class
      */
     public void setMapStringLU() {
         mapStringLU = new HashMap<>();
+        mapIntLU = new HashMap<>();
         try {
             String answerQuestionCombi;
             Connection conn = getDBConnection();
@@ -98,9 +100,9 @@ public final class systemData { // Singeltion class
                             ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE id = " + Integer.toString(resultSet.getInt("id")));
                             //ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE refName='test'");
                             resultSetTT.next();
-                            String test = resultSetTT.getString("refName");
                             LuText luText = new LuText(resultSetTT);
                             mapStringLU.put(luText.getName(), luText);
+                            mapIntLU.put(luText.getId(), luText);
                             break;
                         case "tp":
                             break;

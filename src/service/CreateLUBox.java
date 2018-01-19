@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public class CreateLUBox extends Controller{
 
@@ -41,6 +42,36 @@ public class CreateLUBox extends Controller{
     private CheckBox correctCheckB3;
     private CheckBox correctCheckB4;
 
+    private int stringToID(ArrayList<LearningApplication> LAList, String name){
+        for (LearningApplication LA : LAList){
+
+            if (LA.name.equals(name)){
+                return LA.id;
+            }
+        }
+        throw new NoSuchElementException();
+    }
+    private void availableCategoriesSet(javafx.event.Event e){
+        try {
+            boolean noItemsFlag = true;
+            String chosenLA = choseLA.getValue().toString();
+            int chosenLAid = stringToID(systemData.getInstance().dataLA, chosenLA);
+            choseCategory.getItems().removeAll();
+            choseCategory.getItems().clear();
+
+            for (LearningCategory cat : systemData.getInstance().dataLC){
+                if (cat.la_id == chosenLAid){
+                    choseCategory.getItems().add(cat.getName());
+                    noItemsFlag = false;
+                }
+            }
+            if (noItemsFlag)
+                choseCategory.getItems().add("No Categories in this LA");
+        }
+        catch (NoSuchElementException err){
+            err.printStackTrace();
+        }
+    }
 
     private void okButtonClick(ActionEvent event)
     {
@@ -105,7 +136,7 @@ public class CreateLUBox extends Controller{
         Button okButton = new Button("Ok");
         okButton.setMinWidth(100);
         //okButton.setOnAction(e-> window.close());
-        okButton.setOnAction(e->okButtonClick(e));
+        okButton.setOnAction(this::okButtonClick);
 
         Label message = new Label("Define your Learning Unit");
         Label correctText = new Label("Correct");
@@ -117,14 +148,13 @@ public class CreateLUBox extends Controller{
         for (LearningApplication la : systemData.getInstance().dataLA){
             choseLA.getItems().add(la.getName());
         }
+        choseLA.setOnAction(e->availableCategoriesSet(e));
 
         choseCategory = new ComboBox();
         choseCategory.setPromptText("Chose category");
         choseCategory.setPrefWidth(150);
         choseCategory.getItems().removeAll();
-        for (LearningCategory cat : systemData.getInstance().dataLC){
-            choseCategory.getItems().add(cat.getName());
-        }
+        choseCategory.getItems().add("chose LA first");
 
 
         titleText = new TextField();

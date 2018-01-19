@@ -18,7 +18,7 @@ public class LuText extends LearningUnit{
     public LuText(ResultSet resultSet){
         try {
             this.resultSet = resultSet;
-            //resultSet.next();
+            setId(resultSet.getInt("id"));
             name = resultSet.getString("refName");
             titleText = resultSet.getString("title");
             questionText = resultSet.getString("question");
