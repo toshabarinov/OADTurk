@@ -24,7 +24,11 @@ public final class systemData { // Singeltion class
     ArrayList<LearningCategory> dataLC = new ArrayList<>();
     ArrayList<Exam> dataExams = new ArrayList<>();
 
+
+
     private  Map<Integer, List<LearningUnit>> learningUnitMap;
+    private Map<String, LearningUnit> mapStringLU;      //< map of all LUs (key=LU reference name; value=LU)
+    private Map<Integer, LearningUnit> mapIntLU;            //< map of all LUs (key=LU id; value=LU)
     private List<LearningUnit> learningUnitList;
     private Map<Integer, LuText> luTextMap;
     private Map<Integer, LuDiagram> luDiagramMap;
@@ -65,12 +69,56 @@ public final class systemData { // Singeltion class
         this.lastCategoryId = lastCategoryId;
     }
 
-    public Map<Integer, List<LearningUnit>> getLearningUnitMap() {
+    public void setLearningUnitMap(Map<Integer, List<LearningUnit>> learningUnitMap) {
+        this.learningUnitMap = learningUnitMap;
+    }
+
+        public Map<Integer, List<LearningUnit>> getLearningUnitMap() {
         return learningUnitMap;
     }
 
-    public void setLearningUnitMap(Map<Integer, List<LearningUnit>> learningUnitMap) {
-        this.learningUnitMap = learningUnitMap;
+        public Map<String, LearningUnit> getMapStringLU() {
+        return mapStringLU;
+    }
+
+    /** function to set a map of all learning units -> mapStringLU (key=LUName; value=LU)
+     *
+     */
+    public void setMapStringLU() {
+        mapStringLU = new HashMap<>();
+        mapIntLU = new HashMap<>();
+        try {
+            String answerQuestionCombi;
+            Connection conn = getDBConnection();
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM learning_units");
+            while (resultSet.next()){
+                if (resultSet.getInt("approved") == 1){
+                    answerQuestionCombi = resultSet.getString("question_type") +
+                            resultSet.getString("answer_type");
+                    switch (answerQuestionCombi){
+                        case "tt":
+                            Statement st = conn.createStatement();
+                            ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE id = " + Integer.toString(resultSet.getInt("id")));
+                            //ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE refName='test'");
+                            resultSetTT.next();
+                            LuText luText = new LuText(resultSetTT);
+                            mapStringLU.put(luText.getName(), luText);
+                            mapIntLU.put(luText.getId(), luText);
+                            break;
+                        case "tp":
+                            break;
+                        case "pp":
+                            break;
+                        case "pt":
+                            break;
+                    }
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private int lastUserId;
@@ -87,6 +135,8 @@ public final class systemData { // Singeltion class
         setLearningUnit();
         setExamData();
 
+        // TODO maybe remove this call later
+        setMapStringLU();
     }
 
     /** to reinitialize the systemData instance
@@ -155,8 +205,7 @@ public final class systemData { // Singeltion class
         switch (key) {
             case 1 : {
                 for(LearningApplication la : dataLA) {
-                    if(la.name.toLowerCase().toLowerCase().contains(word) ||
-                            la.description.toLowerCase().contains(word)) {
+                    if(la.name.toLowerCase().contains(word) || la.description.toLowerCase().contains(word)) {
                         output.add(la);
                     }
                 }
@@ -164,18 +213,14 @@ public final class systemData { // Singeltion class
             }
             case 2 : {
                 for(LearningCategory lc : dataLC) {
-                    if(lc.name.toLowerCase().toLowerCase().contains(word) || lc.description.toLowerCase().contains(word)) {
+                    if(lc.name.toLowerCase().contains(word) || lc.description.toLowerCase().contains(word)) {
                         output.add(lc);
                     }
                 }
                 break;
             }
             case 3 : {
-                for(LearningUnit lu : learningUnitList) {
-                    if(lu.getQuestion().toLowerCase().contains(word) || lu.getName().toLowerCase().contains(word)) {
-                        output.add(lu);
-                    }
-                }
+                //implement LU
                 break;
             }
         }
@@ -331,15 +376,12 @@ public final class systemData { // Singeltion class
         }
     }
 
-
-    //return userId
     public void addUser(User user, String username, String password) {
         try {
             statement = connector.getConnection().createStatement();
-            int isCr = user.isCreator ? 1 : 0;
-            String query = "INSERT INTO users (user_name, user_surname, email, birthdate, isCreator) VALUES (\"" +
+            String query = "INSERT INTO users (user_name, user_surname, email, birthdate) VALUES (\"" +
                     user.getUser_name() + "\", \"" + user.getUser_surname() + "\", \"" + user.getEmail() + "\", \"" +
-                    user.getBirthdate() + "\", \"" + isCr+ "\");";
+                    user.getBirthdate() + "\")";
             statement.executeUpdate(query);
             setLastUserId(getLastUserId()+1);
             // KRJO: changed this a bit, login_data user_id should not depend on users user_id
@@ -347,7 +389,7 @@ public final class systemData { // Singeltion class
             ResultSet resultSet = statement.executeQuery("SELECT user_id FROM users");
             resultSet.last();
             int UserId = resultSet.getInt("user_id");
-            currentUserID = UserId;
+
             String query2 = "INSERT INTO login_data (username, password, user_id) VALUES (\"" + username +
                     "\", \"" + password + "\", \"" + UserId + "\")";
             statement.executeUpdate(query2);
@@ -358,7 +400,6 @@ public final class systemData { // Singeltion class
             e.printStackTrace();
         }
     }
-
     public void setDataLC() {
         try {
             statement = connector.getConnection().createStatement();
@@ -402,7 +443,7 @@ public final class systemData { // Singeltion class
                         }
 
                     statement.close();
-                    setCurrentUser();
+                    setCurrentUser(username);
                     return true;
                 }
             }
@@ -470,6 +511,40 @@ public final class systemData { // Singeltion class
         }
         return output;
     }
+    public int getCategoryID(String refName, String tableName, String returnColumn, String searchColumn){
+        int output = 0;
+        try {
+            statement = connector.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
+            while(resultSet.next()) {
+                if (resultSet.getString(searchColumn).equals(refName)){
+                    output = resultSet.getInt(returnColumn);
+                    break;
+                }
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
+    public String getStringData(String name, String tableName, String returnColumn, String searchColumn){
+        String output = "";
+        try {
+            statement = connector.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
+            while(resultSet.next()) {
+                if (resultSet.getString(searchColumn).equals(name)){
+                    output = resultSet.getString(returnColumn);
+                    break;
+                }
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
 
     public void setLastUserId(int lastUserId) {
         this.lastUserId = lastUserId;
@@ -496,16 +571,14 @@ public final class systemData { // Singeltion class
             statement = connector.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM learning_units");
             while(resultSet.next()) {
-                LearningUnit learningUnit = new LearningUnit(resultSet.getInt("id"),
-                        resultSet.getString("name"), "");
-                learningUnit.setQuestion(resultSet.getString("question"));
-                learningUnit.setQuestion_type( resultSet.getInt("question_type"));
-                learningUnit.setQuestion_id(resultSet.getInt("question_id"));
-                learningUnit.setAnswer_type(resultSet.getInt("answer_type"));
-                learningUnit.setAnswer_id1(resultSet.getInt("answer_id1"));
-                learningUnit.setAnswer_id2( resultSet.getInt("answer_id2"));
-                learningUnit.setAnswer_id3(resultSet.getInt("answer_id2"));
+                LearningUnit learningUnit = new LearningUnit();
+                learningUnit.setId(resultSet.getInt("id"));
+                // TODO JO for now the reference name is shown frontend, maybe that's ok though!
+                learningUnit.setName(resultSet.getString("refName"));
+                learningUnit.setQuestion_type(resultSet.getString("question_type").charAt(0));
+                learningUnit.setAnswer_type(resultSet.getString("answer_type").charAt(0));
                 learningUnit.setCategory_id( resultSet.getInt("category_id"));
+                learningUnit.setApprovedFlag(resultSet.getBoolean("approved"));
                 learningUnitList.add(learningUnit);
             }
             statement.close();
@@ -525,7 +598,7 @@ public final class systemData { // Singeltion class
             learningUnitMap.put(dataLC.get(countCategorys).getId(), learningUnitL);
         }
 
-        setOther();
+        // setOther();
     }
 
     private void setOther(){
@@ -555,21 +628,21 @@ public final class systemData { // Singeltion class
             e.printStackTrace();
         }
 
-        try {
-            statement = connector.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text");
-            while(resultSet.next()) {
-                LuText luText = new LuText();
-                luText.setId(resultSet.getInt("id"));
-                luText.setText(resultSet.getString("text"));
-
-
-                luTextMap.put(luText.getId(), luText);
-            }
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            statement = connector.getConnection().createStatement();
+//            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text_text");
+//            while(resultSet.next()) {
+//                LuText luText = new LuText();
+//                luText.setId(resultSet.getInt("id"));
+//                luText.setText(resultSet.getString("text"));
+//
+//
+//                luTextMap.put(luText.getId(), luText);
+//            }
+//            statement.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
         try {
             statement = connector.getConnection().createStatement();

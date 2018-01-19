@@ -41,6 +41,7 @@ public class adminPanAddCategory extends  adminPanelController {
                     "Learning category with those name is already exists. Please, choose other name.");
         } else {
             systemData.getInstance().addLC(nameId.getText(), descriptionId.getText(), getChoice().getName());
+            systemData.getInstance().reInit();
             TreeController.getInstance().updateTree();
             TreeController.getInstance().treeInitializer();
         }

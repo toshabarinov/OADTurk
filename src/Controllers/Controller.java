@@ -39,13 +39,21 @@ public class Controller {
     @FXML
     Button examPanelButton;
 
+    protected static String toNumeralString(final Boolean input) {
+        if (input == null) {
+            return "0";
+        } else {
+            return input.booleanValue() ? "1" : "0";
+        }
+    }
+
     /**function to add a new scene to active stage
      *
      * @param window    corresponding window
      * @param newFxml   new .fxml file (scene) to load
      */
 
-    void newScene(Stage window, String newFxml) {
+    protected void newScene(Stage window, String newFxml) {
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("../resources/view/" + newFxml));
@@ -58,6 +66,15 @@ public class Controller {
         } catch ( IOException e ) {
             e.printStackTrace();
         }
+    }
+
+    protected void newScene(Stage window, Parent root) {
+        //create a new scene with root and set the stage
+        double width = window.getScene().getWidth();
+        double height = window.getScene().getHeight();
+        Scene scene = new Scene(root, width, height);
+        window.setScene(scene);
+        window.show();
     }
 
 
@@ -123,6 +140,7 @@ public class Controller {
             window.initModality(Modality.APPLICATION_MODAL); // block main stage during this stage is open
             window.setTitle("Settings");
 
+            // hand over information to controller
             SettingsController controller = fxmlLoader.getController();
             controller.parentStage = (Stage)((Node)event.getSource()).getScene().getWindow();
             //Scene
@@ -154,4 +172,11 @@ public class Controller {
     public void myContentButtonClick(ActionEvent event) {
         newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "myContent.fxml");
     }
+
+    public void createButtonClick(ActionEvent event) {
+
+        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "create.fxml");
+
+    }
+
 }
