@@ -37,6 +37,11 @@ public class LuText extends LearningUnit{
         return resultSet;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public void setResultSet(ResultSet resultSet) {
         this.resultSet = resultSet;
     }

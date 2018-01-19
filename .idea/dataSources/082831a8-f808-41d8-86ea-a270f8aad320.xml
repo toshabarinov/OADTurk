@@ -15,9 +15,9 @@
     <table id="9" parent="2" name="learning_caterogies"/>
     <table id="10" parent="2" name="learning_units"/>
     <table id="11" parent="2" name="login_data"/>
-    <table id="12" parent="2" name="lu_diagram"/>
-    <table id="13" parent="2" name="lu_text"/>
-    <table id="14" parent="2" name="lu_text_picture"/>
+    <table id="12" parent="2" name="lu_figure_figure"/>
+    <table id="13" parent="2" name="lu_figure_text"/>
+    <table id="14" parent="2" name="lu_text_text"/>
     <table id="15" parent="2" name="users"/>
     <column id="16" parent="7" name="exam_id">
       <Position>1</Position>
@@ -125,7 +125,8 @@
     </index>
     <key id="39" parent="9" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>lc_id</ColNames>
+      <ColNames>lc_id
+lc_name</ColNames>
       <Primary>1</Primary>
     </key>
     <key id="40" parent="9" name="learning_caterogies_lc_id_uindex">
@@ -145,197 +146,340 @@
     <column id="43" parent="10" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="44" parent="10" name="name">
+    <column id="44" parent="10" name="refName">
       <Position>2</Position>
       <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="45" parent="10" name="question">
+    <column id="45" parent="10" name="question_type">
       <Position>3</Position>
-      <DataType>text|0</DataType>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="46" parent="10" name="question_type">
+    <column id="46" parent="10" name="answer_type">
       <Position>4</Position>
-      <DataType>int(11)|0</DataType>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="47" parent="10" name="question_id">
+    <column id="47" parent="10" name="category_id">
       <Position>5</Position>
-      <DataType>int(11)|0</DataType>
-    </column>
-    <column id="48" parent="10" name="answer_type">
-      <Position>6</Position>
-      <DataType>int(11)|0</DataType>
-    </column>
-    <column id="49" parent="10" name="answer_id1">
-      <Position>7</Position>
-      <DataType>int(11)|0</DataType>
-    </column>
-    <column id="50" parent="10" name="answer_id2">
-      <Position>8</Position>
-      <DataType>int(11)|0</DataType>
-    </column>
-    <column id="51" parent="10" name="answer_id3">
-      <Position>9</Position>
-      <DataType>int(11)|0</DataType>
-    </column>
-    <column id="52" parent="10" name="category_id">
-      <Position>10</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="53" parent="11" name="username">
+    <column id="48" parent="10" name="la_id">
+      <Position>6</Position>
+      <DataType>varchar(45)|0</DataType>
+    </column>
+    <column id="49" parent="10" name="approved">
+      <Position>7</Position>
+      <DataType>int(1)|0</DataType>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <index id="50" parent="10" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="51" parent="10" name="refName_UNIQUE">
+      <ColNames>refName</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="52" parent="10" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id
+refName</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="53" parent="10" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
+    </key>
+    <key id="54" parent="10" name="refName_UNIQUE">
+      <ColNames>refName</ColNames>
+      <UnderlyingIndexName>refName_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="55" parent="11" name="username">
       <Position>1</Position>
       <DataType>varchar(90)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="54" parent="11" name="password">
+    <column id="56" parent="11" name="password">
       <Position>2</Position>
       <DataType>varchar(45)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="55" parent="11" name="user_id">
+    <column id="57" parent="11" name="user_id">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="56" parent="11" name="user_id_UNIQUE">
+    <index id="58" parent="11" name="user_id_UNIQUE">
       <ColNames>user_id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="57" parent="11" name="PRIMARY">
+    <key id="59" parent="11" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>username</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="58" parent="11" name="user_id_UNIQUE">
+    <key id="60" parent="11" name="user_id_UNIQUE">
       <ColNames>user_id</ColNames>
       <UnderlyingIndexName>user_id_UNIQUE</UnderlyingIndexName>
     </key>
-    <foreign-key id="59" parent="11" name="user_id">
+    <foreign-key id="61" parent="11" name="user_id">
       <ColNames>user_id</ColNames>
       <RefSchemaName>oadturk</RefSchemaName>
       <RefTableName>users</RefTableName>
       <RefColNames>user_id</RefColNames>
     </foreign-key>
-    <column id="60" parent="12" name="id">
+    <column id="62" parent="12" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="61" parent="12" name="object1_name">
+    <column id="63" parent="12" name="refName">
       <Position>2</Position>
       <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="62" parent="12" name="object1_parameters">
+    <column id="64" parent="12" name="title">
       <Position>3</Position>
       <DataType>text|0</DataType>
     </column>
-    <column id="63" parent="12" name="object1_num">
+    <column id="65" parent="12" name="question_text">
       <Position>4</Position>
-      <DataType>int(11)|0</DataType>
+      <DataType>text|0</DataType>
     </column>
-    <column id="64" parent="12" name="relationship">
+    <column id="66" parent="12" name="question_figure">
       <Position>5</Position>
-      <DataType>varchar(50)|0</DataType>
+      <DataType>longblob|0</DataType>
     </column>
-    <column id="65" parent="12" name="object2_name">
+    <column id="67" parent="12" name="answer1">
       <Position>6</Position>
-      <DataType>varchar(50)|0</DataType>
+      <DataType>longblob|0</DataType>
     </column>
-    <column id="66" parent="12" name="object2_parameters">
+    <column id="68" parent="12" name="answer2">
+      <Position>7</Position>
+      <DataType>longblob|0</DataType>
+    </column>
+    <column id="69" parent="12" name="answer3">
+      <Position>8</Position>
+      <DataType>longblob|0</DataType>
+    </column>
+    <column id="70" parent="12" name="answer4">
+      <Position>9</Position>
+      <DataType>longblob|0</DataType>
+    </column>
+    <column id="71" parent="12" name="correctAnswers">
+      <Position>10</Position>
+      <DataType>varchar(4)|0</DataType>
+      <DefaultExpression>&apos;0000&apos;</DefaultExpression>
+    </column>
+    <index id="72" parent="12" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="73" parent="12" name="refName_UNIQUE">
+      <ColNames>refName</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="74" parent="12" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id
+refName</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="75" parent="12" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
+    </key>
+    <key id="76" parent="12" name="refName_UNIQUE">
+      <ColNames>refName</ColNames>
+      <UnderlyingIndexName>refName_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="77" parent="13" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="78" parent="13" name="refName">
+      <Position>2</Position>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="79" parent="13" name="title">
+      <Position>3</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="80" parent="13" name="question_text">
+      <Position>4</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="81" parent="13" name="question_figure">
+      <Position>5</Position>
+      <DataType>longblob|0</DataType>
+    </column>
+    <column id="82" parent="13" name="answer1">
+      <Position>6</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="83" parent="13" name="answer2">
       <Position>7</Position>
       <DataType>text|0</DataType>
     </column>
-    <column id="67" parent="12" name="object2_num">
+    <column id="84" parent="13" name="answer3">
       <Position>8</Position>
-      <DataType>int(11)|0</DataType>
-    </column>
-    <column id="68" parent="13" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0</DataType>
-    </column>
-    <column id="69" parent="13" name="text">
-      <Position>2</Position>
       <DataType>text|0</DataType>
     </column>
-    <column id="70" parent="14" name="id">
+    <column id="85" parent="13" name="answer4">
+      <Position>9</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="86" parent="13" name="correctAnswers">
+      <Position>10</Position>
+      <DataType>varchar(4)|0</DataType>
+      <DefaultExpression>&apos;0000&apos;</DefaultExpression>
+    </column>
+    <index id="87" parent="13" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="88" parent="13" name="refName_UNIQUE">
+      <ColNames>refName</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="89" parent="13" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id
+refName</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="90" parent="13" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
+    </key>
+    <key id="91" parent="13" name="refName_UNIQUE">
+      <ColNames>refName</ColNames>
+      <UnderlyingIndexName>refName_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="92" parent="14" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="71" parent="14" name="type">
+    <column id="93" parent="14" name="refName">
       <Position>2</Position>
-      <DataType>int(11)|0</DataType>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="72" parent="14" name="text1">
+    <column id="94" parent="14" name="title">
       <Position>3</Position>
       <DataType>text|0</DataType>
     </column>
-    <column id="73" parent="14" name="text2">
+    <column id="95" parent="14" name="question">
       <Position>4</Position>
       <DataType>text|0</DataType>
     </column>
-    <column id="74" parent="14" name="text3">
+    <column id="96" parent="14" name="answer1">
       <Position>5</Position>
       <DataType>text|0</DataType>
     </column>
-    <column id="75" parent="14" name="text4">
+    <column id="97" parent="14" name="answer2">
       <Position>6</Position>
       <DataType>text|0</DataType>
     </column>
-    <column id="76" parent="15" name="user_id">
+    <column id="98" parent="14" name="answer3">
+      <Position>7</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="99" parent="14" name="answer4">
+      <Position>8</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="100" parent="14" name="correctAnswers">
+      <Position>9</Position>
+      <DataType>varchar(4)|0</DataType>
+      <DefaultExpression>&apos;0000&apos;</DefaultExpression>
+    </column>
+    <index id="101" parent="14" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="102" parent="14" name="refName_UNIQUE">
+      <ColNames>refName</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="103" parent="14" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id
+refName</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="104" parent="14" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
+    </key>
+    <key id="105" parent="14" name="refName_UNIQUE">
+      <ColNames>refName</ColNames>
+      <UnderlyingIndexName>refName_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="106" parent="15" name="user_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="77" parent="15" name="user_name">
+    <column id="107" parent="15" name="user_name">
       <Position>2</Position>
       <DataType>varchar(90)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="78" parent="15" name="user_surname">
+    <column id="108" parent="15" name="user_surname">
       <Position>3</Position>
       <DataType>varchar(90)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="79" parent="15" name="email">
+    <column id="109" parent="15" name="email">
       <Position>4</Position>
       <DataType>varchar(90)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="80" parent="15" name="birthdate">
+    <column id="110" parent="15" name="birthdate">
       <Position>5</Position>
       <DataType>date|0</DataType>
     </column>
-    <column id="81" parent="15" name="isAdmin">
+    <column id="111" parent="15" name="isAdmin">
       <Position>6</Position>
       <DataType>tinyint(1)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="82" parent="15" name="isCreator">
+    <column id="112" parent="15" name="isCreator">
       <Position>7</Position>
       <DataType>tinyint(1)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <index id="83" parent="15" name="email_UNIQUE">
+    <index id="113" parent="15" name="email_UNIQUE">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="84" parent="15" name="user_id_UNIQUE">
+    <index id="114" parent="15" name="user_id_UNIQUE">
       <ColNames>user_id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="85" parent="15" name="PRIMARY">
+    <key id="115" parent="15" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="86" parent="15" name="user_id_UNIQUE">
+    <key id="116" parent="15" name="user_id_UNIQUE">
       <ColNames>user_id</ColNames>
       <UnderlyingIndexName>user_id_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="87" parent="15" name="email_UNIQUE">
+    <key id="117" parent="15" name="email_UNIQUE">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>email_UNIQUE</UnderlyingIndexName>
     </key>
