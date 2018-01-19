@@ -466,7 +466,7 @@ public final class systemData { // Singeltion class
             learningUnitMap.put(dataLC.get(countCategorys).getId(), learningUnitL);
         }
 
-        setOther();
+        // setOther();
     }
 
     private void setOther(){
