@@ -1,9 +1,7 @@
 package service;
 
-public class LearningUnit {
+public class LearningUnit extends LearningInstance{
 
-    private int id;
-    private String name;
     private String question;
     private Integer question_type;
     private int question_id;
@@ -12,6 +10,12 @@ public class LearningUnit {
     private int answer_id2;
     private int answer_id3;
     private int category_id;
+
+    //could send "" as description parameter
+
+    public LearningUnit(int id, String name, String description) {
+        super(id, name, description);
+    }
 
     public int getCategory_id() {
         return category_id;
@@ -91,5 +95,10 @@ public class LearningUnit {
 
     public void setAnswer_id3(int answer_id3) {
         this.answer_id3 = answer_id3;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

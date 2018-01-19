@@ -127,13 +127,15 @@ public final class systemData { // Singeltion class
         }
     }
 
-    private void setCurrentUser(String username) {
+    public void setCurrentUser() {
         for(User user : users) {
             if(user.user_id == currentUserID) {
                 currentUser.setInstance(user);
             }
         }
     }
+
+
 
     public LearningApplication getLaByName(String name) {
         for(LearningApplication la : dataLA) {
@@ -153,7 +155,8 @@ public final class systemData { // Singeltion class
         switch (key) {
             case 1 : {
                 for(LearningApplication la : dataLA) {
-                    if(la.name.toLowerCase().contains(word) || la.description.toLowerCase().contains(word)) {
+                    if(la.name.toLowerCase().toLowerCase().contains(word) ||
+                            la.description.toLowerCase().contains(word)) {
                         output.add(la);
                     }
                 }
@@ -161,14 +164,18 @@ public final class systemData { // Singeltion class
             }
             case 2 : {
                 for(LearningCategory lc : dataLC) {
-                    if(lc.name.toLowerCase().contains(word) || lc.description.toLowerCase().contains(word)) {
+                    if(lc.name.toLowerCase().toLowerCase().contains(word) || lc.description.toLowerCase().contains(word)) {
                         output.add(lc);
                     }
                 }
                 break;
             }
             case 3 : {
-                //implement LU
+                for(LearningUnit lu : learningUnitList) {
+                    if(lu.getQuestion().toLowerCase().contains(word) || lu.getName().toLowerCase().contains(word)) {
+                        output.add(lu);
+                    }
+                }
                 break;
             }
         }
@@ -324,12 +331,15 @@ public final class systemData { // Singeltion class
         }
     }
 
+
+    //return userId
     public void addUser(User user, String username, String password) {
         try {
             statement = connector.getConnection().createStatement();
-            String query = "INSERT INTO users (user_name, user_surname, email, birthdate) VALUES (\"" +
+            int isCr = user.isCreator ? 1 : 0;
+            String query = "INSERT INTO users (user_name, user_surname, email, birthdate, isCreator) VALUES (\"" +
                     user.getUser_name() + "\", \"" + user.getUser_surname() + "\", \"" + user.getEmail() + "\", \"" +
-                    user.getBirthdate() + "\")";
+                    user.getBirthdate() + "\", \"" + isCr+ "\");";
             statement.executeUpdate(query);
             setLastUserId(getLastUserId()+1);
             // KRJO: changed this a bit, login_data user_id should not depend on users user_id
@@ -337,7 +347,7 @@ public final class systemData { // Singeltion class
             ResultSet resultSet = statement.executeQuery("SELECT user_id FROM users");
             resultSet.last();
             int UserId = resultSet.getInt("user_id");
-
+            currentUserID = UserId;
             String query2 = "INSERT INTO login_data (username, password, user_id) VALUES (\"" + username +
                     "\", \"" + password + "\", \"" + UserId + "\")";
             statement.executeUpdate(query2);
@@ -348,6 +358,7 @@ public final class systemData { // Singeltion class
             e.printStackTrace();
         }
     }
+
     public void setDataLC() {
         try {
             statement = connector.getConnection().createStatement();
@@ -391,7 +402,7 @@ public final class systemData { // Singeltion class
                         }
 
                     statement.close();
-                    setCurrentUser(username);
+                    setCurrentUser();
                     return true;
                 }
             }
@@ -485,9 +496,8 @@ public final class systemData { // Singeltion class
             statement = connector.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM learning_units");
             while(resultSet.next()) {
-                LearningUnit learningUnit = new LearningUnit();
-                learningUnit.setId(resultSet.getInt("id"));
-                learningUnit.setName(resultSet.getString("name"));
+                LearningUnit learningUnit = new LearningUnit(resultSet.getInt("id"),
+                        resultSet.getString("name"), "");
                 learningUnit.setQuestion(resultSet.getString("question"));
                 learningUnit.setQuestion_type( resultSet.getInt("question_type"));
                 learningUnit.setQuestion_id(resultSet.getInt("question_id"));

@@ -8,17 +8,19 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import org.controlsfx.control.CheckListView;
-import service.LearningApplication;
-import service.LearningCategory;
-import service.User;
-import service.systemData;
+import service.*;
+
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
+
+import static javafx.scene.text.Font.font;
 
 /**
  * Created by a1 on 27.10.17.
@@ -43,13 +45,14 @@ public class RegistrationController {
     @FXML
     PasswordField passwordField;
     @FXML
-    ChoiceBox genderField;
+    ChoiceBox<String> genderField;
     @FXML
     PasswordField confirmPasswordField;
     @FXML
-    ListView<LearningApplication> chooseLAListView;
+    TextFlow beCreatorText;
     @FXML
-    CheckListView<LearningCategory> chooseCategoryListView;
+    CheckBox beCreator;
+
     Parent root;
     ObservableList list;
 
@@ -67,12 +70,16 @@ public class RegistrationController {
     public void confirmButtonPressed(ActionEvent event) {
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         if(checkInputData()) {
-//            User user = new User(systemData.getInstance().getLastUserId()+1, nameTextField.getText(),
-//                    surnameTextField.getText(), emailTextField.getText(), Date.valueOf(dateOfBirthField.getValue()),
-//                    genderField.getValue().toString());
             User user = new User(systemData.getInstance().getLastUserId()+1, nameTextField.getText(),
-                    surnameTextField.getText(), emailTextField.getText(), Date.valueOf(dateOfBirthField.getValue()));
+                    surnameTextField.getText(), emailTextField.getText(), Date.valueOf(dateOfBirthField.getValue()),
+                    false, beCreator.isSelected());
+            user.setGender(genderField.getValue());
+//            if(beCreator.isSelected()) {
+//                AlertBox.display("Welcome", "We are glad, that now you a part of our team. Your creator " +
+//                        "interface would be available after you next login to the system");
+//            }
             systemData.getInstance().addUser(user, username.getText(), passwordField.getText());
+            systemData.getInstance().setCurrentUser();
             try {
                 root = FXMLLoader.load(getClass().getResource("../resources/view/home.fxml"));
             } catch ( IOException e ) {
@@ -80,7 +87,6 @@ public class RegistrationController {
             }
             window.setTitle("Home");
             window.setScene(new Scene(root, 800, 600));
-
             // KRJO added these for instant delete account functionality
             systemData.getInstance().reInit();
             systemData.getInstance().setCurrentUserID(systemData.getInstance().getLastUserId());
@@ -93,37 +99,22 @@ public class RegistrationController {
         list = errorLogTextFlow.getChildren();
         Text inputText = new Text("All fields - marked with \'*\' must to be completed");
         list.add(inputText);
-        initializeLAListView();
-        initializeLCCheckedListView();
+        initCreatorText();
         initializeGender();
     }
 
-    private void initializeLAListView() {
-        ObservableList<LearningApplication> observableList = chooseLAListView.getItems();
-        ArrayList<LearningApplication> LAs = systemData.getInstance().getDataLA();
-
-        for(LearningApplication la : LAs) {
-            observableList.add(la);
-        }
-        chooseLAListView.getSelectionModel().select(0);
-        chooseLAListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    }
-
-    private void initializeLCCheckedListView() {
-        ObservableList<LearningCategory> observableList = chooseCategoryListView.getItems();
-        ArrayList<LearningCategory> LCs = systemData.getInstance().getDataLC();
-
-        for(LearningCategory lc : LCs) {
-            observableList.add(lc);
-        }
-        chooseCategoryListView.getSelectionModel().select(0);
-        chooseCategoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    private void initCreatorText() {
+        Text text = new Text("You have a brilliant opportunity to be a creator in our team." +
+                " Your task is to create new exams from existing Learning Units, handle user requests " +
+                "on creating new Learning Units, accepting or declining. You would be a part of our team, " +
+                "and could help us with development of our application." );
+        text.setFont(Font.font("System", FontWeight.NORMAL, 18));
+        beCreatorText.getChildren().add(text);
     }
 
     private void initializeGender() {
         genderField.getItems().addAll("Male", "Female");
         genderField.setValue("Female");
-
     }
 
     private boolean checkInputData () {
