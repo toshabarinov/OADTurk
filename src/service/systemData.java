@@ -24,6 +24,8 @@ public final class systemData { // Singeltion class
     ArrayList<LearningCategory> dataLC = new ArrayList<>();
     ArrayList<Exam> dataExams = new ArrayList<>();
 
+
+
     private  Map<Integer, List<LearningUnit>> learningUnitMap;
     private List<LearningUnit> learningUnitList;
     private Map<Integer, LuText> luTextMap;
