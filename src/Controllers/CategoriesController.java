@@ -63,6 +63,7 @@ public class CategoriesController extends Controller {
                 adminPanelButton.setVisible(false);
             }
             buildTree(categoriesTree);
+        viewInit();
 
             LCName.setText(systemData.getInstance().getActiveLI().getName());
             LCDescription.setText(systemData.getInstance().getActiveLI().getDescription());

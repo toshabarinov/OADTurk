@@ -34,9 +34,7 @@ public class HomeController extends Controller{
 
     @FXML
     private void initialize() {
-        if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
-            adminPanelButton.setVisible(false);
-        }
+        viewInit();
         statementLabel.setText("Welcome Mr. " + currentUser.getInstance().getUser_surname());
         homeButton.setDisable(true);
         buildTree(homeTree);

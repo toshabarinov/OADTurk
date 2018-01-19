@@ -60,6 +60,7 @@ public class LUController extends Controller {
 //        createHashMap();
 //        LearningUnit learningUnit = learningUnitMap.get(systemData.getInstance().getLastLUid());
     }
+        viewInit();
 
     public void confirmButtonClick(ActionEvent event) {
         String correctAnswers = learningUnit.correctAnswers;
