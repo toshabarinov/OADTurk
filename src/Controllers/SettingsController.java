@@ -1,6 +1,8 @@
 package Controllers;
 
 import java.sql.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -48,10 +50,9 @@ public class SettingsController extends Controller {
     Hyperlink deleteAccountLink;
 
 
-    //TODO KRJO: every one needs to import new lib for email validation
-    //TODO KRJO: The user_id from login_data should be independent from users user_id
+    //TODO JO: every one needs to import new lib for email validation
 
-    //TODO KRJO: maybe registration problem when not everything is set
+    //TODO JO: maybe registration problem when not everything is set
 
     @FXML
     private void initialize() {
@@ -123,6 +124,8 @@ public class SettingsController extends Controller {
 
                 messageLabel.setTextFill(Color.web("#33cc33"));
                 messageLabel.setText("Email changed");
+                // reinitialize systemData instance update its members
+                systemData.getInstance().reInit();
 
             }
             catch (SQLException e){
@@ -136,6 +139,11 @@ public class SettingsController extends Controller {
         String inputText = nameTextField.getText();
         String DBUsername = systemData.getInstance().getDBData(UserID, "login_data", "username");
 
+        // check for whitespace
+        Pattern pattern = Pattern.compile("\\s");
+        Matcher matcher = pattern.matcher(inputText);
+        boolean containsWhiteSpace = matcher.find();
+
         if (inputText.equals(DBUsername)){
             messageLabel.setTextFill(Color.web("#e60000"));
             messageLabel.setText("The entered and current user name are the same");
@@ -143,6 +151,14 @@ public class SettingsController extends Controller {
         else if(alreadyInUseCheck(inputText, "login_data", "username")){
             messageLabel.setTextFill(Color.web("#e60000"));
             messageLabel.setText("The entered user name is already in use");
+        }
+        else if(inputText.equals("")){
+            messageLabel.setTextFill(Color.web("#e60000"));
+            messageLabel.setText("User field is empty");
+        }
+        else if(containsWhiteSpace){
+            messageLabel.setTextFill(Color.web("#e60000"));
+            messageLabel.setText("User name should not contains white spaces");
         }
         else{
 
@@ -157,6 +173,8 @@ public class SettingsController extends Controller {
 
                 messageLabel.setTextFill(Color.web("#33cc33"));
                 messageLabel.setText("User name changed");
+                // reinitialize systemData instance update its members
+                systemData.getInstance().reInit();
 
             }
             catch (SQLException e){
@@ -197,6 +215,8 @@ public class SettingsController extends Controller {
 
                 messageLabel.setTextFill(Color.web("#33cc33"));
                 messageLabel.setText("Password changed");
+                // reinitialize systemData instance update its members
+                systemData.getInstance().reInit();
 
             }
             catch (SQLException e){
@@ -254,6 +274,6 @@ public class SettingsController extends Controller {
     }
 
     public void changePreferencesButtonClick(ActionEvent event) {
-        //TODO KRJO: implement change preferences
+        //TODO JO: implement change preferences
     }
 }
