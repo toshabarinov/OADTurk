@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.event.ActionEvent;
@@ -41,6 +42,8 @@ public class LUController extends Controller {
     public Button confirmButton;
     @FXML
     public Label textBox;
+    @FXML
+    public ImageView questionPic;
 
     LearningUnit learningUnit;
     private String correctAnswers;
@@ -57,6 +60,8 @@ public class LUController extends Controller {
         }
         buildTree(LUTree);
         textBox.setText("");
+        //TODO fit image to window size
+        // questionPic.fitHeightProperty().bind(currentWindow.heightProperty());
 //        learningUnitList = systemData.getInstance().getLearningUnitList();
 //        createHashMap();
 //        LearningUnit learningUnit = learningUnitMap.get(systemData.getInstance().getLastLUid());
@@ -92,6 +97,7 @@ public class LUController extends Controller {
     }
 
     public void setUp(){
+        // move redundant stuff in super class -> LearningUnit
         if(learningUnit instanceof LuText){
             titleText.setText(((LuText) learningUnit).titleText);
             questionText.setText(((LuText) learningUnit).questionText);
@@ -99,6 +105,15 @@ public class LUController extends Controller {
             answerText2.setText(((LuText) learningUnit).answerText2);
             answerText3.setText(((LuText) learningUnit).answerText3);
             answerText4.setText(((LuText) learningUnit).answerText4);
+        }
+        else if (learningUnit instanceof LuFigureText){
+            titleText.setText(((LuFigureText) learningUnit).titleText);
+            questionText.setText(((LuFigureText) learningUnit).questionText);
+            questionPic.setImage(((LuFigureText) learningUnit).questionFigure);
+            answerText1.setText(((LuFigureText) learningUnit).answerText1);
+            answerText2.setText(((LuFigureText) learningUnit).answerText2);
+            answerText3.setText(((LuFigureText) learningUnit).answerText3);
+            answerText4.setText(((LuFigureText) learningUnit).answerText4);
         }
         correctAnswers = learningUnit.correctAnswers;
         // TODO JO adapt for use with pictures

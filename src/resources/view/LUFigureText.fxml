@@ -62,7 +62,7 @@
                            <children>
                               <VBox alignment="CENTER">
                                  <children>
-                                    <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="LU Title Placeholder" textAlignment="CENTER" wrappingWidth="450.0">
+                                    <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="LU Title Placeholder" textAlignment="CENTER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -77,7 +77,7 @@
                               </VBox>
                               <VBox alignment="CENTER">
                                  <children>
-                                    <Text fx:id="questionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Question" textAlignment="CENTER" wrappingWidth="400.0">
+                                    <Text fx:id="questionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Question" textAlignment="CENTER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -87,7 +87,19 @@
                                     </Text>
                                  </children>
                                  <VBox.margin>
-                                    <Insets top="20.0" />
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </VBox>
+                              <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <ImageView fx:id="questionPic" fitHeight="180.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </ImageView>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
                                  </VBox.margin>
                               </VBox>
                               <HBox>
@@ -100,7 +112,7 @@
                                     <Insets left="50.0" right="50.0" />
                                  </padding>
                                  <VBox.margin>
-                                    <Insets top="50.0" />
+                                    <Insets top="20.0" />
                                  </VBox.margin>
                               </HBox>
                               <HBox>
@@ -147,7 +159,7 @@
                                     <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#confirmButtonClick" prefWidth="100.0" text="Confirm" />
                                  </children>
                                  <VBox.margin>
-                                    <Insets top="20.0" />
+                                    <Insets bottom="30.0" top="20.0" />
                                  </VBox.margin>
                               </HBox>
                            </children>
@@ -155,7 +167,7 @@
                      </children></AnchorPane>
               </items>
             </SplitPane>
-            <HBox maxHeight="47.0" prefHeight="47.0" prefWidth="200.0">
+            <HBox maxHeight="47.0" prefHeight="47.0">
                <children>
                   <Label fx:id="textBox" maxHeight="56.0" prefHeight="47.0" text="Some text here" HBox.hgrow="ALWAYS">
                      <padding>
@@ -163,7 +175,7 @@
                      </padding>
                   </Label>
                   <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#logOutButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Log Out">
+                  <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#logOutButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Log Out" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="10.0" top="10.0" />
                      </HBox.margin>

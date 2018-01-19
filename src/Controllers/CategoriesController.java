@@ -104,6 +104,14 @@ public class CategoriesController extends Controller {
                             resultSet.next();
                             LU = new LuText(resultSet);
                         }
+                        else if (answerQuestionCombi.equals("ft")){
+                            fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LUFigureText.fxml"));
+
+                            Statement statement = conn.createStatement();
+                            resultSet = statement.executeQuery("SELECT * FROM lu_figure_text WHERE id = " + LastLUID);
+                            resultSet.next();
+                            LU = new LuFigureText(resultSet);
+                        }
 //                else if (mapOFleaningUnit.get(newValue).getQuestion_type().equals(1)) {
 //                    if (mapOFleaningUnit.get(newValue).getAnswer_type() == 0) {
 //                        newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU1.fxml");
@@ -120,7 +128,6 @@ public class CategoriesController extends Controller {
                         luController = fxmlLoader.getController();
                         luController.learningUnit = LU;
                         luController.setUp();
-//                        luController.titleText.setText(resultSet.getString("title"));
                         newScene((Stage) lisViewLU.getParent().getScene().getWindow(), root);
                     }
                     catch (Exception e){

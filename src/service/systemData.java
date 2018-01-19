@@ -30,21 +30,21 @@ public final class systemData { // Singeltion class
     private Map<String, LearningUnit> mapStringLU;      //< map of all LUs (key=LU reference name; value=LU)
     private Map<Integer, LearningUnit> mapIntLU;            //< map of all LUs (key=LU id; value=LU)
     private List<LearningUnit> learningUnitList;
-    private Map<Integer, LuText> luTextMap;
-    private Map<Integer, LuDiagram> luDiagramMap;
-    private Map<Integer, LuTextPicture> luTextPictureMap;
-
-    public Map<Integer, LuText> getLuTextMap() {
-        return luTextMap;
-    }
-
-    public Map<Integer, LuDiagram> getLuDiagramMap() {
-        return luDiagramMap;
-    }
-
-    public Map<Integer, LuTextPicture> getLuTextPictureMap() {
-        return luTextPictureMap;
-    }
+//    private Map<Integer, LuText> luTextMap;
+//    private Map<Integer, LuDiagram> luDiagramMap;
+//    private Map<Integer, LuTextPicture> luTextPictureMap;
+//
+//    public Map<Integer, LuText> getLuTextMap() {
+//        return luTextMap;
+//    }
+//
+//    public Map<Integer, LuDiagram> getLuDiagramMap() {
+//        return luDiagramMap;
+//    }
+//
+//    public Map<Integer, LuTextPicture> getLuTextPictureMap() {
+//        return luTextPictureMap;
+//    }
 
     public List<LearningUnit> getLearningUnitList() {
         return learningUnitList;
@@ -598,71 +598,71 @@ public final class systemData { // Singeltion class
 
         // setOther();
     }
-
-    private void setOther(){
-
-        luDiagramMap = new HashMap<>();
-        luTextMap = new HashMap<>();
-        luTextPictureMap = new HashMap<>();
-
-        try {
-            statement = connector.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_diagram");
-            while(resultSet.next()) {
-                LuDiagram luDiagram = new LuDiagram();
-                luDiagram.setId(resultSet.getInt("id"));
-                luDiagram.setObject1_name(resultSet.getString("object1_name"));
-                luDiagram.setObject1_parameters(resultSet.getString("object1_parameters"));
-                luDiagram.setObject1_num( resultSet.getInt("object1_num"));
-                luDiagram.setObject2_name(resultSet.getString("object2_name"));
-                luDiagram.setObject2_num(resultSet.getInt("object2_num"));
-                luDiagram.setObject2_parameters(resultSet.getString("object2_parameters"));
-                luDiagram.setRelationship( resultSet.getString("relationship"));
-
-                luDiagramMap.put(luDiagram.getId(), luDiagram);
-            }
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+// TODO JO dont know if still needed
+//    private void setOther(){
+//
+//        luDiagramMap = new HashMap<>();
+//        luTextMap = new HashMap<>();
+//        luTextPictureMap = new HashMap<>();
+//
 //        try {
 //            statement = connector.getConnection().createStatement();
-//            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text_text");
+//            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_diagram");
 //            while(resultSet.next()) {
-//                LuText luText = new LuText();
-//                luText.setId(resultSet.getInt("id"));
-//                luText.setText(resultSet.getString("text"));
+//                LuDiagram luDiagram = new LuDiagram();
+//                luDiagram.setId(resultSet.getInt("id"));
+//                luDiagram.setObject1_name(resultSet.getString("object1_name"));
+//                luDiagram.setObject1_parameters(resultSet.getString("object1_parameters"));
+//                luDiagram.setObject1_num( resultSet.getInt("object1_num"));
+//                luDiagram.setObject2_name(resultSet.getString("object2_name"));
+//                luDiagram.setObject2_num(resultSet.getInt("object2_num"));
+//                luDiagram.setObject2_parameters(resultSet.getString("object2_parameters"));
+//                luDiagram.setRelationship( resultSet.getString("relationship"));
 //
-//
-//                luTextMap.put(luText.getId(), luText);
+//                luDiagramMap.put(luDiagram.getId(), luDiagram);
 //            }
 //            statement.close();
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
-
-        try {
-            statement = connector.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text_picture");
-            while(resultSet.next()) {
-                LuTextPicture luTextPicture = new LuTextPicture();
-                luTextPicture.setId(resultSet.getInt("id"));
-                luTextPicture.setType(resultSet.getInt("type"));
-                luTextPicture.setText1(resultSet.getString("text1"));
-                luTextPicture.setText2( resultSet.getString("text2"));
-                luTextPicture.setText3(resultSet.getString("text3"));
-                luTextPicture.setText4(resultSet.getString("text4"));
-
-                luTextPictureMap.put(luTextPicture.getId(), luTextPicture);
-            }
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-    }
+//
+////        try {
+////            statement = connector.getConnection().createStatement();
+////            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text_text");
+////            while(resultSet.next()) {
+////                LuText luText = new LuText();
+////                luText.setId(resultSet.getInt("id"));
+////                luText.setText(resultSet.getString("text"));
+////
+////
+////                luTextMap.put(luText.getId(), luText);
+////            }
+////            statement.close();
+////        } catch (SQLException e) {
+////            e.printStackTrace();
+////        }
+//
+//        try {
+//            statement = connector.getConnection().createStatement();
+//            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text_picture");
+//            while(resultSet.next()) {
+//                LuTextPicture luTextPicture = new LuTextPicture();
+//                luTextPicture.setId(resultSet.getInt("id"));
+//                luTextPicture.setType(resultSet.getInt("type"));
+//                luTextPicture.setText1(resultSet.getString("text1"));
+//                luTextPicture.setText2( resultSet.getString("text2"));
+//                luTextPicture.setText3(resultSet.getString("text3"));
+//                luTextPicture.setText4(resultSet.getString("text4"));
+//
+//                luTextPictureMap.put(luTextPicture.getId(), luTextPicture);
+//            }
+//            statement.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//    }
 }
 
 

@@ -17,11 +17,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.swing.plaf.nimbus.State;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+
+import static java.awt.Event.LOAD_FILE;
 
 public class CreateLUBox extends Controller{
 
@@ -31,6 +36,7 @@ public class CreateLUBox extends Controller{
     private TextField titleText;
     private TextField nameText;
     private TextField questionText;
+    private TextField questionFigure;
     private TextField answerText1;
     private TextField answerText2;
     private TextField answerText3;
@@ -79,6 +85,7 @@ public class CreateLUBox extends Controller{
             String titleString = titleText.getText();
             String nameString = nameText.getText();
             String questionString = questionText.getText();
+            String questionFigure = this.questionFigure.getText();
             String answerString1 = answerText1.getText();
             String answerString2 = answerText2.getText();
             String answerString3 = answerText3.getText();
@@ -104,11 +111,31 @@ public class CreateLUBox extends Controller{
 
             switch (questionAnswerCombi){
                 case "tt":
+
                     query = "INSERT INTO lu_text_text (id, refName, title, question, answer1, answer2, answer3, answer4, correctAnswers) VALUES (" +
                             "\"" + LUID + "\", \"" + nameString + "\", \"" + titleString + "\", \"" + questionString +
                             "\", \"" + answerString1 + "\", \"" + answerString2 + "\", \"" + answerString3 + "\", \"" +
                             answerString4 + "\", \"" + correctString + "\")";
                     statement.executeUpdate(query);
+
+                case "ft":
+                    File image = new File(questionFigure);
+                    FileInputStream fis = new FileInputStream(image);
+                    query = "INSERT INTO lu_figure_text (id, refName, title, question_text, question_figure, answer1, answer2, answer3, answer4, correctAnswers) VALUES (?, ? ,? ,?, ?, ?, ? , ?, ?, ?)";
+                    PreparedStatement pst = conn.prepareStatement(query);
+                    pst.setInt(1, LUID);
+                    pst.setString(2, nameString);
+                    pst.setString(3, titleString);
+                    pst.setString(4, questionString);
+                    pst.setBlob(5, fis);
+                    pst.setString(6, answerString1);
+                    pst.setString(7, answerString2);
+                    pst.setString(8, answerString3);
+                    pst.setString(9, answerString4);
+                    pst.setString(10, correctString);
+
+                    pst.executeUpdate();
+
             }
 
             // close settings screen and open new LU
@@ -165,6 +192,7 @@ public class CreateLUBox extends Controller{
 
         // question and answer fields
         questionText = new TextField();
+        questionFigure = new TextField();
         answerText1 = new TextField();
         answerText2 = new TextField();
         answerText3= new TextField();
@@ -199,6 +227,15 @@ public class CreateLUBox extends Controller{
         layoutAnswers.setPadding(new Insets(0, 0, 0, 0));
         layout.getChildren().addAll(message, titleText, nameText, choseLA, choseCategory);
 
+
+        answerCheck1.getChildren().addAll(answerText1, correctCheckB1);
+        answerCheck1.setHgrow(answerText1, Priority.ALWAYS);
+        answerCheck2.getChildren().addAll(answerText2, correctCheckB2);
+        answerCheck2.setHgrow(answerText2, Priority.ALWAYS);
+        answerCheck3.getChildren().addAll(answerText3, correctCheckB3);
+        answerCheck3.setHgrow(answerText3, Priority.ALWAYS);
+        answerCheck4.getChildren().addAll(answerText4, correctCheckB4);
+        answerCheck4.setHgrow(answerText4, Priority.ALWAYS);
         // switch between question and answer combinations
         switch (questionAnswerCombi){
             case "tt":
@@ -210,19 +247,25 @@ public class CreateLUBox extends Controller{
                 answerText4.setPromptText("Enter answer text 4");
 
                 layout.getChildren().addAll(questionText, layoutAnswers);
-                answerCheck1.getChildren().addAll(answerText1, correctCheckB1);
-                answerCheck1.setHgrow(answerText1, Priority.ALWAYS);
-                answerCheck2.getChildren().addAll(answerText2, correctCheckB2);
-                answerCheck2.setHgrow(answerText2, Priority.ALWAYS);
-                answerCheck3.getChildren().addAll(answerText3, correctCheckB3);
-                answerCheck3.setHgrow(answerText3, Priority.ALWAYS);
-                answerCheck4.getChildren().addAll(answerText4, correctCheckB4);
-                answerCheck4.setHgrow(answerText4, Priority.ALWAYS);
                 layoutAnswers.getChildren().addAll(correctTextB, answerCheck1, answerCheck2, answerCheck3, answerCheck4);
+                break;
+
+            case"ft":
+
+                questionText.setPromptText("Enter question text (optional)");
+                questionFigure.setPromptText("Enter full path to figure");
+                answerText1.setPromptText("Enter answer text 1");
+                answerText2.setPromptText("Enter answer text 2");
+                answerText3.setPromptText("Enter answer text 3");
+                answerText4.setPromptText("Enter answer text 4");
+
+                layout.getChildren().addAll(questionText, questionFigure, layoutAnswers);
+                layoutAnswers.getChildren().addAll(correctTextB, answerCheck1, answerCheck2, answerCheck3, answerCheck4);
+
         }
         layout.getChildren().add(okButton);
 
-        Scene scene = new Scene(layout, 400, 520);
+        Scene scene = new Scene(layout, 400, 550);
         window.setScene(scene);
         window.show();
         // so courser does not jump into first field
