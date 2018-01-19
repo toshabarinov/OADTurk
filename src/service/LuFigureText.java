@@ -36,6 +36,7 @@ public class LuFigureText extends LearningUnit{
             fos.close();
             File imageFile = new File(questionFigurePath);
             questionFigure = new Image(imageFile.toURI().toString());
+            //TODO JO delete image after usage or dont create it
         }
         catch (Exception fe){
             fe.printStackTrace();
