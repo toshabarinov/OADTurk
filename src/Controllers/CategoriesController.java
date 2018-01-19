@@ -87,14 +87,15 @@ public class CategoriesController extends Controller {
                         LearningUnit LU = null;
                         FXMLLoader fxmlLoader = null;
                         Connection conn = systemData.getInstance().getDBConnection();
+                        String answerQuestionCombi = Character.toString(mapOFleaningUnit.get(newValue).getQuestion_type()) +
+                                Character.toString(mapOFleaningUnit.get(newValue).getAnswer_type());
                         systemData.getInstance().setLastLUid(mapOFleaningUnit.get(newValue).getId());
                         String LastLUID = Integer.toString(systemData.getInstance().getLastLUid());
-                        ResultSet resultSet = null;
-                        LUController luController = null;
-                        Parent root = null;
+                        ResultSet resultSet;
+                        LUController luController;
+                        Parent root ;
 
-                        if ( (mapOFleaningUnit.get(newValue).getQuestion_type() == 't') &
-                                (mapOFleaningUnit.get(newValue).getAnswer_type() == 't') ){
+                        if ( answerQuestionCombi.equals("tt")){
                             //newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU1.fxml");
                             fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LU1.fxml"));
 
@@ -102,10 +103,6 @@ public class CategoriesController extends Controller {
                             resultSet = statement.executeQuery("SELECT * FROM lu_text_text WHERE id = " + LastLUID);
                             resultSet.next();
                             LU = new LuText(resultSet);
-//                            resultSet.next();
-
-//                            root = fxmlLoader.load();
-//                            luController = fxmlLoader.getController();
                         }
 //                else if (mapOFleaningUnit.get(newValue).getQuestion_type().equals(1)) {
 //                    if (mapOFleaningUnit.get(newValue).getAnswer_type() == 0) {
