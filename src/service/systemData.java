@@ -443,7 +443,7 @@ public final class systemData { // Singeltion class
                         }
 
                     statement.close();
-                    setCurrentUser(username);
+                    setCurrentUser();
                     return true;
                 }
             }
@@ -571,10 +571,8 @@ public final class systemData { // Singeltion class
             statement = connector.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM learning_units");
             while(resultSet.next()) {
-                LearningUnit learningUnit = new LearningUnit();
-                learningUnit.setId(resultSet.getInt("id"));
+                LearningUnit learningUnit = new LearningUnit( resultSet.getInt("id"),resultSet.getString("refName"), "");
                 // TODO JO for now the reference name is shown frontend, maybe that's ok though!
-                learningUnit.setName(resultSet.getString("refName"));
                 learningUnit.setQuestion_type(resultSet.getString("question_type").charAt(0));
                 learningUnit.setAnswer_type(resultSet.getString("answer_type").charAt(0));
                 learningUnit.setCategory_id( resultSet.getInt("category_id"));

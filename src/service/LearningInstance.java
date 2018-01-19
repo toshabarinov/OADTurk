@@ -11,6 +11,9 @@ public class LearningInstance {
         this.description = description;
     }
 
+    public LearningInstance() {
+    }
+
     public int getId() {
         return id;
     }

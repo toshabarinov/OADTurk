@@ -11,6 +11,9 @@ public class LearningUnit extends LearningInstance{
     private boolean approvedFlag;
     public String correctAnswers;
 
+    public LearningUnit() {
+    }
+
     public boolean isApprovedFlag() {
         return approvedFlag;
     }

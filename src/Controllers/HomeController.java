@@ -1,19 +1,13 @@
 package Controllers;
 
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
-import service.LearningApplication;
 import service.LearningInstance;
 import service.currentUser;
 import service.systemData;
-
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 /**
@@ -35,9 +29,6 @@ public class HomeController extends Controller{
 
     ObservableList listFirstRec;
     ObservableList listSecondRec;
-
-    LearningApplication firstRecLA;
-    LearningApplication secondRecLA;
 
 
 
@@ -65,7 +56,7 @@ public class HomeController extends Controller{
                 break;
             }
             case "Learning Units" : {
-                output = systemData.getInstance().search(3, searchText);
+                //TODO: implement LU
             }
         }
         initializeCListView(output);
@@ -99,26 +90,19 @@ public class HomeController extends Controller{
 
 
     public void secondRecClicked() {
-        //TODO: open LA secondRecLA
+        System.out.println("second");
     }
 
     public void firstRecClicked() {
-        //TODO: open LA firstRecLA
+        System.out.println("first");
     }
 
     //Initialize 4 recommendations blocks
     private void recommendationsInitializer() {
+        //TODO: implement recommendation functionality depending on users preferences
         listFirstRec = firstRecommendation.getChildren();
         listSecondRec = secondRecommendation.getChildren();
-        for(int i = 0; i < 2; i++) {
-
-        }
-        firstRecLA = systemData.getInstance().getDataLA().get((int)(Math.random() *
-                systemData.getInstance().getDataLA().size()));
-        secondRecLA = systemData.getInstance().getDataLA().get((int)(Math.random() *
-                systemData.getInstance().getDataLA().size()));
-
-        listFirstRec.add(new Text(firstRecLA.toString()));
-        listSecondRec.add(new Text(secondRecLA.toString()));
+        listFirstRec.add(new Text("First\nRecommendation"));
+        listSecondRec.add(new Text("Second\nRecommendation"));
     }
 }
