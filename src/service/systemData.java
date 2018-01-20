@@ -89,7 +89,8 @@ public final class systemData { // Singeltion class
         LU.setAnswer_type(resultSet.getString("answer_type").charAt(0));
         LU.setCategory_id(resultSet.getInt("category_id"));
         LU.setLa_id(resultSet.getInt("la_id"));
-        LU.setApprovedFlag(resultSet.getInt("approved") == 1);
+        LU.setApprovedFlag(resultSet.getInt("approved"));
+        LU.setCreatedBy(resultSet.getInt("created_by"));
 
         return LU;
     }
@@ -155,6 +156,7 @@ public final class systemData { // Singeltion class
     }
 
     private int lastUserId;
+    // TODO kind of redundant with class currentUser, but both are in use
     private int currentUserID;
     LearningInstance activeLI;
 
@@ -292,7 +294,8 @@ public final class systemData { // Singeltion class
                 int id = resultSet.getInt("la_id");
                 String la_name = resultSet.getString("la_name");
                 String la_description = resultSet.getString("la_description");
-                LearningApplication la = new LearningApplication(id, la_name, la_description);
+                int approvedFlag = resultSet.getInt("approved");
+                LearningApplication la = new LearningApplication(id, la_name, la_description, approvedFlag);
                 dataLA.add(la);
             }
             statement.close();
@@ -301,16 +304,16 @@ public final class systemData { // Singeltion class
         }
     }
 
-    public void addLA(String name, String description) {
+    public void addLA(String name, String description, int approvedFlag) {
         try {
             statement = connector.getConnection().createStatement();
-            String query = "INSERT INTO learning_applications (la_name, la_description) VALUES (\"" + name + "\", \"" +
-                    description + "\")";
+            String query = "INSERT INTO learning_applications (la_name, la_description, approved) VALUES (\"" + name +
+                    "\", \"" + description + "\", \"" + approvedFlag + "\")";
             statement.executeUpdate(query);
             ResultSet resultSet = statement.executeQuery("SELECT la_id FROM learning_applications");
             resultSet.last();
             int laId = resultSet.getInt("la_id");
-            getDataLA().add(new LearningApplication(laId, name, description));
+            getDataLA().add(new LearningApplication(laId, name, description, approvedFlag));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -609,7 +612,9 @@ public final class systemData { // Singeltion class
                 learningUnit.setQuestion_type(resultSet.getString("question_type").charAt(0));
                 learningUnit.setAnswer_type(resultSet.getString("answer_type").charAt(0));
                 learningUnit.setCategory_id( resultSet.getInt("category_id"));
-                learningUnit.setApprovedFlag(resultSet.getBoolean("approved"));
+                learningUnit.setApprovedFlag(resultSet.getInt("approved"));
+                learningUnit.setLa_id(resultSet.getInt("la_id"));
+                learningUnit.setCreatedBy(resultSet.getInt("created_by"));
                 learningUnitList.add(learningUnit);
             }
             statement.close();

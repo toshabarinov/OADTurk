@@ -160,7 +160,7 @@ public class CategoriesController extends Controller {
 
         List<String> returnList = new ArrayList<>();
         for (LearningUnit aLearningUnitList : learningUnitList) {
-            if (aLearningUnitList.isApprovedFlag())
+            if (aLearningUnitList.getApprovedFlag() == 1)
                 returnList.add(aLearningUnitList.getName());
         }
         listForListView = new ArrayList<>(returnList);

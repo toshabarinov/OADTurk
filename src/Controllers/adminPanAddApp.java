@@ -20,7 +20,7 @@ public class adminPanAddApp extends adminPanelController {
         } else if(description.equals("")) {
             AlertBox.display("No description detected", "Please write description for your application");
         } else {
-            systemData.getInstance().addLA(name, description);
+            systemData.getInstance().addLA(name, description, 1);
             nameId.setText("");
             descriptionId.setText("");
             TreeController.getInstance().updateTree();

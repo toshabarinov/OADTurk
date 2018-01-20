@@ -91,10 +91,12 @@ class TreeController extends Controller {
             int LACounter = 0;
             ArrayList<TreeItem<LearningInstance>> LAItems = new ArrayList<>();
             for(LearningApplication la : systemData.getInstance().getDataLA()) {
-                LAItems.add(makeBranch(la, rootTree));
-                for(LearningCategory lc : systemData.getInstance().getDataLC()) {
-                    if(lc.getLa_id() == la.getId()) {
-                        makeBranch(lc, LAItems.get(LACounter));
+                if (la.getApprovedFlag() == 1){
+                    LAItems.add(makeBranch(la, rootTree));
+                    for(LearningCategory lc : systemData.getInstance().getDataLC()) {
+                        if(lc.getLa_id() == la.getId()) {
+                            makeBranch(lc, LAItems.get(LACounter));
+                        }
                     }
                 }
                 LACounter++;

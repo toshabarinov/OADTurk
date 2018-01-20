@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import static java.awt.Event.LOAD_FILE;
-
+// [important] TODO JO warning when refName is not set!!
 public class CreateLUBox extends Controller{
 
     public Stage parentStage;
@@ -92,6 +92,7 @@ public class CreateLUBox extends Controller{
             String answerString3 = answerText3.getText();
             String answerString4 = answerText4.getText();
             String correctString;
+            int createdBy;
             if (!questionAnswerCombi.equals("ff")){
                 correctString = toNumeralString(correctCheckB1.isSelected()) + toNumeralString(correctCheckB2.isSelected()) +
                         toNumeralString(correctCheckB3.isSelected()) + toNumeralString(correctCheckB4.isSelected());
@@ -111,11 +112,12 @@ public class CreateLUBox extends Controller{
                     "learning_caterogies", "lc_id", "lc_name");
             int laID = systemData.getInstance().getCategoryID(choseLA.getValue().toString(),
                     "learning_applications", "la_id", "la_name");
-
+            // TODO JO set approvedFlag according to creator/admin, for now its default should be 0
+            createdBy = systemData.getInstance().getCurrentUserID();
             Statement statement = conn.createStatement();
-            String query = "INSERT INTO learning_units (refName, question_type, answer_type, category_id, la_id) VALUES (" +
+            String query = "INSERT INTO learning_units (refName, question_type, answer_type, category_id, la_id, created_by) VALUES (" +
                     "\"" + nameString + "\", \"" + questionType + "\", \"" + answerType + "\", \"" + Integer.toString(catID) + "\", \""
-                    + Integer.toString(laID) + "\")";
+                    + Integer.toString(laID) + "\", \"" + createdBy + "\")";
             statement.executeUpdate(query);
             int LUID = systemData.getInstance().getCategoryID(nameString,
                     "learning_units", "id", "refName");
@@ -197,6 +199,7 @@ public class CreateLUBox extends Controller{
             // close settings screen and reinitialize system data
             systemData.getInstance().reInit();
             ( (Stage)((Node)event.getSource()).getScene().getWindow() ).close();
+            newScene(parentStage,"create.fxml");
 
         }
         catch (Exception e){

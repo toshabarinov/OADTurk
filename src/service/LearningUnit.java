@@ -4,8 +4,7 @@ import javafx.scene.image.Image;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.sql.Blob;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class LearningUnit {
     // TODO JO put some members up in super class
@@ -18,10 +17,28 @@ public class LearningUnit {
     private String questionAnswerCombi;
 
     private int la_id;
-    private boolean approvedFlag;
+    private int approvedFlag;
+    private int createdBy;
+    // not in database
+    private String LAName;
+    private String CatName;
+
     public String correctAnswers;
 
     ResultSet resultSet;
+
+    public void setNames() throws SQLException {
+        Connection conn = systemData.getInstance().getDBConnection();
+        Statement statement = conn.createStatement();
+        ResultSet resultSetLA = statement.executeQuery("SELECT * FROM learning_applications WHERE la_id = " +
+                Integer.toString(this.la_id));
+        resultSetLA.next();
+        LAName = resultSetLA.getString("la_name");
+        ResultSet resultSetC = statement.executeQuery("SELECT * FROM learning_caterogies WHERE lc_id = " +
+                Integer.toString(this.category_id));
+        resultSetC.next();
+        CatName = resultSetC.getString("lc_name");
+    }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     Image readImage(String databaseFigure){
@@ -55,11 +72,11 @@ public class LearningUnit {
         return returnImage;
     }
 
-    public boolean isApprovedFlag() {
+    public int getApprovedFlag() {
         return approvedFlag;
     }
 
-    public void setApprovedFlag(boolean approvedFlag) {
+    public void setApprovedFlag(int approvedFlag) {
         this.approvedFlag = approvedFlag;
     }
 
@@ -121,5 +138,23 @@ public class LearningUnit {
     public void setLa_id(int la_id) {
         this.la_id = la_id;
     }
+
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getLAName() {
+        return LAName;
+    }
+
+
+    public String getCatName() {
+        return CatName;
+    }
+
 }
 
