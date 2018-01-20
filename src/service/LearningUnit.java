@@ -16,6 +16,8 @@ public class LearningUnit {
     private char answer_type;
     private int category_id;
     private String questionAnswerCombi;
+
+    private int la_id;
     private boolean approvedFlag;
     public String correctAnswers;
 
@@ -101,6 +103,18 @@ public class LearningUnit {
 
         this.answer_type = answer_type;
         questionAnswerCombi = Character.toString(question_type) + Character.toString(answer_type);
+    }
+
+    public void setQuestionAnswerCombi(String questionAnswerCombi) {
+        this.questionAnswerCombi = questionAnswerCombi;
+    }
+
+    public int getLa_id() {
+        return la_id;
+    }
+
+    public void setLa_id(int la_id) {
+        this.la_id = la_id;
     }
 }
 

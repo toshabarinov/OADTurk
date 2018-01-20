@@ -81,6 +81,19 @@ public final class systemData { // Singeltion class
         return mapStringLU;
     }
 
+    /** fills up information of the super class (LearningUnit)
+     *
+     */
+    private LearningUnit fillSuperClassInfo(LearningUnit LU, ResultSet  resultSet) throws SQLException {
+        LU.setQuestion_type(resultSet.getString("question_type").charAt(0));
+        LU.setAnswer_type(resultSet.getString("answer_type").charAt(0));
+        LU.setCategory_id(resultSet.getInt("category_id"));
+        LU.setLa_id(resultSet.getInt("la_id"));
+        LU.setApprovedFlag(resultSet.getInt("approved") == 1);
+
+        return LU;
+    }
+
     /** function to set a map of all learning units -> mapStringLU (key=LUName; value=LU)
      *
      */
@@ -91,6 +104,8 @@ public final class systemData { // Singeltion class
             String answerQuestionCombi;
             Connection conn = getDBConnection();
             Statement statement = conn.createStatement();
+            Statement stSub = conn.createStatement();
+            LearningUnit LUTemp;
             ResultSet resultSet = statement.executeQuery("SELECT * FROM learning_units");
             while (resultSet.next()){
                 if (resultSet.getInt("approved") == 1){
@@ -98,19 +113,37 @@ public final class systemData { // Singeltion class
                             resultSet.getString("answer_type");
                     switch (answerQuestionCombi){
                         case "tt":
-                            Statement st = conn.createStatement();
-                            ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE id = " + Integer.toString(resultSet.getInt("id")));
+                            ResultSet resultSetTT = stSub.executeQuery("SELECT * FROM lu_text_text WHERE id = " + Integer.toString(resultSet.getInt("id")));
                             //ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE refName='test'");
                             resultSetTT.next();
                             LuText luText = new LuText(resultSetTT);
+                            LUTemp = fillSuperClassInfo(luText, resultSet);
+                            if (LUTemp instanceof LuText)
+                                luText = (LuText) LUTemp;
                             mapStringLU.put(luText.getName(), luText);
                             mapIntLU.put(luText.getId(), luText);
                             break;
-                        case "tp":
+                        case "ft":
+                            ResultSet resultSetFT = stSub.executeQuery("SELECT * FROM lu_figure_text WHERE id = " + Integer.toString(resultSet.getInt("id")));
+                            //ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE refName='test'");
+                            resultSetFT.next();
+                            LuFigureText luFigureText = new LuFigureText(resultSetFT);
+                            LUTemp = fillSuperClassInfo(luFigureText, resultSet);
+                            if (LUTemp instanceof LuFigureText)
+                                luFigureText = (LuFigureText) LUTemp;
+                            mapStringLU.put(luFigureText.getName(), luFigureText);
+                            mapIntLU.put(luFigureText.getId(), luFigureText);
                             break;
-                        case "pp":
-                            break;
-                        case "pt":
+                        case "ff":
+                            ResultSet resultSetFF = stSub.executeQuery("SELECT * FROM lu_figure_figure WHERE id = " + Integer.toString(resultSet.getInt("id")));
+                            //ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE refName='test'");
+                            resultSetFF.next();
+                            LuFigureFigure luFigureFigure = new LuFigureFigure(resultSetFF);
+                            LUTemp = fillSuperClassInfo(luFigureFigure, resultSet);
+                            if (LUTemp instanceof LuFigureFigure)
+                                luFigureFigure = (LuFigureFigure) LUTemp;
+                            mapStringLU.put(luFigureFigure.getName(), luFigureFigure);
+                            mapIntLU.put(luFigureFigure.getId(), luFigureFigure);
                             break;
                     }
                 }
