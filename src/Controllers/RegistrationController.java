@@ -8,6 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
@@ -47,9 +49,10 @@ public class RegistrationController {
     @FXML
     PasswordField confirmPasswordField;
     @FXML
-    ListView<LearningApplication> chooseLAListView;
+    TextFlow creatorText;
     @FXML
-    CheckListView<LearningCategory> chooseCategoryListView;
+    CheckBox creatorCheckBox;
+
     Parent root;
     ObservableList list;
 
@@ -67,12 +70,12 @@ public class RegistrationController {
     public void confirmButtonPressed(ActionEvent event) {
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         if(checkInputData()) {
-//            User user = new User(systemData.getInstance().getLastUserId()+1, nameTextField.getText(),
-//                    surnameTextField.getText(), emailTextField.getText(), Date.valueOf(dateOfBirthField.getValue()),
-//                    genderField.getValue().toString());
             User user = new User(systemData.getInstance().getLastUserId()+1, nameTextField.getText(),
                     surnameTextField.getText(), emailTextField.getText(), Date.valueOf(dateOfBirthField.getValue()));
+            user.setCreator(creatorCheckBox.isSelected());
             systemData.getInstance().addUser(user, username.getText(), passwordField.getText());
+            systemData.getInstance().setCurrentUserID(user.getUser_id());
+            systemData.getInstance().setCurrentUser();
             try {
                 root = FXMLLoader.load(getClass().getResource("../resources/view/home.fxml"));
             } catch ( IOException e ) {
@@ -84,41 +87,18 @@ public class RegistrationController {
             // KRJO added these for instant delete account functionality
             systemData.getInstance().reInit();
             systemData.getInstance().setCurrentUserID(systemData.getInstance().getLastUserId());
-
         }
     }
 
     @FXML
     private void initialize() {
+        setCreatorText();
         list = errorLogTextFlow.getChildren();
         Text inputText = new Text("All fields - marked with \'*\' must to be completed");
         list.add(inputText);
-        initializeLAListView();
-        initializeLCCheckedListView();
         initializeGender();
     }
 
-    private void initializeLAListView() {
-        ObservableList<LearningApplication> observableList = chooseLAListView.getItems();
-        ArrayList<LearningApplication> LAs = systemData.getInstance().getDataLA();
-
-        for(LearningApplication la : LAs) {
-            observableList.add(la);
-        }
-        chooseLAListView.getSelectionModel().select(0);
-        chooseLAListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    }
-
-    private void initializeLCCheckedListView() {
-        ObservableList<LearningCategory> observableList = chooseCategoryListView.getItems();
-        ArrayList<LearningCategory> LCs = systemData.getInstance().getDataLC();
-
-        for(LearningCategory lc : LCs) {
-            observableList.add(lc);
-        }
-        chooseCategoryListView.getSelectionModel().select(0);
-        chooseCategoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    }
 
     private void initializeGender() {
         genderField.getItems().addAll("Male", "Female");
@@ -164,6 +144,17 @@ public class RegistrationController {
             list.add(new Text("This email is already exist. Choose another one\n"));
         }
         return returnFlag;
+    }
+
+    private void setCreatorText() {
+        Text text = new Text("Hello and welcome to our OADTurk Application! \n" +
+                "You have a good opportunity to be a part of our team, and not just improve your skills " +
+                "and knowledge, but also help us to create new exams and approving the Learning Units from our users." +
+                "It will not take a lot of your free time, but if everybody will bring some effort, our application" +
+                "would have a lot of different topics and data to learn. \nIf you want to be a part of our team, just " +
+                "check the box below!");
+        text.setFont(Font.font("System", FontPosture.REGULAR, 18));
+        creatorText.getChildren().add(text);
     }
 
 }

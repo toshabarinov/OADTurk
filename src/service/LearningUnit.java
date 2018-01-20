@@ -1,9 +1,8 @@
 package service;
 
 public class LearningUnit extends LearningInstance{
+    // TODO JO maybe it would be more elegant to have this class as interface; a lot of work though
 
-    private int id;
-    protected String name;
     private char question_type;
     private char answer_type;
     private int category_id;
@@ -12,6 +11,10 @@ public class LearningUnit extends LearningInstance{
     public String correctAnswers;
 
     public LearningUnit() {
+    }
+
+    public LearningUnit(int id, String name, String description) {
+        super(id, name, description);
     }
 
     public boolean isApprovedFlag() {
@@ -69,6 +72,12 @@ public class LearningUnit extends LearningInstance{
 
         return answer_type;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public void setAnswer_type(char answer_type) {
 
         this.answer_type = answer_type;

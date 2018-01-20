@@ -4,7 +4,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import service.LearningInstance;
 import service.currentUser;
 import service.systemData;
@@ -19,16 +18,10 @@ public class HomeController extends Controller{
     @FXML
     TextField searchTextField;
     @FXML
-    TextFlow firstRecommendation;
-    @FXML
-    TextFlow secondRecommendation;
-    @FXML
     ListView<LearningInstance> searchListView;
     @FXML
     TreeView<LearningInstance> homeTree;
 
-    ObservableList listFirstRec;
-    ObservableList listSecondRec;
 
 
 
@@ -39,7 +32,6 @@ public class HomeController extends Controller{
         homeButton.setDisable(true);
         buildTree(homeTree);
         choiceBoxInitializer();
-        recommendationsInitializer();
         System.out.println("test");
     }
 
@@ -56,7 +48,7 @@ public class HomeController extends Controller{
                 break;
             }
             case "Learning Units" : {
-                //TODO: implement LU
+                output = systemData.getInstance().search(3, searchText);
             }
         }
         initializeCListView(output);
@@ -86,23 +78,5 @@ public class HomeController extends Controller{
         searchChoiceBox.getItems().addAll("Learning Applications", "Learning Categories",
                 "Learning Units");
         searchChoiceBox.setValue("Learning Applications");
-    }
-
-
-    public void secondRecClicked() {
-        System.out.println("second");
-    }
-
-    public void firstRecClicked() {
-        System.out.println("first");
-    }
-
-    //Initialize 4 recommendations blocks
-    private void recommendationsInitializer() {
-        //TODO: implement recommendation functionality depending on users preferences
-        listFirstRec = firstRecommendation.getChildren();
-        listSecondRec = secondRecommendation.getChildren();
-        listFirstRec.add(new Text("First\nRecommendation"));
-        listSecondRec.add(new Text("Second\nRecommendation"));
     }
 }

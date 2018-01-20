@@ -220,7 +220,10 @@ public final class systemData { // Singeltion class
                 break;
             }
             case 3 : {
-                //implement LU
+                for(LearningUnit lu : learningUnitList) {
+                    if(lu.name.toLowerCase().contains(word))
+                        output.add(lu);
+                }
                 break;
             }
         }
@@ -378,10 +381,11 @@ public final class systemData { // Singeltion class
 
     public void addUser(User user, String username, String password) {
         try {
+            int creator = user.isCreator ? 1 : 0;
             statement = connector.getConnection().createStatement();
-            String query = "INSERT INTO users (user_name, user_surname, email, birthdate) VALUES (\"" +
+            String query = "INSERT INTO users (user_name, user_surname, email, birthdate, isCreator) VALUES (\"" +
                     user.getUser_name() + "\", \"" + user.getUser_surname() + "\", \"" + user.getEmail() + "\", \"" +
-                    user.getBirthdate() + "\")";
+                    user.getBirthdate() + "\", \"" + creator + "\")";
             statement.executeUpdate(query);
             setLastUserId(getLastUserId()+1);
             // KRJO: changed this a bit, login_data user_id should not depend on users user_id
@@ -571,8 +575,11 @@ public final class systemData { // Singeltion class
             statement = connector.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM learning_units");
             while(resultSet.next()) {
-                LearningUnit learningUnit = new LearningUnit( resultSet.getInt("id"),resultSet.getString("refName"), "");
+                LearningUnit learningUnit = new LearningUnit(resultSet.getInt("id"),
+                        resultSet.getString("refName"), "");
+              //  learningUnit.setId(;
                 // TODO JO for now the reference name is shown frontend, maybe that's ok though!
+              //  learningUnit.setName();
                 learningUnit.setQuestion_type(resultSet.getString("question_type").charAt(0));
                 learningUnit.setAnswer_type(resultSet.getString("answer_type").charAt(0));
                 learningUnit.setCategory_id( resultSet.getInt("category_id"));

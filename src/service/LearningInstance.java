@@ -5,6 +5,9 @@ public class LearningInstance {
     String name;
     String description;
 
+    public LearningInstance() {
+    }
+
     public LearningInstance(int id, String name, String description) {
         this.id = id;
         this.name = name;
