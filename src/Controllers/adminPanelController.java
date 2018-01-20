@@ -27,21 +27,21 @@ public class adminPanelController extends Controller{
 
 
     public void addAppClicked(ActionEvent event) {
-        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "adminPanAddApp.fxml");
+        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "/adminViews/adminPanAddApp.fxml");
     }
 
     public void editAppClicked(ActionEvent event) {
-        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "adminPanEditApp.fxml");
+        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "/adminViews/adminPanEditApp.fxml");
         editAppButton.setDisable(true);
     }
 
     public void addCategoryClicked(ActionEvent event) {
-        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "adminPanAddCategory.fxml");
+        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "/adminViews/adminPanAddCategory.fxml");
         addCategoryButton.setDisable(true);
     }
 
     public void editCategoryClicked(ActionEvent event) {
-        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "adminPanEditCategory.fxml");
+        newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "/adminViews/adminPanEditCategory.fxml");
         editCategoryButton.setDisable(true);
     }
 

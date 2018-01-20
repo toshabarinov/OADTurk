@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.adminPanEditCategory">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.adminPanEditApp">
    <children>
       <HBox prefHeight="45.0" prefWidth="800.0">
          <children>
@@ -34,22 +34,7 @@
                   </ChoiceBox>
                </children>
             </HBox>
-            <HBox minHeight="40.0" prefHeight="50.0" prefWidth="800.0">
-               <children>
-                  <Label minWidth="150.0" text="Choose Category">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Region prefHeight="35.0" prefWidth="35.0" HBox.hgrow="ALWAYS" />
-                  <ChoiceBox fx:id="choiceBoxCategoryId" prefWidth="800.0">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </ChoiceBox>
-               </children>
-            </HBox>
-            <Label text="Category's name">
+            <Label text="Application's name">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
@@ -59,7 +44,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Description of category">
+            <Label text="Description of application">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin>
@@ -71,10 +56,15 @@
             </TextArea>
             <HBox prefHeight="30.0" prefWidth="200.0">
                <children>
+                  <Button fx:id="deleteButton" minWidth="100.0" mnemonicParsing="false" onAction="#deleteButtonPressed" prefHeight="30.0" prefWidth="100.0" text="Delete">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </Button>
                   <Region maxWidth="800.0" prefHeight="200.0" prefWidth="600.0" HBox.hgrow="ALWAYS" />
                   <Button fx:id="confirmButton" minWidth="100.0" mnemonicParsing="false" onAction="#saveButtonPressed" prefHeight="30.0" prefWidth="100.0" text="Save">
                      <HBox.margin>
-                        <Insets left="10.0" right="10.0" />
+                        <Insets right="10.0" />
                      </HBox.margin>
                   </Button>
                </children>

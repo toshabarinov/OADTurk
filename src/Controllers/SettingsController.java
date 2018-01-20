@@ -50,10 +50,9 @@ public class SettingsController extends Controller {
     Hyperlink deleteAccountLink;
 
 
-    //TODO KRJO: every one needs to import new lib for email validation
-    //TODO KRJO: The user_id from login_data should be independent from users user_id
+    //TODO JO: every one needs to import new lib for email validation
 
-    //TODO KRJO: maybe registration problem when not everything is set
+    //TODO JO: maybe registration problem when not everything is set
 
     @FXML
     private void initialize() {
@@ -125,6 +124,8 @@ public class SettingsController extends Controller {
 
                 messageLabel.setTextFill(Color.web("#33cc33"));
                 messageLabel.setText("Email changed");
+                // reinitialize systemData instance update its members
+                systemData.getInstance().reInit();
 
             }
             catch (SQLException e){
@@ -172,6 +173,8 @@ public class SettingsController extends Controller {
 
                 messageLabel.setTextFill(Color.web("#33cc33"));
                 messageLabel.setText("User name changed");
+                // reinitialize systemData instance update its members
+                systemData.getInstance().reInit();
 
             }
             catch (SQLException e){
@@ -212,6 +215,8 @@ public class SettingsController extends Controller {
 
                 messageLabel.setTextFill(Color.web("#33cc33"));
                 messageLabel.setText("Password changed");
+                // reinitialize systemData instance update its members
+                systemData.getInstance().reInit();
 
             }
             catch (SQLException e){
@@ -269,6 +274,6 @@ public class SettingsController extends Controller {
     }
 
     public void changePreferencesButtonClick(ActionEvent event) {
-        //TODO KRJO: implement change preferences
+        //TODO JO: implement change preferences
     }
 }

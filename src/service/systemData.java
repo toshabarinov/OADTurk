@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public final class systemData { // Singeltion class
     private static systemData instance = new systemData();
@@ -19,8 +22,13 @@ public final class systemData { // Singeltion class
     DBConnector connector = new DBConnector();
     ArrayList<LearningApplication> dataLA = new ArrayList<>();
     ArrayList<LearningCategory> dataLC = new ArrayList<>();
+    ArrayList<Exam> dataExams = new ArrayList<>();
+
+
 
     private  Map<Integer, List<LearningUnit>> learningUnitMap;
+    private Map<String, LearningUnit> mapStringLU;      //< map of all LUs (key=LU reference name; value=LU)
+    private Map<Integer, LearningUnit> mapIntLU;            //< map of all LUs (key=LU id; value=LU)
     private List<LearningUnit> learningUnitList;
     private Map<Integer, LuText> luTextMap;
     private Map<Integer, LuDiagram> luDiagramMap;
@@ -61,17 +69,63 @@ public final class systemData { // Singeltion class
         this.lastCategoryId = lastCategoryId;
     }
 
-    public Map<Integer, List<LearningUnit>> getLearningUnitMap() {
+    public void setLearningUnitMap(Map<Integer, List<LearningUnit>> learningUnitMap) {
+        this.learningUnitMap = learningUnitMap;
+    }
+
+        public Map<Integer, List<LearningUnit>> getLearningUnitMap() {
         return learningUnitMap;
     }
 
-    public void setLearningUnitMap(Map<Integer, List<LearningUnit>> learningUnitMap) {
-        this.learningUnitMap = learningUnitMap;
+        public Map<String, LearningUnit> getMapStringLU() {
+        return mapStringLU;
+    }
+
+    /** function to set a map of all learning units -> mapStringLU (key=LUName; value=LU)
+     *
+     */
+    public void setMapStringLU() {
+        mapStringLU = new HashMap<>();
+        mapIntLU = new HashMap<>();
+        try {
+            String answerQuestionCombi;
+            Connection conn = getDBConnection();
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM learning_units");
+            while (resultSet.next()){
+                if (resultSet.getInt("approved") == 1){
+                    answerQuestionCombi = resultSet.getString("question_type") +
+                            resultSet.getString("answer_type");
+                    switch (answerQuestionCombi){
+                        case "tt":
+                            Statement st = conn.createStatement();
+                            ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE id = " + Integer.toString(resultSet.getInt("id")));
+                            //ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE refName='test'");
+                            resultSetTT.next();
+                            LuText luText = new LuText(resultSetTT);
+                            mapStringLU.put(luText.getName(), luText);
+                            mapIntLU.put(luText.getId(), luText);
+                            break;
+                        case "tp":
+                            break;
+                        case "pp":
+                            break;
+                        case "pt":
+                            break;
+                    }
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private int lastUserId;
     private int currentUserID;
     LearningInstance activeLI;
+
+
 
     private systemData() {
         setUsersData();
@@ -79,6 +133,10 @@ public final class systemData { // Singeltion class
         setDataLA();
         setDataLC();
         setLearningUnit();
+        setExamData();
+
+        // TODO maybe remove this call later
+        setMapStringLU();
     }
 
     /** to reinitialize the systemData instance
@@ -103,12 +161,38 @@ public final class systemData { // Singeltion class
         }
     }
 
-    private void setCurrentUser(String username) {
+    private void setExamData() {
+        try {
+            statement = connector.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM exams");
+            while(resultSet.next()) {
+                String name = resultSet.getString("exam_name");
+                String lu = resultSet.getString("learning_units");
+                int id = resultSet.getInt("exam_id");
+                dataExams.add(new Exam(name, 0, lu));
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setCurrentUser() {
         for(User user : users) {
             if(user.user_id == currentUserID) {
                 currentUser.setInstance(user);
             }
         }
+    }
+
+
+
+    public LearningApplication getLaByName(String name) {
+        for(LearningApplication la : dataLA) {
+            if(la.getName().equals(name))
+               return la;
+        }
+        return null;
     }
 
     // keys :
@@ -201,6 +285,97 @@ public final class systemData { // Singeltion class
         }
     }
 
+    public LearningCategory getLC(String name, int laId) {
+        return dataLC.stream()
+                .filter(lc -> lc.getLa_id() == laId && lc.getName().equals(name))
+                .findFirst().orElse(null);
+    }
+
+    public void deleteLC(String name, int laId) {
+        deleteLCFromDB(getLC(name, laId).getId());
+
+        dataLC = (ArrayList<LearningCategory>) dataLC.stream()
+                .filter(lc -> lc != getLC(name, laId))
+                .collect(toList());
+    }
+
+    public void addLC(String name, String description, String laName) {
+        try {
+            int laID = getLaByName(laName).getId();
+            statement = connector.getConnection().createStatement();
+            String query = "INSERT INTO learning_caterogies (lc_name, lc_description, la_id) VALUES (\"" + name + "\", \""
+                    + description + "\",\"" + laID + "\")";
+            statement.executeUpdate(query);
+            ResultSet resultSet = statement.executeQuery("SELECT lc_id FROM learning_caterogies");
+            resultSet.last();
+            int lcId = resultSet.getInt("lc_id");
+            getDataLC().add(new LearningCategory(lcId, name, description, laID));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void updateLA(String name, String description, int laId) {
+        try {
+            statement = connector.getConnection().createStatement();
+            String query = "UPDATE learning_applications SET la_name = \"" + name + "\", la_description = \"" +
+                    description + "\" WHERE la_id = "+ laId + ";";
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateLC(String name, String description, int lcId) {
+        try {
+            statement = connector.getConnection().createStatement();
+            String query = "UPDATE learning_caterogies SET lc_name = \"" + name + "\", lc_description = \"" +
+                    description + "\" WHERE lc_id = "+ lcId + ";";
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeLAByName(String name) {
+        deleteLAFromDB(getLaByName(name).getId());
+
+        dataLA = (ArrayList<LearningApplication>) dataLA.stream()
+                .filter(la -> !la.getName().equals(name))
+                .collect(toList());
+
+    }
+
+    public ArrayList<Exam> getDataExams() {
+        return dataExams;
+    }
+
+    public void setDataExams(ArrayList<Exam> dataExams) {
+        this.dataExams = dataExams;
+    }
+
+    private void deleteLAFromDB(int id) {
+        try {
+            statement = connector.getConnection().createStatement();
+            String query = "DELETE FROM learning_applications WHERE la_id = \"" + id + "\";";
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void deleteLCFromDB(int id) {
+        try {
+            statement = connector.getConnection().createStatement();
+            String query = "DELETE FROM learning_caterogies WHERE lc_id = \"" + id + "\";";
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addUser(User user, String username, String password) {
         try {
             statement = connector.getConnection().createStatement();
@@ -243,6 +418,9 @@ public final class systemData { // Singeltion class
         }
     }
 
+
+
+
     public static systemData getInstance() {
         return instance;
     }
@@ -265,7 +443,7 @@ public final class systemData { // Singeltion class
                         }
 
                     statement.close();
-                    setCurrentUser(username);
+                    setCurrentUser();
                     return true;
                 }
             }
@@ -333,6 +511,40 @@ public final class systemData { // Singeltion class
         }
         return output;
     }
+    public int getCategoryID(String refName, String tableName, String returnColumn, String searchColumn){
+        int output = 0;
+        try {
+            statement = connector.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
+            while(resultSet.next()) {
+                if (resultSet.getString(searchColumn).equals(refName)){
+                    output = resultSet.getInt(returnColumn);
+                    break;
+                }
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
+    public String getStringData(String name, String tableName, String returnColumn, String searchColumn){
+        String output = "";
+        try {
+            statement = connector.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
+            while(resultSet.next()) {
+                if (resultSet.getString(searchColumn).equals(name)){
+                    output = resultSet.getString(returnColumn);
+                    break;
+                }
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
 
     public void setLastUserId(int lastUserId) {
         this.lastUserId = lastUserId;
@@ -359,17 +571,12 @@ public final class systemData { // Singeltion class
             statement = connector.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM learning_units");
             while(resultSet.next()) {
-                LearningUnit learningUnit = new LearningUnit();
-                learningUnit.setId(resultSet.getInt("id"));
-                learningUnit.setName(resultSet.getString("name"));
-                learningUnit.setQuestion(resultSet.getString("question"));
-                learningUnit.setQuestion_type( resultSet.getInt("question_type"));
-                learningUnit.setQuestion_id(resultSet.getInt("question_id"));
-                learningUnit.setAnswer_type(resultSet.getInt("answer_type"));
-                learningUnit.setAnswer_id1(resultSet.getInt("answer_id1"));
-                learningUnit.setAnswer_id2( resultSet.getInt("answer_id2"));
-                learningUnit.setAnswer_id3(resultSet.getInt("answer_id2"));
+                LearningUnit learningUnit = new LearningUnit( resultSet.getInt("id"),resultSet.getString("refName"), "");
+                // TODO JO for now the reference name is shown frontend, maybe that's ok though!
+                learningUnit.setQuestion_type(resultSet.getString("question_type").charAt(0));
+                learningUnit.setAnswer_type(resultSet.getString("answer_type").charAt(0));
                 learningUnit.setCategory_id( resultSet.getInt("category_id"));
+                learningUnit.setApprovedFlag(resultSet.getBoolean("approved"));
                 learningUnitList.add(learningUnit);
             }
             statement.close();
@@ -389,7 +596,7 @@ public final class systemData { // Singeltion class
             learningUnitMap.put(dataLC.get(countCategorys).getId(), learningUnitL);
         }
 
-        setOther();
+        // setOther();
     }
 
     private void setOther(){
@@ -419,21 +626,21 @@ public final class systemData { // Singeltion class
             e.printStackTrace();
         }
 
-        try {
-            statement = connector.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text");
-            while(resultSet.next()) {
-                LuText luText = new LuText();
-                luText.setId(resultSet.getInt("id"));
-                luText.setText(resultSet.getString("text"));
-
-
-                luTextMap.put(luText.getId(), luText);
-            }
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            statement = connector.getConnection().createStatement();
+//            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text_text");
+//            while(resultSet.next()) {
+//                LuText luText = new LuText();
+//                luText.setId(resultSet.getInt("id"));
+//                luText.setText(resultSet.getString("text"));
+//
+//
+//                luTextMap.put(luText.getId(), luText);
+//            }
+//            statement.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
         try {
             statement = connector.getConnection().createStatement();

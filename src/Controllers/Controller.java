@@ -14,6 +14,8 @@ import javafx.scene.control.TreeView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import service.LearningInstance;
+import service.currentUser;
+
 import java.io.IOException;
 
 /**class which contains the standard controller functionality
@@ -34,6 +36,16 @@ public class Controller {
     Button adminPanelButton;
     @FXML
     Label statementLabel;
+    @FXML
+    Button examPanelButton;
+
+    protected static String toNumeralString(final Boolean input) {
+        if (input == null) {
+            return "0";
+        } else {
+            return input.booleanValue() ? "1" : "0";
+        }
+    }
 
     /**function to add a new scene to active stage
      *
@@ -41,7 +53,7 @@ public class Controller {
      * @param newFxml   new .fxml file (scene) to load
      */
 
-    void newScene(Stage window, String newFxml) {
+    protected void newScene(Stage window, String newFxml) {
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("../resources/view/" + newFxml));
@@ -54,6 +66,15 @@ public class Controller {
         } catch ( IOException e ) {
             e.printStackTrace();
         }
+    }
+
+    protected void newScene(Stage window, Parent root) {
+        //create a new scene with root and set the stage
+        double width = window.getScene().getWidth();
+        double height = window.getScene().getHeight();
+        Scene scene = new Scene(root, width, height);
+        window.setScene(scene);
+        window.show();
     }
 
 
@@ -76,7 +97,7 @@ public class Controller {
             window.setResizable(false);
             window.initModality(Modality.NONE); // block main stage during this stage is open
             window.setTitle("Admin panel");
-            root = FXMLLoader.load(getClass().getResource("../resources/view/adminPanAddApp.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../resources/view/adminViews/adminPanAddApp.fxml"));
             window.setScene(new Scene(root, 600, 400));
             window.show();
         } catch ( IOException e ) {
@@ -84,15 +105,26 @@ public class Controller {
         }
     }
 
+    public void examPanelButtonClicked(ActionEvent event) {
+        Parent root;
+        try {
+            Stage window = new Stage();
+            window.setResizable(false);
+            window.initModality(Modality.NONE); // block main stage during this stage is open
+            window.setTitle("Exam panel");
+            root = FXMLLoader.load(getClass().getResource("../resources/view/examViews/createdExams.fxml"));
+            window.setScene(new Scene(root, 600, 400));
+            window.show();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+        }
+    }
 
     public void homeButtonClick(ActionEvent event) {
-
         newScene((Stage)((Node)event.getSource()).getScene().getWindow(), "home.fxml");
-
     }
 
     public void settingsButtonClick(ActionEvent event) {
-
         Parent root;
 
         try {
@@ -108,6 +140,7 @@ public class Controller {
             window.initModality(Modality.APPLICATION_MODAL); // block main stage during this stage is open
             window.setTitle("Settings");
 
+            // hand over information to controller
             SettingsController controller = fxmlLoader.getController();
             controller.parentStage = (Stage)((Node)event.getSource()).getScene().getWindow();
             //Scene
@@ -119,6 +152,15 @@ public class Controller {
             Platform.runLater(()->root.requestFocus());
         } catch ( IOException e ) {
             e.printStackTrace();
+        }
+    }
+
+    public void viewInit() {
+        if(!currentUser.getInstance().isAdmin()) {
+            adminPanelButton.setVisible(false);
+        }
+        if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
+            examPanelButton.setVisible(false);
         }
     }
 
