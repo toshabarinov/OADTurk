@@ -117,11 +117,17 @@ public class CreateLUBox extends Controller{
                             "\", \"" + answerString1 + "\", \"" + answerString2 + "\", \"" + answerString3 + "\", \"" +
                             answerString4 + "\", \"" + correctString + "\")";
                     statement.executeUpdate(query);
+                    break;
 
                 case "ft":
-                    File image = new File(questionFigure);
-                    FileInputStream fis = new FileInputStream(image);
-                    query = "INSERT INTO lu_figure_text (id, refName, title, question_text, question_figure, answer1, answer2, answer3, answer4, correctAnswers) VALUES (?, ? ,? ,?, ?, ?, ? , ?, ?, ?)";
+                    FileInputStream fis = null;
+                    if (!questionFigure.isEmpty()){
+                        File image = new File(questionFigure);
+                        fis = new FileInputStream(image);
+                    }
+
+                    query = "INSERT INTO lu_figure_text (id, refName, title, question_text, question_figure, answer1, " +
+                            "answer2, answer3, answer4, correctAnswers) VALUES (?, ? ,? ,?, ?, ?, ? , ?, ?, ?)";
                     PreparedStatement pst = conn.prepareStatement(query);
                     pst.setInt(1, LUID);
                     pst.setString(2, nameString);
@@ -135,6 +141,45 @@ public class CreateLUBox extends Controller{
                     pst.setString(10, correctString);
 
                     pst.executeUpdate();
+                    break;
+
+                case "ff":
+                    FileInputStream qfis = null;
+                    FileInputStream afis1 = null;
+                    FileInputStream afis2 = null;
+                    FileInputStream afis3 = null;
+                    if (!questionFigure.isEmpty()){
+                        File qImage = new File(questionFigure);
+                        qfis = new FileInputStream(qImage);
+                    }
+                    if (!answerString1.isEmpty()){
+                        File aImage1 = new File(answerString1);
+                        afis1 = new FileInputStream(aImage1);
+                    }
+                    if (!answerString2.isEmpty()){
+                        File aImage2 = new File(answerString2);
+                        afis2 = new FileInputStream(aImage2);
+                    }
+                    if (!answerString3.isEmpty()){
+                        File aImage3 = new File(answerString3);
+                        afis3 = new FileInputStream(aImage3);
+                    }
+
+                    query = "INSERT INTO lu_figure_figure (id, refName, title, question_text, question_figure, answer1," +
+                            " answer2, answer3, correctAnswers) VALUES (?, ? ,? ,?, ?, ?, ? , ?, ?)";
+                    PreparedStatement pst2 = conn.prepareStatement(query);
+                    pst2.setInt(1, LUID);
+                    pst2.setString(2, nameString);
+                    pst2.setString(3, titleString);
+                    pst2.setString(4, questionString);
+                    pst2.setBlob(5, qfis);
+                    pst2.setBlob(6, afis1);
+                    pst2.setBlob(7, afis2);
+                    pst2.setBlob(8, afis3);
+                    pst2.setString(9, correctString);
+
+                    pst2.executeUpdate();
+                    break;
 
             }
 
@@ -229,13 +274,13 @@ public class CreateLUBox extends Controller{
 
 
         answerCheck1.getChildren().addAll(answerText1, correctCheckB1);
-        answerCheck1.setHgrow(answerText1, Priority.ALWAYS);
+        HBox.setHgrow(answerText1, Priority.ALWAYS);
         answerCheck2.getChildren().addAll(answerText2, correctCheckB2);
-        answerCheck2.setHgrow(answerText2, Priority.ALWAYS);
+        HBox.setHgrow(answerText2, Priority.ALWAYS);
         answerCheck3.getChildren().addAll(answerText3, correctCheckB3);
-        answerCheck3.setHgrow(answerText3, Priority.ALWAYS);
+        HBox.setHgrow(answerText3, Priority.ALWAYS);
         answerCheck4.getChildren().addAll(answerText4, correctCheckB4);
-        answerCheck4.setHgrow(answerText4, Priority.ALWAYS);
+        HBox.setHgrow(answerText4, Priority.ALWAYS);
         // switch between question and answer combinations
         switch (questionAnswerCombi){
             case "tt":
@@ -253,7 +298,7 @@ public class CreateLUBox extends Controller{
             case"ft":
 
                 questionText.setPromptText("Enter question text (optional)");
-                questionFigure.setPromptText("Enter full path to figure");
+                questionFigure.setPromptText("Enter full path to question figure");
                 answerText1.setPromptText("Enter answer text 1");
                 answerText2.setPromptText("Enter answer text 2");
                 answerText3.setPromptText("Enter answer text 3");
@@ -261,6 +306,19 @@ public class CreateLUBox extends Controller{
 
                 layout.getChildren().addAll(questionText, questionFigure, layoutAnswers);
                 layoutAnswers.getChildren().addAll(correctTextB, answerCheck1, answerCheck2, answerCheck3, answerCheck4);
+                break;
+
+            case"ff":
+
+                questionText.setPromptText("Enter question text (optional)");
+                questionFigure.setPromptText("Enter full path to question figure");
+                answerText1.setPromptText("Enter full path to answer figure 1");
+                answerText2.setPromptText("Enter full path to answer figure 2");
+                answerText3.setPromptText("Enter full path to answer figure 3");
+
+                layout.getChildren().addAll(questionText, questionFigure, layoutAnswers);
+                layoutAnswers.getChildren().addAll(correctTextB, answerCheck1, answerCheck2, answerCheck3);
+                break;
 
         }
         layout.getChildren().add(okButton);

@@ -1,7 +1,14 @@
 package service;
 
+import javafx.scene.image.Image;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.sql.Blob;
+import java.sql.ResultSet;
+
 public class LearningUnit {
-    // TODO JO maybe it would be more elegant to have this class as interface; a lot of work though
+    // TODO JO put some members up in super class
 
     private int id;
     protected String name;
@@ -11,6 +18,35 @@ public class LearningUnit {
     private String questionAnswerCombi;
     private boolean approvedFlag;
     public String correctAnswers;
+
+    ResultSet resultSet;
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    Image readImage(String databaseFigure){
+        String path = "images";
+        String questionFigurePath = path + File.separator + name + ".jpg";
+        File theDir = new File(path);
+        theDir.mkdir();
+        Image returnImage = null;
+        try {
+            // to write image to filesystem
+            FileOutputStream fos = new FileOutputStream(questionFigurePath);
+            Blob blob = resultSet.getBlob(databaseFigure);
+            if (blob != null){
+                int len = (int) blob.length();
+                byte[] buf = blob.getBytes(1, len);
+                fos.write(buf, 0, len);
+                fos.close();
+                File imageFile = new File(questionFigurePath);
+                returnImage = new Image(imageFile.toURI().toString());
+                imageFile.delete();
+            }
+        }
+        catch (Exception fe){
+            fe.printStackTrace();
+        }
+        return returnImage;
+    }
 
     public boolean isApprovedFlag() {
         return approvedFlag;

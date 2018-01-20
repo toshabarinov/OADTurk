@@ -4,25 +4,23 @@ import javafx.scene.image.Image;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.ResultSet;
 
-public class LuFigureText extends LearningUnit{
+public class LuFigureFigure extends LearningUnit{
 
 //    private int id;
 //    private String text;
-//    private ResultSet resultSet;
+   // private ResultSet resultSet;
 
     public String titleText;
     public String questionText;
-    public Image questionFigure;       //< save the image in class
-    public String answerText1;
-    public String answerText2;
-    public String answerText3;
-    public String answerText4;
+    public Image questionFigure;       //< save images in class
+    public Image answerFigure1;
+    public Image answerFigure2;
+    public Image answerFigure3;
 
-    public LuFigureText(ResultSet resultSet){
+    public LuFigureFigure(ResultSet resultSet){
         try {
             this.resultSet = resultSet;
             setId(resultSet.getInt("id"));
@@ -30,10 +28,10 @@ public class LuFigureText extends LearningUnit{
             titleText = resultSet.getString("title");
             questionText = resultSet.getString("question_text");
             questionFigure = readImage("question_figure");
-            answerText1 = resultSet.getString("answer1");
-            answerText2 = resultSet.getString("answer2");
-            answerText3 = resultSet.getString("answer3");
-            answerText4 = resultSet.getString("answer4");
+            answerFigure1 = readImage("answer1");
+            answerFigure2 = readImage("answer2");
+            answerFigure3 = readImage("answer3");
+
             correctAnswers = resultSet.getString("correctAnswers");
         }
         catch (Exception e){

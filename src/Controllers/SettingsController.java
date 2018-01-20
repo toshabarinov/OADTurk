@@ -50,8 +50,6 @@ public class SettingsController extends Controller {
     Hyperlink deleteAccountLink;
 
 
-    //TODO JO: every one needs to import new lib for email validation
-
     //TODO JO: maybe registration problem when not everything is set
 
     @FXML

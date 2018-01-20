@@ -97,7 +97,7 @@ public class CategoriesController extends Controller {
 
                         if ( answerQuestionCombi.equals("tt")){
                             //newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU1.fxml");
-                            fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LU1.fxml"));
+                            fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LUTextText.fxml"));
 
                             Statement statement = conn.createStatement();
                             resultSet = statement.executeQuery("SELECT * FROM lu_text_text WHERE id = " + LastLUID);
@@ -111,6 +111,14 @@ public class CategoriesController extends Controller {
                             resultSet = statement.executeQuery("SELECT * FROM lu_figure_text WHERE id = " + LastLUID);
                             resultSet.next();
                             LU = new LuFigureText(resultSet);
+                        }
+                        else if (answerQuestionCombi.equals("ff")){
+                            fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LUFigureFigure.fxml"));
+
+                            Statement statement = conn.createStatement();
+                            resultSet = statement.executeQuery("SELECT * FROM lu_figure_figure WHERE id = " + LastLUID);
+                            resultSet.next();
+                            LU = new LuFigureFigure(resultSet);
                         }
 //                else if (mapOFleaningUnit.get(newValue).getQuestion_type().equals(1)) {
 //                    if (mapOFleaningUnit.get(newValue).getAnswer_type() == 0) {

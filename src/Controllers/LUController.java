@@ -6,6 +6,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.event.ActionEvent;
@@ -42,13 +45,24 @@ public class LUController extends Controller {
     public Button confirmButton;
     @FXML
     public Label textBox;
+
+    public WrappedImageView questionPic;
+    public WrappedImageView answerPic;
     @FXML
-    public ImageView questionPic;
+    VBox imageVBox;
+    @FXML
+    VBox qImageVBox;
+    @FXML
+    HBox aImageHBox1;
+    @FXML
+    HBox aImageHBox2;
+    @FXML
+    HBox aImageHBox3;
 
     LearningUnit learningUnit;
     private String correctAnswers;
-    private Map<Integer, LearningUnit> learningUnitMap;
-    private List<LearningUnit> learningUnitList;
+//    private Map<Integer, LearningUnit> learningUnitMap;
+//    private List<LearningUnit> learningUnitList;
 
 
 
@@ -60,8 +74,7 @@ public class LUController extends Controller {
         }
         buildTree(LUTree);
         textBox.setText("");
-        //TODO fit image to window size
-        // questionPic.fitHeightProperty().bind(currentWindow.heightProperty());
+
 //        learningUnitList = systemData.getInstance().getLearningUnitList();
 //        createHashMap();
 //        LearningUnit learningUnit = learningUnitMap.get(systemData.getInstance().getLastLUid());
@@ -69,7 +82,8 @@ public class LUController extends Controller {
 
 
     public void confirmButtonClick(ActionEvent event) {
-        String correctAnswers = learningUnit.correctAnswers;
+        correctAnswers = learningUnit.correctAnswers;
+        //TODO JO adapt for FigureFigure (also in database)
         String inputAnswers = toNumeralString(checkBox1.isSelected()) + toNumeralString(checkBox2.isSelected()) +
                 toNumeralString(checkBox3.isSelected()) + toNumeralString(checkBox4.isSelected());
         if (inputAnswers.equals(correctAnswers)){
@@ -107,25 +121,61 @@ public class LUController extends Controller {
             answerText4.setText(((LuText) learningUnit).answerText4);
         }
         else if (learningUnit instanceof LuFigureText){
+            if (((LuFigureText) learningUnit).questionFigure != null){
+                questionPic = new WrappedImageView();
+                imageVBox.getChildren().add(questionPic);
+                questionPic.setImage(((LuFigureText) learningUnit).questionFigure);
+            }
+            else
+                VBox.setVgrow(imageVBox, Priority.NEVER);
+
             titleText.setText(((LuFigureText) learningUnit).titleText);
             questionText.setText(((LuFigureText) learningUnit).questionText);
-            questionPic.setImage(((LuFigureText) learningUnit).questionFigure);
             answerText1.setText(((LuFigureText) learningUnit).answerText1);
             answerText2.setText(((LuFigureText) learningUnit).answerText2);
             answerText3.setText(((LuFigureText) learningUnit).answerText3);
             answerText4.setText(((LuFigureText) learningUnit).answerText4);
         }
+        else if (learningUnit instanceof LuFigureFigure){
+            if (((LuFigureFigure) learningUnit).questionFigure != null){
+                questionPic = new WrappedImageView();
+                qImageVBox.getChildren().add(questionPic);
+                questionPic.setImage(((LuFigureFigure) learningUnit).questionFigure);
+            }
+            else
+                VBox.setVgrow(qImageVBox, Priority.NEVER);
+
+            titleText.setText(((LuFigureFigure) learningUnit).titleText);
+            questionText.setText(((LuFigureFigure) learningUnit).questionText);
+
+            answerPic = new WrappedImageView();
+            aImageHBox1.getChildren().add(answerPic);
+            answerPic.setImage(((LuFigureFigure) learningUnit).answerFigure1);
+            answerPic = new WrappedImageView();
+            aImageHBox2.getChildren().add(answerPic);
+            answerPic.setImage(((LuFigureFigure) learningUnit).answerFigure2);
+            answerPic = new WrappedImageView();
+            aImageHBox3.getChildren().add(answerPic);
+            answerPic.setImage(((LuFigureFigure) learningUnit).answerFigure3);
+
+        }
+
+        //else if (learningUnit instanceof L)
         correctAnswers = learningUnit.correctAnswers;
         // TODO JO adapt for use with pictures
-        if(answerText1.getText().equals(""))
-            checkBox1.setVisible(false);
-        if(answerText2.getText().equals(""))
-            checkBox2.setVisible(false);
-        if(answerText3.getText().equals(""))
-            checkBox3.setVisible(false);
-        if(answerText4.getText().equals(""))
-            checkBox4.setVisible(false);
-
+        if (!(learningUnit instanceof LuFigureFigure)){
+            if(answerText1.getText().equals(""))
+                checkBox1.setVisible(false);
+            if(answerText2.getText().equals(""))
+                checkBox2.setVisible(false);
+            if(answerText3.getText().equals(""))
+                checkBox3.setVisible(false);
+            if(answerText4.getText().equals(""))
+                checkBox4.setVisible(false);
+        }
+        else{
+            //TODO JO maybe do something to disable checkboxes and on the right side
+        }
     }
 
 
