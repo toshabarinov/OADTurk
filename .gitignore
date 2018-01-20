@@ -4,3 +4,16 @@
 out/production/OADTurk/Controllers/HomeController\.class
 
 .directory
+
+\.idea/
+
+images/
+
+
+out/production/OADTurk/Controllers/
+
+out/production/OADTurk/resources/view/
+
+out/production/OADTurk/service/
+
+out/production/OADTurk/start/

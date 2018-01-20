@@ -39,6 +39,8 @@ public class Controller {
     @FXML
     Button examPanelButton;
 
+    Stage currentWindow = new Stage();
+
     protected static String toNumeralString(final Boolean input) {
         if (input == null) {
             return "0";
@@ -61,6 +63,7 @@ public class Controller {
             double width = window.getScene().getWidth();
             double height = window.getScene().getHeight();
             Scene scene = new Scene(root, width, height);
+            currentWindow = window;
             window.setScene(scene);
             window.show();
         } catch ( IOException e ) {

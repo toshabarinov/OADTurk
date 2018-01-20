@@ -1,13 +1,26 @@
 package service;
 
+import javafx.scene.image.Image;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.sql.*;
+
+    // TODO JO put some members up in super class
 public class LearningUnit extends LearningInstance{
-    // TODO JO maybe it would be more elegant to have this class as interface; a lot of work though
 
     private char question_type;
     private char answer_type;
     private int category_id;
     private String questionAnswerCombi;
-    private boolean approvedFlag;
+
+    private int la_id;
+    private int approvedFlag;
+    private int createdBy;
+    // not in database
+    private String LAName;
+    private String CatName;
+
     public String correctAnswers;
 
     public LearningUnit() {
@@ -18,10 +31,58 @@ public class LearningUnit extends LearningInstance{
     }
 
     public boolean isApprovedFlag() {
+    ResultSet resultSet;
+
+    public void setNames() throws SQLException {
+        Connection conn = systemData.getInstance().getDBConnection();
+        Statement statement = conn.createStatement();
+        ResultSet resultSetLA = statement.executeQuery("SELECT * FROM learning_applications WHERE la_id = " +
+                Integer.toString(this.la_id));
+        resultSetLA.next();
+        LAName = resultSetLA.getString("la_name");
+        ResultSet resultSetC = statement.executeQuery("SELECT * FROM learning_caterogies WHERE lc_id = " +
+                Integer.toString(this.category_id));
+        resultSetC.next();
+        CatName = resultSetC.getString("lc_name");
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    Image readImage(String databaseFigure){
+        String path = "images";
+        String questionFigurePath = path + File.separator + name + ".jpg";
+        File theDir = new File(path);
+        theDir.mkdir();
+        Image returnImage = null;
+        try {
+            // to write image to filesystem
+            FileOutputStream fos = new FileOutputStream(questionFigurePath);
+            Blob blob = resultSet.getBlob(databaseFigure);
+            File imageFile = new File(questionFigurePath);
+            if (blob != null){
+                int len = (int) blob.length();
+                byte[] buf = blob.getBytes(1, len);
+                fos.write(buf, 0, len);
+                fos.close();
+                returnImage = new Image(imageFile.toURI().toString());
+                imageFile.delete();
+            }
+            else{
+                fos.close();
+                imageFile.delete();
+            }
+
+        }
+        catch (Exception fe){
+            fe.printStackTrace();
+        }
+        return returnImage;
+    }
+
+    public int getApprovedFlag() {
         return approvedFlag;
     }
 
-    public void setApprovedFlag(boolean approvedFlag) {
+    public void setApprovedFlag(int approvedFlag) {
         this.approvedFlag = approvedFlag;
     }
 
@@ -83,5 +144,35 @@ public class LearningUnit extends LearningInstance{
         this.answer_type = answer_type;
         questionAnswerCombi = Character.toString(question_type) + Character.toString(answer_type);
     }
+
+    public void setQuestionAnswerCombi(String questionAnswerCombi) {
+        this.questionAnswerCombi = questionAnswerCombi;
+    }
+
+    public int getLa_id() {
+        return la_id;
+    }
+
+    public void setLa_id(int la_id) {
+        this.la_id = la_id;
+    }
+
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getLAName() {
+        return LAName;
+    }
+
+
+    public String getCatName() {
+        return CatName;
+    }
+
 }
 

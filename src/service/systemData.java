@@ -30,21 +30,21 @@ public final class systemData { // Singeltion class
     private Map<String, LearningUnit> mapStringLU;      //< map of all LUs (key=LU reference name; value=LU)
     private Map<Integer, LearningUnit> mapIntLU;            //< map of all LUs (key=LU id; value=LU)
     private List<LearningUnit> learningUnitList;
-    private Map<Integer, LuText> luTextMap;
-    private Map<Integer, LuDiagram> luDiagramMap;
-    private Map<Integer, LuTextPicture> luTextPictureMap;
-
-    public Map<Integer, LuText> getLuTextMap() {
-        return luTextMap;
-    }
-
-    public Map<Integer, LuDiagram> getLuDiagramMap() {
-        return luDiagramMap;
-    }
-
-    public Map<Integer, LuTextPicture> getLuTextPictureMap() {
-        return luTextPictureMap;
-    }
+//    private Map<Integer, LuText> luTextMap;
+//    private Map<Integer, LuDiagram> luDiagramMap;
+//    private Map<Integer, LuTextPicture> luTextPictureMap;
+//
+//    public Map<Integer, LuText> getLuTextMap() {
+//        return luTextMap;
+//    }
+//
+//    public Map<Integer, LuDiagram> getLuDiagramMap() {
+//        return luDiagramMap;
+//    }
+//
+//    public Map<Integer, LuTextPicture> getLuTextPictureMap() {
+//        return luTextPictureMap;
+//    }
 
     public List<LearningUnit> getLearningUnitList() {
         return learningUnitList;
@@ -81,6 +81,20 @@ public final class systemData { // Singeltion class
         return mapStringLU;
     }
 
+    /** fills up information of the super class (LearningUnit)
+     *
+     */
+    private LearningUnit fillSuperClassInfo(LearningUnit LU, ResultSet  resultSet) throws SQLException {
+        LU.setQuestion_type(resultSet.getString("question_type").charAt(0));
+        LU.setAnswer_type(resultSet.getString("answer_type").charAt(0));
+        LU.setCategory_id(resultSet.getInt("category_id"));
+        LU.setLa_id(resultSet.getInt("la_id"));
+        LU.setApprovedFlag(resultSet.getInt("approved"));
+        LU.setCreatedBy(resultSet.getInt("created_by"));
+
+        return LU;
+    }
+
     /** function to set a map of all learning units -> mapStringLU (key=LUName; value=LU)
      *
      */
@@ -91,6 +105,8 @@ public final class systemData { // Singeltion class
             String answerQuestionCombi;
             Connection conn = getDBConnection();
             Statement statement = conn.createStatement();
+            Statement stSub = conn.createStatement();
+            LearningUnit LUTemp;
             ResultSet resultSet = statement.executeQuery("SELECT * FROM learning_units");
             while (resultSet.next()){
                 if (resultSet.getInt("approved") == 1){
@@ -98,19 +114,37 @@ public final class systemData { // Singeltion class
                             resultSet.getString("answer_type");
                     switch (answerQuestionCombi){
                         case "tt":
-                            Statement st = conn.createStatement();
-                            ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE id = " + Integer.toString(resultSet.getInt("id")));
+                            ResultSet resultSetTT = stSub.executeQuery("SELECT * FROM lu_text_text WHERE id = " + Integer.toString(resultSet.getInt("id")));
                             //ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE refName='test'");
                             resultSetTT.next();
                             LuText luText = new LuText(resultSetTT);
+                            LUTemp = fillSuperClassInfo(luText, resultSet);
+                            if (LUTemp instanceof LuText)
+                                luText = (LuText) LUTemp;
                             mapStringLU.put(luText.getName(), luText);
                             mapIntLU.put(luText.getId(), luText);
                             break;
-                        case "tp":
+                        case "ft":
+                            ResultSet resultSetFT = stSub.executeQuery("SELECT * FROM lu_figure_text WHERE id = " + Integer.toString(resultSet.getInt("id")));
+                            //ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE refName='test'");
+                            resultSetFT.next();
+                            LuFigureText luFigureText = new LuFigureText(resultSetFT, 'i');
+                            LUTemp = fillSuperClassInfo(luFigureText, resultSet);
+                            if (LUTemp instanceof LuFigureText)
+                                luFigureText = (LuFigureText) LUTemp;
+                            mapStringLU.put(luFigureText.getName(), luFigureText);
+                            mapIntLU.put(luFigureText.getId(), luFigureText);
                             break;
-                        case "pp":
-                            break;
-                        case "pt":
+                        case "ff":
+                            ResultSet resultSetFF = stSub.executeQuery("SELECT * FROM lu_figure_figure WHERE id = " + Integer.toString(resultSet.getInt("id")));
+                            //ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE refName='test'");
+                            resultSetFF.next();
+                            LuFigureFigure luFigureFigure = new LuFigureFigure(resultSetFF, 'i');
+                            LUTemp = fillSuperClassInfo(luFigureFigure, resultSet);
+                            if (LUTemp instanceof LuFigureFigure)
+                                luFigureFigure = (LuFigureFigure) LUTemp;
+                            mapStringLU.put(luFigureFigure.getName(), luFigureFigure);
+                            mapIntLU.put(luFigureFigure.getId(), luFigureFigure);
                             break;
                     }
                 }
@@ -122,6 +156,7 @@ public final class systemData { // Singeltion class
     }
 
     private int lastUserId;
+    // TODO kind of redundant with class currentUser, but both are in use
     private int currentUserID;
     LearningInstance activeLI;
 
@@ -264,7 +299,8 @@ public final class systemData { // Singeltion class
                 int id = resultSet.getInt("la_id");
                 String la_name = resultSet.getString("la_name");
                 String la_description = resultSet.getString("la_description");
-                LearningApplication la = new LearningApplication(id, la_name, la_description);
+                int approvedFlag = resultSet.getInt("approved");
+                LearningApplication la = new LearningApplication(id, la_name, la_description, approvedFlag);
                 dataLA.add(la);
             }
             statement.close();
@@ -273,16 +309,16 @@ public final class systemData { // Singeltion class
         }
     }
 
-    public void addLA(String name, String description) {
+    public void addLA(String name, String description, int approvedFlag) {
         try {
             statement = connector.getConnection().createStatement();
-            String query = "INSERT INTO learning_applications (la_name, la_description) VALUES (\"" + name + "\", \"" +
-                    description + "\")";
+            String query = "INSERT INTO learning_applications (la_name, la_description, approved) VALUES (\"" + name +
+                    "\", \"" + description + "\", \"" + approvedFlag + "\")";
             statement.executeUpdate(query);
             ResultSet resultSet = statement.executeQuery("SELECT la_id FROM learning_applications");
             resultSet.last();
             int laId = resultSet.getInt("la_id");
-            getDataLA().add(new LearningApplication(laId, name, description));
+            getDataLA().add(new LearningApplication(laId, name, description, approvedFlag));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -583,7 +619,9 @@ public final class systemData { // Singeltion class
                 learningUnit.setQuestion_type(resultSet.getString("question_type").charAt(0));
                 learningUnit.setAnswer_type(resultSet.getString("answer_type").charAt(0));
                 learningUnit.setCategory_id( resultSet.getInt("category_id"));
-                learningUnit.setApprovedFlag(resultSet.getBoolean("approved"));
+                learningUnit.setApprovedFlag(resultSet.getInt("approved"));
+                learningUnit.setLa_id(resultSet.getInt("la_id"));
+                learningUnit.setCreatedBy(resultSet.getInt("created_by"));
                 learningUnitList.add(learningUnit);
             }
             statement.close();
@@ -605,71 +643,71 @@ public final class systemData { // Singeltion class
 
         // setOther();
     }
-
-    private void setOther(){
-
-        luDiagramMap = new HashMap<>();
-        luTextMap = new HashMap<>();
-        luTextPictureMap = new HashMap<>();
-
-        try {
-            statement = connector.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_diagram");
-            while(resultSet.next()) {
-                LuDiagram luDiagram = new LuDiagram();
-                luDiagram.setId(resultSet.getInt("id"));
-                luDiagram.setObject1_name(resultSet.getString("object1_name"));
-                luDiagram.setObject1_parameters(resultSet.getString("object1_parameters"));
-                luDiagram.setObject1_num( resultSet.getInt("object1_num"));
-                luDiagram.setObject2_name(resultSet.getString("object2_name"));
-                luDiagram.setObject2_num(resultSet.getInt("object2_num"));
-                luDiagram.setObject2_parameters(resultSet.getString("object2_parameters"));
-                luDiagram.setRelationship( resultSet.getString("relationship"));
-
-                luDiagramMap.put(luDiagram.getId(), luDiagram);
-            }
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+// TODO JO dont know if still needed
+//    private void setOther(){
+//
+//        luDiagramMap = new HashMap<>();
+//        luTextMap = new HashMap<>();
+//        luTextPictureMap = new HashMap<>();
+//
 //        try {
 //            statement = connector.getConnection().createStatement();
-//            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text_text");
+//            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_diagram");
 //            while(resultSet.next()) {
-//                LuText luText = new LuText();
-//                luText.setId(resultSet.getInt("id"));
-//                luText.setText(resultSet.getString("text"));
+//                LuDiagram luDiagram = new LuDiagram();
+//                luDiagram.setId(resultSet.getInt("id"));
+//                luDiagram.setObject1_name(resultSet.getString("object1_name"));
+//                luDiagram.setObject1_parameters(resultSet.getString("object1_parameters"));
+//                luDiagram.setObject1_num( resultSet.getInt("object1_num"));
+//                luDiagram.setObject2_name(resultSet.getString("object2_name"));
+//                luDiagram.setObject2_num(resultSet.getInt("object2_num"));
+//                luDiagram.setObject2_parameters(resultSet.getString("object2_parameters"));
+//                luDiagram.setRelationship( resultSet.getString("relationship"));
 //
-//
-//                luTextMap.put(luText.getId(), luText);
+//                luDiagramMap.put(luDiagram.getId(), luDiagram);
 //            }
 //            statement.close();
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
-
-        try {
-            statement = connector.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text_picture");
-            while(resultSet.next()) {
-                LuTextPicture luTextPicture = new LuTextPicture();
-                luTextPicture.setId(resultSet.getInt("id"));
-                luTextPicture.setType(resultSet.getInt("type"));
-                luTextPicture.setText1(resultSet.getString("text1"));
-                luTextPicture.setText2( resultSet.getString("text2"));
-                luTextPicture.setText3(resultSet.getString("text3"));
-                luTextPicture.setText4(resultSet.getString("text4"));
-
-                luTextPictureMap.put(luTextPicture.getId(), luTextPicture);
-            }
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-    }
+//
+////        try {
+////            statement = connector.getConnection().createStatement();
+////            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text_text");
+////            while(resultSet.next()) {
+////                LuText luText = new LuText();
+////                luText.setId(resultSet.getInt("id"));
+////                luText.setText(resultSet.getString("text"));
+////
+////
+////                luTextMap.put(luText.getId(), luText);
+////            }
+////            statement.close();
+////        } catch (SQLException e) {
+////            e.printStackTrace();
+////        }
+//
+//        try {
+//            statement = connector.getConnection().createStatement();
+//            ResultSet resultSet = statement.executeQuery("SELECT * FROM lu_text_picture");
+//            while(resultSet.next()) {
+//                LuTextPicture luTextPicture = new LuTextPicture();
+//                luTextPicture.setId(resultSet.getInt("id"));
+//                luTextPicture.setType(resultSet.getInt("type"));
+//                luTextPicture.setText1(resultSet.getString("text1"));
+//                luTextPicture.setText2( resultSet.getString("text2"));
+//                luTextPicture.setText3(resultSet.getString("text3"));
+//                luTextPicture.setText4(resultSet.getString("text4"));
+//
+//                luTextPictureMap.put(luTextPicture.getId(), luTextPicture);
+//            }
+//            statement.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//    }
 }
 
 

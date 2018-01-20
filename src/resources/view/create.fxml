@@ -80,6 +80,7 @@
                                     </HBox>
                                     <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                                        <children>
+                                          <Region prefHeight="200.0" prefWidth="320.0" />
                                           <Button fx:id="createLAButton" mnemonicParsing="false" onAction="#createLAButtonClick" prefWidth="100.0" text="Create LA">
                                              <HBox.margin>
                                                 <Insets />
@@ -102,7 +103,7 @@
                                           <Insets bottom="10.0" top="10.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <ListView>
+                                    <ListView fx:id="createdList">
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>
@@ -119,10 +120,23 @@
             </SplitPane>
             <HBox maxHeight="47.0" prefHeight="47.0" prefWidth="200.0">
                <children>
-                  <Label maxHeight="56.0" prefHeight="47.0" prefWidth="204.0" text="Some text here" HBox.hgrow="ALWAYS">
+                  <Label fx:id="statementLabel1" maxHeight="56.0" prefHeight="47.0" text="Some text here" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets left="10.0" />
                      </padding>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="statementLabel2" prefHeight="47.0" text="Label" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="statementLabel3" prefHeight="47.0" text="Label" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
                   </Label>
                   <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                   <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#logOutButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Log Out" HBox.hgrow="ALWAYS">

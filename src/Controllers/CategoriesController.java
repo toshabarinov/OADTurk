@@ -97,12 +97,28 @@ public class CategoriesController extends Controller {
 
                         if ( answerQuestionCombi.equals("tt")){
                             //newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU1.fxml");
-                            fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LU1.fxml"));
+                            fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LUTextText.fxml"));
 
                             Statement statement = conn.createStatement();
                             resultSet = statement.executeQuery("SELECT * FROM lu_text_text WHERE id = " + LastLUID);
                             resultSet.next();
                             LU = new LuText(resultSet);
+                        }
+                        else if (answerQuestionCombi.equals("ft")){
+                            fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LUFigureText.fxml"));
+
+                            Statement statement = conn.createStatement();
+                            resultSet = statement.executeQuery("SELECT * FROM lu_figure_text WHERE id = " + LastLUID);
+                            resultSet.next();
+                            LU = new LuFigureText(resultSet, 'i');
+                        }
+                        else if (answerQuestionCombi.equals("ff")){
+                            fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LUFigureFigure.fxml"));
+
+                            Statement statement = conn.createStatement();
+                            resultSet = statement.executeQuery("SELECT * FROM lu_figure_figure WHERE id = " + LastLUID);
+                            resultSet.next();
+                            LU = new LuFigureFigure(resultSet, 'i');
                         }
 //                else if (mapOFleaningUnit.get(newValue).getQuestion_type().equals(1)) {
 //                    if (mapOFleaningUnit.get(newValue).getAnswer_type() == 0) {
@@ -120,7 +136,6 @@ public class CategoriesController extends Controller {
                         luController = fxmlLoader.getController();
                         luController.learningUnit = LU;
                         luController.setUp();
-//                        luController.titleText.setText(resultSet.getString("title"));
                         newScene((Stage) lisViewLU.getParent().getScene().getWindow(), root);
                     }
                     catch (Exception e){
@@ -145,7 +160,7 @@ public class CategoriesController extends Controller {
 
         List<String> returnList = new ArrayList<>();
         for (LearningUnit aLearningUnitList : learningUnitList) {
-            if (aLearningUnitList.isApprovedFlag())
+            if (aLearningUnitList.getApprovedFlag() == 1)
                 returnList.add(aLearningUnitList.getName());
         }
         listForListView = new ArrayList<>(returnList);

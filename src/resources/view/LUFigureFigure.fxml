@@ -72,7 +72,7 @@
                                     </Text>
                                  </children>
                                  <VBox.margin>
-                                    <Insets top="30.0" />
+                                    <Insets top="15.0" />
                                  </VBox.margin>
                               </VBox>
                               <VBox alignment="CENTER">
@@ -87,12 +87,16 @@
                                     </Text>
                                  </children>
                                  <VBox.margin>
-                                    <Insets top="20.0" />
+                                    <Insets top="10.0" />
                                  </VBox.margin>
                               </VBox>
-                              <HBox>
+                              <VBox fx:id="qImageVBox" alignment="CENTER" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </VBox>
+                              <HBox fx:id="aImageHBox1" alignment="CENTER" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Text fx:id="answerText1" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="410.0" />
                                     <Region HBox.hgrow="ALWAYS" />
                                     <CheckBox fx:id="checkBox1" mnemonicParsing="false" />
                                  </children>
@@ -100,54 +104,33 @@
                                     <Insets left="50.0" right="50.0" />
                                  </padding>
                                  <VBox.margin>
-                                    <Insets top="50.0" />
+                                    <Insets top="15.0" />
                                  </VBox.margin>
                               </HBox>
-                              <HBox>
+                              <HBox fx:id="aImageHBox2" alignment="CENTER" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Text fx:id="answerText2" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="410.0" />
                                     <Region HBox.hgrow="ALWAYS" />
                                     <CheckBox fx:id="checkBox2" mnemonicParsing="false" />
                                  </children>
                                  <padding>
                                     <Insets left="50.0" right="50.0" />
                                  </padding>
-                                 <VBox.margin>
-                                    <Insets top="20.0" />
-                                 </VBox.margin>
                               </HBox>
-                              <HBox>
+                              <HBox fx:id="aImageHBox3" alignment="CENTER" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Text fx:id="answerText3" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="410.0" />
                                     <Region HBox.hgrow="ALWAYS" />
                                     <CheckBox fx:id="checkBox3" mnemonicParsing="false" />
                                  </children>
                                  <padding>
                                     <Insets left="50.0" right="50.0" />
                                  </padding>
-                                 <VBox.margin>
-                                    <Insets top="20.0" />
-                                 </VBox.margin>
                               </HBox>
-                              <HBox>
-                                 <children>
-                                    <Text fx:id="answerText4" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="410.0" />
-                                    <Region HBox.hgrow="ALWAYS" />
-                                    <CheckBox fx:id="checkBox4" mnemonicParsing="false" />
-                                 </children>
-                                 <padding>
-                                    <Insets left="50.0" right="50.0" />
-                                 </padding>
-                                 <VBox.margin>
-                                    <Insets top="20.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                              <HBox alignment="TOP_CENTER">
                                  <children>
                                     <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#confirmButtonClick" prefWidth="100.0" text="Confirm" />
                                  </children>
                                  <VBox.margin>
-                                    <Insets top="20.0" />
+                                    <Insets bottom="15.0" top="20.0" />
                                  </VBox.margin>
                               </HBox>
                            </children>
@@ -155,7 +138,7 @@
                      </children></AnchorPane>
               </items>
             </SplitPane>
-            <HBox maxHeight="47.0" prefHeight="47.0" prefWidth="200.0">
+            <HBox maxHeight="47.0" prefHeight="47.0">
                <children>
                   <Label fx:id="textBox" maxHeight="56.0" prefHeight="47.0" text="Some text here" HBox.hgrow="ALWAYS">
                      <padding>
@@ -163,7 +146,7 @@
                      </padding>
                   </Label>
                   <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#logOutButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Log Out">
+                  <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#logOutButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Log Out" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="10.0" top="10.0" />
                      </HBox.margin>
