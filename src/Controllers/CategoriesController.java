@@ -110,7 +110,7 @@ public class CategoriesController extends Controller {
                             Statement statement = conn.createStatement();
                             resultSet = statement.executeQuery("SELECT * FROM lu_figure_text WHERE id = " + LastLUID);
                             resultSet.next();
-                            LU = new LuFigureText(resultSet);
+                            LU = new LuFigureText(resultSet, 'i');
                         }
                         else if (answerQuestionCombi.equals("ff")){
                             fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LUFigureFigure.fxml"));
@@ -118,7 +118,7 @@ public class CategoriesController extends Controller {
                             Statement statement = conn.createStatement();
                             resultSet = statement.executeQuery("SELECT * FROM lu_figure_figure WHERE id = " + LastLUID);
                             resultSet.next();
-                            LU = new LuFigureFigure(resultSet);
+                            LU = new LuFigureFigure(resultSet, 'i');
                         }
 //                else if (mapOFleaningUnit.get(newValue).getQuestion_type().equals(1)) {
 //                    if (mapOFleaningUnit.get(newValue).getAnswer_type() == 0) {

@@ -62,7 +62,7 @@
                            <children>
                               <VBox alignment="CENTER">
                                  <children>
-                                    <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="LU Title Placeholder" textAlignment="CENTER">
+                                    <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="LU Title Placeholder" textAlignment="CENTER" wrappingWidth="450.0">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -77,7 +77,7 @@
                               </VBox>
                               <VBox alignment="CENTER">
                                  <children>
-                                    <Text fx:id="questionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Question" textAlignment="CENTER">
+                                    <Text fx:id="questionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Question" textAlignment="CENTER" wrappingWidth="400.0">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -95,7 +95,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </VBox>
-                              <HBox fx:id="aImageHBox1" alignment="CENTER" maxHeight="150.0" VBox.vgrow="ALWAYS">
+                              <HBox fx:id="aImageHBox1" alignment="CENTER" VBox.vgrow="ALWAYS">
                                  <children>
                                     <Region HBox.hgrow="ALWAYS" />
                                     <CheckBox fx:id="checkBox1" mnemonicParsing="false" />
@@ -107,7 +107,7 @@
                                     <Insets top="15.0" />
                                  </VBox.margin>
                               </HBox>
-                              <HBox fx:id="aImageHBox2" alignment="CENTER" maxHeight="150.0" VBox.vgrow="ALWAYS">
+                              <HBox fx:id="aImageHBox2" alignment="CENTER" VBox.vgrow="ALWAYS">
                                  <children>
                                     <Region HBox.hgrow="ALWAYS" />
                                     <CheckBox fx:id="checkBox2" mnemonicParsing="false" />
@@ -116,7 +116,7 @@
                                     <Insets left="50.0" right="50.0" />
                                  </padding>
                               </HBox>
-                              <HBox fx:id="aImageHBox3" alignment="CENTER" maxHeight="150.0" VBox.vgrow="ALWAYS">
+                              <HBox fx:id="aImageHBox3" alignment="CENTER" VBox.vgrow="ALWAYS">
                                  <children>
                                     <Region HBox.hgrow="ALWAYS" />
                                     <CheckBox fx:id="checkBox3" mnemonicParsing="false" />

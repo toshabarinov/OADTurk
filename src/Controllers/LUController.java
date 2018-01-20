@@ -83,9 +83,15 @@ public class LUController extends Controller {
 
     public void confirmButtonClick(ActionEvent event) {
         correctAnswers = learningUnit.correctAnswers;
-        //TODO JO adapt for FigureFigure (also in database)
-        String inputAnswers = toNumeralString(checkBox1.isSelected()) + toNumeralString(checkBox2.isSelected()) +
-                toNumeralString(checkBox3.isSelected()) + toNumeralString(checkBox4.isSelected());
+        String inputAnswers;
+        if (!(learningUnit instanceof LuFigureFigure)){
+            inputAnswers = toNumeralString(checkBox1.isSelected()) + toNumeralString(checkBox2.isSelected()) +
+                    toNumeralString(checkBox3.isSelected()) + toNumeralString(checkBox4.isSelected());
+        }
+        else{
+            inputAnswers = toNumeralString(checkBox1.isSelected()) + toNumeralString(checkBox2.isSelected()) +
+                    toNumeralString(checkBox3.isSelected());
+        }
         if (inputAnswers.equals(correctAnswers)){
             textBox.setTextFill(Color.web("#33cc33"));
             textBox.setText("Answer correct");
@@ -148,14 +154,15 @@ public class LUController extends Controller {
             titleText.setText(((LuFigureFigure) learningUnit).titleText);
             questionText.setText(((LuFigureFigure) learningUnit).questionText);
 
+            int index = 0;
             answerPic = new WrappedImageView();
-            aImageHBox1.getChildren().add(answerPic);
+            aImageHBox1.getChildren().add(index, answerPic);
             answerPic.setImage(((LuFigureFigure) learningUnit).answerFigure1);
             answerPic = new WrappedImageView();
-            aImageHBox2.getChildren().add(answerPic);
+            aImageHBox2.getChildren().add(index, answerPic);
             answerPic.setImage(((LuFigureFigure) learningUnit).answerFigure2);
             answerPic = new WrappedImageView();
-            aImageHBox3.getChildren().add(answerPic);
+            aImageHBox3.getChildren().add(index, answerPic);
             answerPic.setImage(((LuFigureFigure) learningUnit).answerFigure3);
 
         }

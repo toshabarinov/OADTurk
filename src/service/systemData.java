@@ -127,7 +127,7 @@ public final class systemData { // Singeltion class
                             ResultSet resultSetFT = stSub.executeQuery("SELECT * FROM lu_figure_text WHERE id = " + Integer.toString(resultSet.getInt("id")));
                             //ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE refName='test'");
                             resultSetFT.next();
-                            LuFigureText luFigureText = new LuFigureText(resultSetFT);
+                            LuFigureText luFigureText = new LuFigureText(resultSetFT, 'i');
                             LUTemp = fillSuperClassInfo(luFigureText, resultSet);
                             if (LUTemp instanceof LuFigureText)
                                 luFigureText = (LuFigureText) LUTemp;
@@ -138,7 +138,7 @@ public final class systemData { // Singeltion class
                             ResultSet resultSetFF = stSub.executeQuery("SELECT * FROM lu_figure_figure WHERE id = " + Integer.toString(resultSet.getInt("id")));
                             //ResultSet resultSetTT = st.executeQuery("SELECT * FROM lu_text_text WHERE refName='test'");
                             resultSetFF.next();
-                            LuFigureFigure luFigureFigure = new LuFigureFigure(resultSetFF);
+                            LuFigureFigure luFigureFigure = new LuFigureFigure(resultSetFF, 'i');
                             LUTemp = fillSuperClassInfo(luFigureFigure, resultSet);
                             if (LUTemp instanceof LuFigureFigure)
                                 luFigureFigure = (LuFigureFigure) LUTemp;

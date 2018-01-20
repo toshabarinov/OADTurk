@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -90,21 +91,31 @@ public class CreateLUBox extends Controller{
             String answerString2 = answerText2.getText();
             String answerString3 = answerText3.getText();
             String answerString4 = answerText4.getText();
-            String correctString = toNumeralString(correctCheckB1.isSelected()) + toNumeralString(correctCheckB2.isSelected()) +
-                    toNumeralString(correctCheckB3.isSelected()) + toNumeralString(correctCheckB4.isSelected());
+            String correctString;
+            if (!questionAnswerCombi.equals("ff")){
+                correctString = toNumeralString(correctCheckB1.isSelected()) + toNumeralString(correctCheckB2.isSelected()) +
+                        toNumeralString(correctCheckB3.isSelected()) + toNumeralString(correctCheckB4.isSelected());
+            }
+            else{
+                correctString = toNumeralString(correctCheckB1.isSelected()) + toNumeralString(correctCheckB2.isSelected()) +
+                        toNumeralString(correctCheckB3.isSelected());
+            }
 
-            // database connenctor
+            // database connector
             Connection conn = systemData.getInstance().getDBConnection();
             char questionType = questionAnswerCombi.charAt(0);
             char answerType = questionAnswerCombi.charAt(1);
-            //TODO JO fix typo *learning_caterogies*
+            //TODO JO fix typo *learning_categories*
             // TODO JO handle null pointer exception when combo box not set
             int catID = systemData.getInstance().getCategoryID(choseCategory.getValue().toString(),
                     "learning_caterogies", "lc_id", "lc_name");
+            int laID = systemData.getInstance().getCategoryID(choseLA.getValue().toString(),
+                    "learning_applications", "la_id", "la_name");
 
             Statement statement = conn.createStatement();
-            String query = "INSERT INTO learning_units (refName, question_type, answer_type, category_id) VALUES (" +
-                    "\"" + nameString + "\", \"" + questionType + "\", \"" + answerType + "\", \"" + Integer.toString(catID) + "\")";
+            String query = "INSERT INTO learning_units (refName, question_type, answer_type, category_id, la_id) VALUES (" +
+                    "\"" + nameString + "\", \"" + questionType + "\", \"" + answerType + "\", \"" + Integer.toString(catID) + "\", \""
+                    + Integer.toString(laID) + "\")";
             statement.executeUpdate(query);
             int LUID = systemData.getInstance().getCategoryID(nameString,
                     "learning_units", "id", "refName");
@@ -183,7 +194,7 @@ public class CreateLUBox extends Controller{
 
             }
 
-            // close settings screen and open new LU
+            // close settings screen and reinitialize system data
             systemData.getInstance().reInit();
             ( (Stage)((Node)event.getSource()).getScene().getWindow() ).close();
 
@@ -193,6 +204,31 @@ public class CreateLUBox extends Controller{
         }
 
     }
+
+    private void browseButtonClick(String choseField, ActionEvent event){
+        Stage window = new Stage();
+        window.setResizable(true);
+        window.initModality(Modality.APPLICATION_MODAL); // block main stage during this stage is open
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open resource file");
+        File chosenFile = fileChooser.showOpenDialog(window);
+        switch (choseField){
+            case "q":
+                questionFigure.setText(chosenFile.getPath());
+                break;
+            case "a1":
+                answerText1.setText(chosenFile.getPath());
+                break;
+            case "a2":
+                answerText2.setText(chosenFile.getPath());
+                break;
+            case "a3":
+                answerText3.setText(chosenFile.getPath());
+                break;
+        }
+
+    }
+
     public void display(String questionType, String answerType) {
         // only use first letter in lower case
         questionAnswerCombi = questionType.toLowerCase().substring(0,1) +
@@ -251,10 +287,10 @@ public class CreateLUBox extends Controller{
         VBox layout = new VBox(20);
         VBox layoutAnswers = new VBox(10);
         HBox correctTextB = new HBox(10);
-        HBox answerCheck1 = new HBox(20);
-        HBox answerCheck2 = new HBox(20);
-        HBox answerCheck3 = new HBox(20);
-        HBox answerCheck4 = new HBox(20);
+        HBox answerCheck1 = new HBox(10);
+        HBox answerCheck2 = new HBox(10);
+        HBox answerCheck3 = new HBox(10);
+        HBox answerCheck4 = new HBox(10);
 
         correctTextB.setAlignment(Pos.TOP_RIGHT);
         correctTextB.getChildren().add(correctText);
@@ -282,6 +318,8 @@ public class CreateLUBox extends Controller{
         answerCheck4.getChildren().addAll(answerText4, correctCheckB4);
         HBox.setHgrow(answerText4, Priority.ALWAYS);
         // switch between question and answer combinations
+        HBox questionFigureHBox = new HBox(10);
+
         switch (questionAnswerCombi){
             case "tt":
 
@@ -298,25 +336,56 @@ public class CreateLUBox extends Controller{
             case"ft":
 
                 questionText.setPromptText("Enter question text (optional)");
+
                 questionFigure.setPromptText("Enter full path to question figure");
+                Button browse = new Button("...");
+                browse.setMinWidth(25);
+                questionFigureHBox.getChildren().addAll(questionFigure, browse);
+                HBox.setHgrow(questionFigure, Priority.ALWAYS);
+                browse.setOnAction(event -> browseButtonClick("q", event));
+
                 answerText1.setPromptText("Enter answer text 1");
                 answerText2.setPromptText("Enter answer text 2");
                 answerText3.setPromptText("Enter answer text 3");
                 answerText4.setPromptText("Enter answer text 4");
 
-                layout.getChildren().addAll(questionText, questionFigure, layoutAnswers);
+                layout.getChildren().addAll(questionText, questionFigureHBox, layoutAnswers);
                 layoutAnswers.getChildren().addAll(correctTextB, answerCheck1, answerCheck2, answerCheck3, answerCheck4);
                 break;
 
             case"ff":
-
+                //TODO JO make an unique case tf; it is included in ff for now
                 questionText.setPromptText("Enter question text (optional)");
-                questionFigure.setPromptText("Enter full path to question figure");
-                answerText1.setPromptText("Enter full path to answer figure 1");
-                answerText2.setPromptText("Enter full path to answer figure 2");
-                answerText3.setPromptText("Enter full path to answer figure 3");
 
-                layout.getChildren().addAll(questionText, questionFigure, layoutAnswers);
+                questionFigure.setPromptText("Enter full path to question figure");
+                Button browseQ = new Button("...");
+                browseQ.setMinWidth(25);
+                questionFigureHBox.getChildren().addAll(questionFigure, browseQ);
+                HBox.setHgrow(questionFigure, Priority.ALWAYS);
+                browseQ.setOnAction(event -> browseButtonClick("q", event));
+
+                answerText1.setPromptText("Enter full path to answer figure 1");
+                Button browseA1 = new Button("...");
+                HBox.setMargin(browseA1, new Insets(0, 10, 0, 0));
+                browseQ.setMinWidth(25);
+                answerCheck1.getChildren().add(1, browseA1);
+                browseA1.setOnAction(event -> browseButtonClick("a1", event));
+
+                answerText2.setPromptText("Enter full path to answer figure 2");
+                Button browseA2 = new Button("...");
+                HBox.setMargin(browseA2, new Insets(0, 10, 0, 0));
+                browseQ.setMinWidth(25);
+                answerCheck2.getChildren().add(1, browseA2);
+                browseA2.setOnAction(event -> browseButtonClick("a2", event));
+
+                answerText3.setPromptText("Enter full path to answer figure 3");
+                Button browseA3 = new Button("...");
+                HBox.setMargin(browseA3, new Insets(0, 10, 0, 0));
+                browseQ.setMinWidth(25);
+                answerCheck3.getChildren().add(1, browseA3);
+                browseA3.setOnAction(event -> browseButtonClick("a3", event));
+
+                layout.getChildren().addAll(questionText, questionFigureHBox, layoutAnswers);
                 layoutAnswers.getChildren().addAll(correctTextB, answerCheck1, answerCheck2, answerCheck3);
                 break;
 

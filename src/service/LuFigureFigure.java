@@ -20,19 +20,36 @@ public class LuFigureFigure extends LearningUnit{
     public Image answerFigure2;
     public Image answerFigure3;
 
-    public LuFigureFigure(ResultSet resultSet){
+    private void loadStuff(){
         try {
-            this.resultSet = resultSet;
             setId(resultSet.getInt("id"));
             name = resultSet.getString("refName");
             titleText = resultSet.getString("title");
             questionText = resultSet.getString("question_text");
+
+            correctAnswers = resultSet.getString("correctAnswers");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public LuFigureFigure(ResultSet resultSet){
+        try {
+            this.resultSet = resultSet;
+            loadStuff();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public LuFigureFigure(ResultSet resultSet, char c){
+        try {
+            this.resultSet = resultSet;
+            loadStuff();
             questionFigure = readImage("question_figure");
             answerFigure1 = readImage("answer1");
             answerFigure2 = readImage("answer2");
             answerFigure3 = readImage("answer3");
-
-            correctAnswers = resultSet.getString("correctAnswers");
         }
         catch (Exception e){
             e.printStackTrace();

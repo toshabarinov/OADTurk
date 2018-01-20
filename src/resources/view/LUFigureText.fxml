@@ -62,7 +62,7 @@
                            <children>
                               <VBox alignment="CENTER">
                                  <children>
-                                    <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="LU Title Placeholder" textAlignment="CENTER">
+                                    <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="LU Title Placeholder" textAlignment="CENTER" wrappingWidth="450.0">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -77,7 +77,7 @@
                               </VBox>
                               <VBox alignment="CENTER">
                                  <children>
-                                    <Text fx:id="questionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Question" textAlignment="CENTER">
+                                    <Text fx:id="questionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Question" textAlignment="CENTER" wrappingWidth="400.0">
                                        <font>
                                           <Font size="18.0" />
                                        </font>

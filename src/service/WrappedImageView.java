@@ -3,6 +3,9 @@ package service;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/** class to establish automatic resizing images
+ *
+ */
 public class WrappedImageView extends ImageView
 {
     public WrappedImageView()

@@ -34,15 +34,20 @@ public class LearningUnit {
             // to write image to filesystem
             FileOutputStream fos = new FileOutputStream(questionFigurePath);
             Blob blob = resultSet.getBlob(databaseFigure);
+            File imageFile = new File(questionFigurePath);
             if (blob != null){
                 int len = (int) blob.length();
                 byte[] buf = blob.getBytes(1, len);
                 fos.write(buf, 0, len);
                 fos.close();
-                File imageFile = new File(questionFigurePath);
                 returnImage = new Image(imageFile.toURI().toString());
                 imageFile.delete();
             }
+            else{
+                fos.close();
+                imageFile.delete();
+            }
+
         }
         catch (Exception fe){
             fe.printStackTrace();
