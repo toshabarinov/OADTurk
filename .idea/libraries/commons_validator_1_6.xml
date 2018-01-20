@@ -1,9 +1,7 @@
 <component name="libraryTable">
   <library name="commons-validator-1.6">
     <CLASSES>
-      <root url="jar://$USER_HOME$/Dropbox/OAD/newStuff/commons-validator-1.6.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../../mysql-connector-java-5.1.44/mysql-connector-java-5.1.44-bin.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../../controlsfx-9.0.0/controlsfx-9.0.0.jar!/" />
+      <root url="jar://$USER_HOME$/Dropbox/OAD/Abgabe 2/Template/libraries/commons-validator-1.6.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
