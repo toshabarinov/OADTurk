@@ -177,7 +177,8 @@ public class Controller {
             myContentButton.setText("new LAs");
             createButton.setVisible(false);
             getNewLAs();
-            if (newLas.size() != 0)
+            getNewLUs();
+            if (newLIs.size() != 0)
                 myContentButton.setTextFill(Color.web("#0033cc"));
         }
 
