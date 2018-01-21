@@ -26,6 +26,7 @@ public final class systemData { // Singeltion class
 
 
 
+
     private  Map<Integer, List<LearningUnit>> learningUnitMap;
     private Map<String, LearningUnit> mapStringLU;      //< map of all LUs (key=LU reference name; value=LU)
     private Map<Integer, LearningUnit> mapIntLU;            //< map of all LUs (key=LU id; value=LU)
@@ -45,6 +46,11 @@ public final class systemData { // Singeltion class
 //    public Map<Integer, LuTextPicture> getLuTextPictureMap() {
 //        return luTextPictureMap;
 //    }
+
+
+    public Map<Integer, LearningUnit> getMapIntLU() {
+        return mapIntLU;
+    }
 
     public List<LearningUnit> getLearningUnitList() {
         return learningUnitList;
@@ -161,7 +167,8 @@ public final class systemData { // Singeltion class
         }
     }
 
-    private void setExamData() {
+    public void setExamData() {
+        dataExams.clear();
         try {
             statement = connector.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM exams");
@@ -170,7 +177,23 @@ public final class systemData { // Singeltion class
                 String lu = resultSet.getString("learning_units");
                 int id = resultSet.getInt("exam_id");
                 dataExams.add(new Exam(name, 0, lu));
+
             }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveExam(Exam exam){
+
+        String name = exam.getName();
+        int id = exam.getId();
+        String lu = exam.getLu();
+        String query = "INSERT INTO exams VALUES (" + id + ", \"" + name + "\", \"" + lu + "\")";
+        try {
+            statement = connector.getConnection().createStatement();
+            int resultSet = statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
