@@ -7,6 +7,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import service.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -25,10 +26,9 @@ public class LAController extends Controller{
     @FXML
     TreeView<LearningInstance> LATree;
     @FXML
-    private void initialize() {
+    private void initialize() throws SQLException {
         viewInit();
         buildTree(LATree);
-        myContentButton.setVisible(false);
         LearningInstance activeLI = systemData.getInstance().getActiveLI();
         LAName.setText(activeLI.getName());
         LADescription.setText(activeLI.getDescription());
@@ -59,6 +59,5 @@ public class LAController extends Controller{
         LCList.getSelectionModel().select(0);
         LCList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
-
 
 }

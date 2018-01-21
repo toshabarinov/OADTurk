@@ -47,8 +47,8 @@ public class CreateController extends Controller {
     @FXML
     private void initialize() throws SQLException {
         createButton.setDisable(true);
-        myContentButton.setVisible(false);
         buildTree(createTree);
+        viewInit();
         questionType.getItems().removeAll(questionType.getItems());
         questionType.getItems().addAll("Text", "Figure");
         answerType.getItems().removeAll(answerType.getItems());
@@ -135,7 +135,6 @@ public class CreateController extends Controller {
             if (LU.getCreatedBy() == currentUserID){
                 myLUs.add(LU);
             }
-
         }
     }
 }

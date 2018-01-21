@@ -171,7 +171,7 @@ public final class systemData { // Singeltion class
         setExamData();
 
         // TODO maybe remove this call later
-        setMapStringLU();
+        //setMapStringLU();
     }
 
     /** to reinitialize the systemData instance

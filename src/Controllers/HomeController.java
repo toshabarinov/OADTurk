@@ -7,6 +7,8 @@ import javafx.scene.text.Text;
 import service.LearningInstance;
 import service.currentUser;
 import service.systemData;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -26,14 +28,13 @@ public class HomeController extends Controller{
 
 
     @FXML
-    private void initialize() {
+    private void initialize() throws SQLException {
         viewInit();
         statementLabel.setText("Welcome Mr. " + currentUser.getInstance().getUser_surname());
         homeButton.setDisable(true);
         buildTree(homeTree);
         choiceBoxInitializer();
         System.out.println("test");
-        myContentButton.setVisible(false);
     }
 
     public void searchOnAction() {
