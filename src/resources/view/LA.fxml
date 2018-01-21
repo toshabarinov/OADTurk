@@ -78,7 +78,7 @@
                               </VBox>
                               <VBox>
                                  <VBox.margin>
-                                    <Insets />
+                                    <Insets bottom="25.0" />
                                  </VBox.margin>
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -125,7 +125,7 @@
                                        <children>
                                           <Button fx:id="goToExamsButton" mnemonicParsing="false" prefWidth="100.0" text="Exam">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" top="10.0" />
+                                                <Insets top="10.0" />
                                              </HBox.margin></Button>
                                        </children>
                                     </HBox>
