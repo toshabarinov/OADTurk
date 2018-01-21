@@ -154,22 +154,37 @@ public class LUController extends Controller {
             titleText.setText(((LuFigureFigure) learningUnit).titleText);
             questionText.setText(((LuFigureFigure) learningUnit).questionText);
 
-            int index = 0;
-            answerPic = new WrappedImageView();
-            aImageHBox1.getChildren().add(index, answerPic);
-            answerPic.setImage(((LuFigureFigure) learningUnit).answerFigure1);
-            answerPic = new WrappedImageView();
-            aImageHBox2.getChildren().add(index, answerPic);
-            answerPic.setImage(((LuFigureFigure) learningUnit).answerFigure2);
-            answerPic = new WrappedImageView();
-            aImageHBox3.getChildren().add(index, answerPic);
-            answerPic.setImage(((LuFigureFigure) learningUnit).answerFigure3);
-
+            int index = 1;
+            if(((LuFigureFigure) learningUnit).answerFigure1 != null){
+                answerPic = new WrappedImageView();
+                aImageHBox1.getChildren().add(index, answerPic);
+                answerPic.setImage(((LuFigureFigure) learningUnit).answerFigure1);
+            }
+            else{
+                VBox.setVgrow(aImageHBox1, Priority.NEVER);
+                checkBox1.setVisible(false);
+            }
+            if(((LuFigureFigure) learningUnit).answerFigure2 != null){
+                answerPic = new WrappedImageView();
+                aImageHBox2.getChildren().add(index, answerPic);
+                answerPic.setImage(((LuFigureFigure) learningUnit).answerFigure2);
+            }
+            else{
+                VBox.setVgrow(aImageHBox2, Priority.NEVER);
+                checkBox2.setVisible(false);
+            }
+            if(((LuFigureFigure) learningUnit).answerFigure3 != null){
+                answerPic = new WrappedImageView();
+                aImageHBox3.getChildren().add(index, answerPic);
+                answerPic.setImage(((LuFigureFigure) learningUnit).answerFigure3);
+            }
+            else{
+                VBox.setVgrow(aImageHBox3, Priority.NEVER);
+                checkBox3.setVisible(false);
+            }
         }
 
-        //else if (learningUnit instanceof L)
         correctAnswers = learningUnit.correctAnswers;
-        // TODO JO adapt for use with pictures
         if (!(learningUnit instanceof LuFigureFigure)){
             if(answerText1.getText().equals(""))
                 checkBox1.setVisible(false);
@@ -179,9 +194,6 @@ public class LUController extends Controller {
                 checkBox3.setVisible(false);
             if(answerText4.getText().equals(""))
                 checkBox4.setVisible(false);
-        }
-        else{
-            //TODO JO maybe do something to disable checkboxes and on the right side
         }
     }
 

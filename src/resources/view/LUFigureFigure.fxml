@@ -95,8 +95,9 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </VBox>
-                              <HBox fx:id="aImageHBox1" alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
+                              <HBox fx:id="aImageHBox1" alignment="CENTER" VBox.vgrow="ALWAYS">
                                  <children>
+                                    <Region HBox.hgrow="ALWAYS" />
                                     <Region HBox.hgrow="ALWAYS" />
                                     <CheckBox fx:id="checkBox1" mnemonicParsing="false" />
                                  </children>
@@ -110,6 +111,7 @@
                               <HBox fx:id="aImageHBox2" alignment="CENTER" VBox.vgrow="ALWAYS">
                                  <children>
                                     <Region HBox.hgrow="ALWAYS" />
+                                    <Region HBox.hgrow="ALWAYS" />
                                     <CheckBox fx:id="checkBox2" mnemonicParsing="false" />
                                  </children>
                                  <padding>
@@ -118,6 +120,7 @@
                               </HBox>
                               <HBox fx:id="aImageHBox3" alignment="CENTER" VBox.vgrow="ALWAYS">
                                  <children>
+                                    <Region HBox.hgrow="ALWAYS" />
                                     <Region HBox.hgrow="ALWAYS" />
                                     <CheckBox fx:id="checkBox3" mnemonicParsing="false" />
                                  </children>
