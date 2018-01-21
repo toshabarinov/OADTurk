@@ -3,6 +3,7 @@ package Controllers;
 import javafx.fxml.FXML;
 import service.AlertBox;
 import service.systemData;
+import service.currentUser;
 
 public class adminPanAddApp extends adminPanelController {
 
@@ -20,7 +21,7 @@ public class adminPanAddApp extends adminPanelController {
         } else if(description.equals("")) {
             AlertBox.display("No description detected", "Please write description for your application");
         } else {
-            systemData.getInstance().addLA(name, description, 1);
+            systemData.getInstance().addLA(name, description, 1, currentUser.getInstance().getUser_id());
             nameId.setText("");
             descriptionId.setText("");
             TreeController.getInstance().updateTree();

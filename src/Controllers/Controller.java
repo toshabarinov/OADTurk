@@ -11,12 +11,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeView;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import service.LearningInstance;
-import service.currentUser;
+import service.*;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**class which contains the standard controller functionality
  *
@@ -40,6 +46,9 @@ public class Controller {
     Button examPanelButton;
 
     Stage currentWindow = new Stage();
+    List<LearningApplication> newLas;
+    List<LearningUnit> newLUs;
+    List<LearningInstance> newLIs = new ArrayList<>();
 
     protected static String toNumeralString(final Boolean input) {
         if (input == null) {
@@ -71,7 +80,7 @@ public class Controller {
         }
     }
 
-    protected void newScene(Stage window, Parent root) {
+    void newScene(Stage window, Parent root) {
         //create a new scene with root and set the stage
         double width = window.getScene().getWidth();
         double height = window.getScene().getHeight();
@@ -158,13 +167,31 @@ public class Controller {
         }
     }
 
-    public void viewInit() {
+    void viewInit() throws SQLException {
+        myContentButton.setVisible(false);
         if(!currentUser.getInstance().isAdmin()) {
             adminPanelButton.setVisible(false);
         }
+        else{
+            myContentButton.setVisible(true);
+            myContentButton.setText("new LAs");
+            createButton.setVisible(false);
+            getNewLAs();
+            if (newLas.size() != 0)
+                myContentButton.setTextFill(Color.web("#0033cc"));
+        }
+
         if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
             examPanelButton.setVisible(false);
         }
+        if(currentUser.getInstance().isCreator()){
+            myContentButton.setVisible(true);
+            myContentButton.setText("new LUs");
+            getNewLUs();
+            if (newLUs.size() != 0)
+                myContentButton.setTextFill(Color.web("#0033cc"));
+        }
+
     }
 
 
@@ -182,4 +209,39 @@ public class Controller {
 
     }
 
+    void getNewLAs() {
+        newLas = new ArrayList<>();
+        for (LearningApplication LA : systemData.getInstance().getDataLA()){
+            if (LA.getApprovedFlag() == 0){
+                newLas.add(LA);
+                newLIs.add(LA);
+            }
+        }
+    }
+
+    void getNewLUs() throws SQLException {
+        newLUs = new ArrayList<>();
+        for (LearningUnit LU : systemData.getInstance().getLearningUnitList()){
+            if (LU.getApprovedFlag() == 0){
+                // get creator of corresponding LA
+                Connection conn = systemData.getInstance().getDBConnection();
+                Statement statement = conn.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM learning_applications WHERE la_id = " +
+                        LU.getLa_id());
+                resultSet.next();
+                int creatorOfLA = resultSet.getInt("created_by");
+                // skip if currentUser is not creator of LA
+                if (currentUser.getInstance().isCreator() && creatorOfLA != currentUser.getInstance().getUser_id())
+                    continue;
+                newLUs.add(LU);
+                newLIs.add(LU);
+            }
+        }
+    }
+
+    String  parseString(String in){
+
+        String[] tokens = in.split(": ");
+        return tokens[1];
+    }
 }

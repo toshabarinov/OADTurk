@@ -1,6 +1,7 @@
 package Controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -12,8 +13,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
 import service.*;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +51,8 @@ public class LUController extends Controller {
     public Button confirmButton;
     @FXML
     public Label textBox;
+    @FXML
+    Button editButton;
 
     public WrappedImageView questionPic;
     public WrappedImageView answerPic;
@@ -67,7 +75,7 @@ public class LUController extends Controller {
 
 
     @FXML
-    private void initialize() {
+    private void initialize() throws SQLException {
         viewInit();
         if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
             adminPanelButton.setVisible(false);
@@ -116,7 +124,7 @@ public class LUController extends Controller {
         }
     }
 
-    public void setUp(){
+    public void setUp() throws SQLException {
         // move redundant stuff in super class -> LearningUnit
         if(learningUnit instanceof LuText){
             titleText.setText(((LuText) learningUnit).titleText);
@@ -195,6 +203,27 @@ public class LUController extends Controller {
             if(answerText4.getText().equals(""))
                 checkBox4.setVisible(false);
         }
+
+        // display delete Button on correct LUs
+        if (learningUnit.getCreatedBy() == currentUser.getInstance().getUser_id()){
+            editButton.setVisible(true);
+        }
+        if (currentUser.getInstance().isAdmin())
+            editButton.setVisible(true);
+        Connection conn = systemData.getInstance().getDBConnection();
+        Statement statement = conn.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM learning_applications WHERE la_id = " +
+                learningUnit.getLa_id());
+        resultSet.next();
+        int creatorOfLA = resultSet.getInt("created_by");
+        if (creatorOfLA == currentUser.getInstance().getUser_id())
+            editButton.setVisible(true);
+    }
+
+    public void editButtonClick(ActionEvent event){
+        AreYouSureBox AYSB = new AreYouSureBox();
+        AYSB.setParentStage((Stage)((Node)event.getSource()).getScene().getWindow());
+        AYSB.display(learningUnit);
     }
 
 

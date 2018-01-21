@@ -320,6 +320,7 @@ public class CreateLUBox extends Controller{
         // switch between question and answer combinations
         HBox questionFigureHBox = new HBox(10);
 
+        boolean tfFlag = false;
         switch (questionAnswerCombi){
             case "tt":
 
@@ -353,6 +354,10 @@ public class CreateLUBox extends Controller{
                 layoutAnswers.getChildren().addAll(correctTextB, answerCheck1, answerCheck2, answerCheck3, answerCheck4);
                 break;
 
+            case "tf":
+                questionAnswerCombi = "ff";
+                tfFlag = true;
+
             case"ff":
                 //TODO JO make an unique case tf; it is included in ff for now
                 questionText.setPromptText("Enter question text (optional)");
@@ -384,8 +389,12 @@ public class CreateLUBox extends Controller{
                 browseQ.setMinWidth(25);
                 answerCheck3.getChildren().add(1, browseA3);
                 browseA3.setOnAction(event -> browseButtonClick("a3", event));
-
-                layout.getChildren().addAll(questionText, questionFigureHBox, layoutAnswers);
+                if (tfFlag){
+                    layout.getChildren().addAll(questionText, layoutAnswers);
+                    questionText.setPromptText("Enter question text");
+                }
+                else
+                    layout.getChildren().addAll(questionText, questionFigureHBox, layoutAnswers);
                 layoutAnswers.getChildren().addAll(correctTextB, answerCheck1, answerCheck2, answerCheck3);
                 break;
 

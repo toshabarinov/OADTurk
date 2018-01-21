@@ -58,7 +58,7 @@
                            <children>
                               <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Saved Content" textAlignment="CENTER">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="User Requests" textAlignment="CENTER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -70,21 +70,39 @@
                               </VBox>
                               <VBox>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="My Content:">
+                                    <Text fx:id="listViewLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="new  Learning Applications:">
                                        <VBox.margin>
                                           <Insets bottom="10.0" top="10.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <ListView>
+                                    <ListView fx:id="newLAListView">
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>
                                     </ListView>
                                  </children>
                                  <padding>
-                                    <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                                    <Insets bottom="20.0" left="50.0" right="50.0" top="50.0" />
                                  </padding>
                               </VBox>
+                              <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="showButton" mnemonicParsing="false" onAction="#showButtonClick" prefWidth="100.0" text="Schow">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="approveButton" mnemonicParsing="false" onAction="#approvedButtonClick" prefWidth="100.0" text="Approve">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="denyButton" mnemonicParsing="false" onAction="#denyButtonClick" prefWidth="100.0" text="Deny" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" right="50.0" />
+                                 </VBox.margin>
+                              </HBox>
                            </children>
                         </VBox>
                      </children></AnchorPane>

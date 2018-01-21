@@ -32,7 +32,7 @@
                         <Insets right="10.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="100.0" text="My Content">
+                  <Button fx:id="myContentButton" mnemonicParsing="false" onAction="#myContentButtonClick" prefWidth="100.0" text="My Content">
                      <HBox.margin>
                         <Insets bottom="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -128,13 +128,21 @@
                                     <Insets left="50.0" right="50.0" />
                                  </padding>
                               </HBox>
-                              <HBox alignment="TOP_CENTER">
+                              <HBox alignment="TOP_RIGHT">
                                  <children>
+                                    <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButtonClick" prefWidth="100.0" text="Delete" visible="false">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </Button>
                                     <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#confirmButtonClick" prefWidth="100.0" text="Confirm" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="15.0" top="20.0" />
                                  </VBox.margin>
+                                 <padding>
+                                    <Insets right="50.0" />
+                                 </padding>
                               </HBox>
                            </children>
                         </VBox>

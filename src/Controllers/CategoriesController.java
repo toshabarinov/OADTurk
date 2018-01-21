@@ -58,12 +58,8 @@ public class CategoriesController extends Controller {
     @FXML
     private void initialize() {
         try {
-
-            if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
-                adminPanelButton.setVisible(false);
-            }
             buildTree(categoriesTree);
-        viewInit();
+            viewInit();
 
             LCName.setText(systemData.getInstance().getActiveLI().getName());
             LCDescription.setText(systemData.getInstance().getActiveLI().getDescription());
@@ -129,11 +125,17 @@ public class CategoriesController extends Controller {
 //                        newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU3.fxml");
 //                    }
 //                }
+                        // get la_id
+                        Statement statement = conn.createStatement();
+                        resultSet = statement.executeQuery("SELECT * FROM learning_units WHERE id = " + LastLUID);
+                        resultSet.next();
 
 //                        assert luController != null;
                         assert fxmlLoader != null;
                         root = fxmlLoader.load();
                         luController = fxmlLoader.getController();
+                        LU.setLa_id(resultSet.getInt("la_id"));
+                        LU.setCreatedBy(resultSet.getInt("created_by"));
                         luController.learningUnit = LU;
                         luController.setUp();
                         newScene((Stage) lisViewLU.getParent().getScene().getWindow(), root);
