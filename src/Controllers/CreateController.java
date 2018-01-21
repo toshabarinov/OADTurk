@@ -47,7 +47,7 @@ public class CreateController extends Controller {
     @FXML
     private void initialize() throws SQLException {
         createButton.setDisable(true);
-
+        myContentButton.setVisible(false);
         buildTree(createTree);
         questionType.getItems().removeAll(questionType.getItems());
         questionType.getItems().addAll("Text", "Figure");

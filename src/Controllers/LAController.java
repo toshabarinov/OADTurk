@@ -28,6 +28,7 @@ public class LAController extends Controller{
     private void initialize() {
         viewInit();
         buildTree(LATree);
+        myContentButton.setVisible(false);
         LearningInstance activeLI = systemData.getInstance().getActiveLI();
         LAName.setText(activeLI.getName());
         LADescription.setText(activeLI.getDescription());

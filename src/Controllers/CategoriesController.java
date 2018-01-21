@@ -58,12 +58,8 @@ public class CategoriesController extends Controller {
     @FXML
     private void initialize() {
         try {
-
-            if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
-                adminPanelButton.setVisible(false);
-            }
             buildTree(categoriesTree);
-        viewInit();
+            viewInit();
 
             LCName.setText(systemData.getInstance().getActiveLI().getName());
             LCDescription.setText(systemData.getInstance().getActiveLI().getDescription());
@@ -77,6 +73,8 @@ public class CategoriesController extends Controller {
             listProperty.set(FXCollections.observableArrayList(list));
             lisViewLU.itemsProperty().bind(listProperty);
             lisViewLU.setVisible(true);
+
+            myContentButton.setVisible(false);
 
             createHashMap();
 

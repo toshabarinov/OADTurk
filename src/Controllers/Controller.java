@@ -162,6 +162,8 @@ public class Controller {
         if(!currentUser.getInstance().isAdmin()) {
             adminPanelButton.setVisible(false);
         }
+        else
+            createButton.setVisible(false);
         if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
             examPanelButton.setVisible(false);
         }

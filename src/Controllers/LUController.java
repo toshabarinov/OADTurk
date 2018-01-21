@@ -73,6 +73,7 @@ public class LUController extends Controller {
             adminPanelButton.setVisible(false);
         }
         buildTree(LUTree);
+        myContentButton.setVisible(false);
         textBox.setText("");
 
 //        learningUnitList = systemData.getInstance().getLearningUnitList();

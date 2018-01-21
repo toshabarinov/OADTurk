@@ -300,7 +300,8 @@ public final class systemData { // Singeltion class
                 String la_name = resultSet.getString("la_name");
                 String la_description = resultSet.getString("la_description");
                 int approvedFlag = resultSet.getInt("approved");
-                LearningApplication la = new LearningApplication(id, la_name, la_description, approvedFlag);
+                int createdBy = resultSet.getInt("created_by");
+                LearningApplication la = new LearningApplication(id, la_name, la_description, approvedFlag, createdBy);
                 dataLA.add(la);
             }
             statement.close();
@@ -309,16 +310,16 @@ public final class systemData { // Singeltion class
         }
     }
 
-    public void addLA(String name, String description, int approvedFlag) {
+    public void addLA(String name, String description, int approvedFlag, int createdBy) {
         try {
             statement = connector.getConnection().createStatement();
-            String query = "INSERT INTO learning_applications (la_name, la_description, approved) VALUES (\"" + name +
-                    "\", \"" + description + "\", \"" + approvedFlag + "\")";
+            String query = "INSERT INTO learning_applications (la_name, la_description, approved, created_by) VALUES (\"" + name +
+                    "\", \"" + description + "\", \"" + approvedFlag + "\", \"" + createdBy + "\")";
             statement.executeUpdate(query);
             ResultSet resultSet = statement.executeQuery("SELECT la_id FROM learning_applications");
             resultSet.last();
             int laId = resultSet.getInt("la_id");
-            getDataLA().add(new LearningApplication(laId, name, description, approvedFlag));
+            getDataLA().add(new LearningApplication(laId, name, description, approvedFlag, createdBy));
         } catch (SQLException e) {
             e.printStackTrace();
         }

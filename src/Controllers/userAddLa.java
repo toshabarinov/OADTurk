@@ -2,15 +2,13 @@ package Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import service.AlertBox;
 import service.systemData;
+import service.currentUser;
 
 public class userAddLa {
 
@@ -38,7 +36,7 @@ public class userAddLa {
             messageLabel.setTextFill(Color.web("#e60000"));
             messageLabel.setText("No description detected. Please write description for your application");
         } else {
-            systemData.getInstance().addLA(name, description, 0);
+            systemData.getInstance().addLA(name, description, 0, currentUser.getInstance().getUser_id());
             nameId.setText("");
             descriptionId.setText("");
             TreeController.getInstance().updateTree();
