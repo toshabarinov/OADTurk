@@ -174,10 +174,11 @@ public class Controller {
         }
         else{
             myContentButton.setVisible(true);
-            myContentButton.setText("new LAs");
+            myContentButton.setText("LU/LA Requests");
             createButton.setVisible(false);
             getNewLAs();
-            if (newLas.size() != 0)
+            getNewLUs();
+            if (newLIs.size() != 0)
                 myContentButton.setTextFill(Color.web("#0033cc"));
         }
 
@@ -186,7 +187,7 @@ public class Controller {
         }
         if(currentUser.getInstance().isCreator()){
             myContentButton.setVisible(true);
-            myContentButton.setText("new LUs");
+            myContentButton.setText("LU Requests");
             getNewLUs();
             if (newLUs.size() != 0)
                 myContentButton.setTextFill(Color.web("#0033cc"));
