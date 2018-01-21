@@ -19,7 +19,7 @@ public class MailService {
         formData.add("from", "Mailgun Sandbox <postmaster@sandbox2c96f46959c84fdd898b0ad77533a7d2.mailgun.org>");
         formData.add("to", email);
         formData.add("subject", "Your OADTurk temporary password");
-        formData.add("text", "Congratulations oadturk, you just sent an email with Mailgun!  You are truly awesome!");
+        formData.add("text", "Hello, your temporary password is 1kL3RRrW. Please change your password after you logged in!");
         return webResource.type(MediaType.APPLICATION_FORM_URLENCODED).
                 post(ClientResponse.class, formData);
     }

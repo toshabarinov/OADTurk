@@ -29,9 +29,9 @@ public class ResetPasswordBox {
         window.setTitle("Reset password");
 
         // New elements init
-        Label helpMessage = new Label("Write your login or email");
+        Label helpMessage = new Label("Please enter you email address!");
         TextField loginEmailField = new TextField();
-        loginEmailField.setPromptText("Your login or email");
+        loginEmailField.setPromptText("Your email address");
         loginEmailField.setMinWidth(350);
         loginEmailField.setMinHeight(27);
         loginEmailField.setAlignment(Pos.BASELINE_LEFT);
@@ -48,7 +48,7 @@ public class ResetPasswordBox {
 
                 if(inputText.equals("")){
                     helpMessage.setTextFill(Color.web("#e60000"));
-                    helpMessage.setText("Please give your email address!");
+                    helpMessage.setText("Please enter your email address!");
                 }
                 else if(containsWhiteSpace){
                     helpMessage.setTextFill(Color.web("#e60000"));
@@ -68,7 +68,7 @@ public class ResetPasswordBox {
                         sendMail.sendmessage(inputText);
 
                         helpMessage.setTextFill(Color.web("#33cc33"));
-                        helpMessage.setText("We sent you an email with your temporary password. Please change your password after you logged in!");
+                        helpMessage.setText("We sent you an email with your temporary password.");
 
                     }
                     catch (SQLException e){
