@@ -177,7 +177,7 @@ public final class systemData { // Singeltion class
         setExamData();
 
         // TODO maybe remove this call later
-        //setMapStringLU();
+        setMapStringLU();
     }
 
     /** to reinitialize the systemData instance
@@ -235,7 +235,7 @@ public final class systemData { // Singeltion class
         }
     }
 
-    private void setCurrentUser(String username) {
+    public void setCurrentUser() {
         for(User user : users) {
             if(user.user_id == currentUserID) {
                 currentUser.setInstance(user);
