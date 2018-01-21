@@ -9,6 +9,12 @@ import java.sql.*;
     // TODO JO put some members up in super class
 public class LearningUnit extends LearningInstance{
 
+    public LearningUnit(){}
+
+    public LearningUnit(int id, String name, String description) {
+        super(id, name, description);
+    }
+
     private char question_type;
     private char answer_type;
     private int category_id;
@@ -22,18 +28,9 @@ public class LearningUnit extends LearningInstance{
     private String CatName;
 
     public String correctAnswers;
-
-    public LearningUnit() {
-    }
-
-    public LearningUnit(int id, String name, String description) {
-        super(id, name, description);
-    }
-
-    public boolean isApprovedFlag() {
     ResultSet resultSet;
 
-    public void setNames() throws SQLException {
+        public void setNames() throws SQLException {
         Connection conn = systemData.getInstance().getDBConnection();
         Statement statement = conn.createStatement();
         ResultSet resultSetLA = statement.executeQuery("SELECT * FROM learning_applications WHERE la_id = " +
@@ -91,10 +88,6 @@ public class LearningUnit extends LearningInstance{
     }
 
     //could send "" as description parameter
-
-    public LearningUnit(int id, String name, String description) {
-        super(id, name, description);
-    }
 
     public int getCategory_id() {
 

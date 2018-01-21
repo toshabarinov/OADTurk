@@ -90,7 +90,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </VBox>
-                              <VBox fx:id="imageVBox" alignment="CENTER" VBox.vgrow="ALWAYS">
+                              <VBox fx:id="imageVBox" alignment="CENTER" maxHeight="500.0" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>

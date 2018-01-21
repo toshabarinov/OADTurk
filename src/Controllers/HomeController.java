@@ -33,6 +33,7 @@ public class HomeController extends Controller{
         buildTree(homeTree);
         choiceBoxInitializer();
         System.out.println("test");
+        myContentButton.setVisible(false);
     }
 
     public void searchOnAction() {

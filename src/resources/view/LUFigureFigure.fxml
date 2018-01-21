@@ -90,12 +90,12 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </VBox>
-                              <VBox fx:id="qImageVBox" alignment="CENTER" VBox.vgrow="ALWAYS">
+                              <VBox fx:id="qImageVBox" alignment="CENTER" maxHeight="500.0" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </VBox>
-                              <HBox fx:id="aImageHBox1" alignment="CENTER" VBox.vgrow="ALWAYS">
+                              <HBox fx:id="aImageHBox1" alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
                                  <children>
                                     <Region HBox.hgrow="ALWAYS" />
                                     <CheckBox fx:id="checkBox1" mnemonicParsing="false" />
