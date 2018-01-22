@@ -24,8 +24,15 @@ public final class systemData { // Singeltion class
     ArrayList<LearningCategory> dataLC = new ArrayList<>();
     ArrayList<Exam> dataExams = new ArrayList<>();
 
+    ArrayList<LearningUnit> learningUnitArrayList = new ArrayList<>();
 
+    public ArrayList<LearningUnit> getLearningUnitArrayList() {
+        return learningUnitArrayList;
+    }
 
+    public void setLearningUnitArrayList(ArrayList<LearningUnit> learningUnitArrayList) {
+        this.learningUnitArrayList = learningUnitArrayList;
+    }
 
     private  Map<Integer, List<LearningUnit>> learningUnitMap;
     private Map<String, LearningUnit> mapStringLU;      //< map of all LUs (key=LU reference name; value=LU)
@@ -211,7 +218,7 @@ public final class systemData { // Singeltion class
                 String name = resultSet.getString("exam_name");
                 String lu = resultSet.getString("learning_units");
                 int id = resultSet.getInt("exam_id");
-                dataExams.add(new Exam(name, 0, lu));
+                dataExams.add(new Exam(name, id, lu));
 
             }
             statement.close();

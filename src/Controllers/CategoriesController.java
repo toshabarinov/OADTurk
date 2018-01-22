@@ -1,5 +1,7 @@
 package Controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ChangeListener;
@@ -9,19 +11,18 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.scene.text.Text;
-import javafx.scene.control.TreeView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import service.*;
 
+import javax.naming.InsufficientResourcesException;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,6 +37,8 @@ public class CategoriesController extends Controller {
 
     @FXML
     Button goToExamsButton;
+    @FXML
+    ChoiceBox<String> ExamLC;
     @FXML
     TextField searchTextField;
     @FXML
@@ -79,43 +82,51 @@ public class CategoriesController extends Controller {
             lisViewLU.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                 @Override
                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                    try {
-                        LearningUnit LU = null;
-                        FXMLLoader fxmlLoader = null;
-                        Connection conn = systemData.getInstance().getDBConnection();
-                        String answerQuestionCombi = Character.toString(mapOFleaningUnit.get(newValue).getQuestion_type()) +
-                                Character.toString(mapOFleaningUnit.get(newValue).getAnswer_type());
-                        systemData.getInstance().setLastLUid(mapOFleaningUnit.get(newValue).getId());
-                        String LastLUID = Integer.toString(systemData.getInstance().getLastLUid());
-                        ResultSet resultSet;
-                        LUController luController;
-                        Parent root ;
+                    startlU(newValue);
 
-                        if ( answerQuestionCombi.equals("tt")){
-                            //newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU1.fxml");
-                            fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LUTextText.fxml"));
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
 
-                            Statement statement = conn.createStatement();
-                            resultSet = statement.executeQuery("SELECT * FROM lu_text_text WHERE id = " + LastLUID);
-                            resultSet.next();
-                            LU = new LuText(resultSet);
-                        }
-                        else if (answerQuestionCombi.equals("ft")){
-                            fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LUFigureText.fxml"));
 
-                            Statement statement = conn.createStatement();
-                            resultSet = statement.executeQuery("SELECT * FROM lu_figure_text WHERE id = " + LastLUID);
-                            resultSet.next();
-                            LU = new LuFigureText(resultSet, 'i');
-                        }
-                        else if (answerQuestionCombi.equals("ff")){
-                            fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LUFigureFigure.fxml"));
+    public void startlU(String newValue) {
+        try {
+            LearningUnit LU = null;
+            FXMLLoader fxmlLoader = null;
+            Connection conn = systemData.getInstance().getDBConnection();
+            String answerQuestionCombi = Character.toString(mapOFleaningUnit.get(newValue).getQuestion_type()) +
+                    Character.toString(mapOFleaningUnit.get(newValue).getAnswer_type());
+            systemData.getInstance().setLastLUid(mapOFleaningUnit.get(newValue).getId());
+            String LastLUID = Integer.toString(systemData.getInstance().getLastLUid());
+            ResultSet resultSet;
+            LUController luController;
+            Parent root;
 
-                            Statement statement = conn.createStatement();
-                            resultSet = statement.executeQuery("SELECT * FROM lu_figure_figure WHERE id = " + LastLUID);
-                            resultSet.next();
-                            LU = new LuFigureFigure(resultSet, 'i');
-                        }
+            if (answerQuestionCombi.equals("tt")) {
+                //newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU1.fxml");
+                fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LUTextText.fxml"));
+
+                Statement statement = conn.createStatement();
+                resultSet = statement.executeQuery("SELECT * FROM lu_text_text WHERE id = " + LastLUID);
+                resultSet.next();
+                LU = new LuText(resultSet);
+            } else if (answerQuestionCombi.equals("ft")) {
+                fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LUFigureText.fxml"));
+
+                Statement statement = conn.createStatement();
+                resultSet = statement.executeQuery("SELECT * FROM lu_figure_text WHERE id = " + LastLUID);
+                resultSet.next();
+                LU = new LuFigureText(resultSet, 'i');
+            } else if (answerQuestionCombi.equals("ff")) {
+                fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/LUFigureFigure.fxml"));
+
+                Statement statement = conn.createStatement();
+                resultSet = statement.executeQuery("SELECT * FROM lu_figure_figure WHERE id = " + LastLUID);
+                resultSet.next();
+                LU = new LuFigureFigure(resultSet, 'i');
+            }
 //                else if (mapOFleaningUnit.get(newValue).getQuestion_type().equals(1)) {
 //                    if (mapOFleaningUnit.get(newValue).getAnswer_type() == 0) {
 //                        newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU1.fxml");
@@ -125,40 +136,35 @@ public class CategoriesController extends Controller {
 //                        newScene((Stage) lisViewLU.getParent().getScene().getWindow(), "LU3.fxml");
 //                    }
 //                }
-                        // get la_id
-                        Statement statement = conn.createStatement();
-                        resultSet = statement.executeQuery("SELECT * FROM learning_units WHERE id = " + LastLUID);
-                        resultSet.next();
+            // get la_id
+            Statement statement = conn.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM learning_units WHERE id = " + LastLUID);
+            resultSet.next();
 
 //                        assert luController != null;
-                        assert fxmlLoader != null;
-                        root = fxmlLoader.load();
-                        luController = fxmlLoader.getController();
-                        LU.setLa_id(resultSet.getInt("la_id"));
-                        LU.setCreatedBy(resultSet.getInt("created_by"));
-                        luController.learningUnit = LU;
-                        luController.setUp();
-                        newScene((Stage) lisViewLU.getParent().getScene().getWindow(), root);
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                }
-            });
-        }
-        catch (Exception e){
+            assert fxmlLoader != null;
+            root = fxmlLoader.load();
+            luController = fxmlLoader.getController();
+            LU.setLa_id(resultSet.getInt("la_id"));
+            LU.setCreatedBy(resultSet.getInt("created_by"));
+            luController.learningUnit = LU;
+            luController.setUp();
+            newScene((Stage) lisViewLU.getParent().getScene().getWindow(), root);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
+
 
     private void createList(int categoryId) {
 
         learningUnitList = learningUnitMap.get(categoryId);
+        fillExamChoiceBox(categoryId);
 
-}
+    }
 
-    private List<String> createList(){
+    private List<String> createList() {
 
         List<String> returnList = new ArrayList<>();
         for (LearningUnit aLearningUnitList : learningUnitList) {
@@ -169,11 +175,11 @@ public class CategoriesController extends Controller {
         return returnList;
     }
 
-    private void createHashMap(){
+    private void createHashMap() {
 
         mapOFleaningUnit = new HashMap<String, LearningUnit>();
 
-        for(int count = 0; count < learningUnitList.size(); count++){
+        for (int count = 0; count < learningUnitList.size(); count++) {
 
             mapOFleaningUnit.put(learningUnitList.get(count).getName(), learningUnitList.get(count));
         }
@@ -184,9 +190,73 @@ public class CategoriesController extends Controller {
     public void searchOnAction() {
         //TODO: implement search functionality
         System.out.println(searchTextField.getText());
+    }
+
+    public void setLCDescriptionClicked() {
+        String str = ExamLC.getSelectionModel().getSelectedItem();
+
+        Map<Integer, LearningUnit> learningUnitMap = systemData.getInstance().getMapIntLU();
+        List<Exam> exams = systemData.getInstance().getDataExams();
+        Exam exam = null;
+
+        for (int i = 0; i < exams.size(); i++) {
+            if (exams.get(i).getName().equals(str)) {
+                exam = exams.get(i);
+            }
+        }
+
+        ArrayList<LearningUnit> learningUnitList = new ArrayList<>();
+
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<Integer>>() {
+        }.getType();
+
+        List<Integer> luIDlist = gson.fromJson(exam.getLu(), listType);
+
+        for (int i = 0; i < luIDlist.size(); i++) {
+            learningUnitList.add(learningUnitMap.get(luIDlist.get(i)));
+        }
+
+        startlU(learningUnitList.get(0).getName());
+        systemData.getInstance().setLearningUnitArrayList(learningUnitList);
+
+    }
+
+
+    private void fillExamChoiceBox(int category_id) {
+        ExamLC.getItems().clear();
+
+        ArrayList<Exam> dataExams = systemData.getInstance().getDataExams();
+
+        Map<Integer, LearningUnit> learningUnitMap = systemData.getInstance().getMapIntLU();
+
+        ArrayList<Exam> realExams = new ArrayList<>();
+        List<Integer> luIDlist = new ArrayList<>();
+
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<Integer>>() {
+        }.getType();
+
+
+        for (int i = 0; i < dataExams.size(); i++) {
+
+            luIDlist = gson.fromJson(dataExams.get(i).getLu(), listType);
+
+            if ((luIDlist != null) || (luIDlist.size() != 0)) {
+                LearningUnit learningUnit = learningUnitMap.get(luIDlist.get(0));
+                if (category_id == learningUnit.getCategory_id()) {
+                    ExamLC.getItems().add(dataExams.get(i).getName());
+                    realExams.add(dataExams.get(i));
+                }
+
+            }
+
+
         }
 
 
     }
+
+}
 
 
