@@ -69,6 +69,7 @@ public class ResetPasswordBox {
 
                         helpMessage.setTextFill(Color.web("#33cc33"));
                         helpMessage.setText("We sent you an email with your temporary password.");
+                        systemData.getInstance().reInit();
 
                     }
                     catch (SQLException e){
