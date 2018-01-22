@@ -24,7 +24,15 @@ public final class systemData { // Singeltion class
     ArrayList<LearningCategory> dataLC = new ArrayList<>();
     ArrayList<Exam> dataExams = new ArrayList<>();
 
+    ArrayList<LearningUnit> learningUnitArrayList = new ArrayList<>();
 
+    public ArrayList<LearningUnit> getLearningUnitArrayList() {
+        return learningUnitArrayList;
+    }
+
+    public void setLearningUnitArrayList(ArrayList<LearningUnit> learningUnitArrayList) {
+        this.learningUnitArrayList = learningUnitArrayList;
+    }
 
     private  Map<Integer, List<LearningUnit>> learningUnitMap;
     private Map<String, LearningUnit> mapStringLU;      //< map of all LUs (key=LU reference name; value=LU)
@@ -45,6 +53,11 @@ public final class systemData { // Singeltion class
 //    public Map<Integer, LuTextPicture> getLuTextPictureMap() {
 //        return luTextPictureMap;
 //    }
+
+
+    public Map<Integer, LearningUnit> getMapIntLU() {
+        return mapIntLU;
+    }
 
     public List<LearningUnit> getLearningUnitList() {
         return learningUnitList;
@@ -196,7 +209,8 @@ public final class systemData { // Singeltion class
         }
     }
 
-    private void setExamData() {
+    public void setExamData() {
+        dataExams.clear();
         try {
             statement = connector.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM exams");
@@ -204,8 +218,24 @@ public final class systemData { // Singeltion class
                 String name = resultSet.getString("exam_name");
                 String lu = resultSet.getString("learning_units");
                 int id = resultSet.getInt("exam_id");
-                dataExams.add(new Exam(name, 0, lu));
+                dataExams.add(new Exam(name, id, lu));
+
             }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveExam(Exam exam){
+
+        String name = exam.getName();
+        int id = exam.getId();
+        String lu = exam.getLu();
+        String query = "INSERT INTO exams VALUES (" + id + ", \"" + name + "\", \"" + lu + "\")";
+        try {
+            statement = connector.getConnection().createStatement();
+            int resultSet = statement.executeUpdate(query);
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();

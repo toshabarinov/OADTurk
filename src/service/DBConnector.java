@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 //Connect local MySQL Database to the program
 public class DBConnector {
-    private static final String URL = "jdbc:mysql://localhost:3306/OADTurk?autoReconnect=true&useSSL=false";
+    private static final String URL = "jdbc:mysql://localhost:3306/OADTurk4?autoReconnect=true&useSSL=false";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 

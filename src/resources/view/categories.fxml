@@ -122,7 +122,8 @@
                               </VBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="goToExamsButton" mnemonicParsing="false" prefWidth="100.0" text="Exam" />
+                                    <ChoiceBox fx:id="ExamLC" prefWidth="150.0" />
+                                    <Button fx:id="goToExamsButton" mnemonicParsing="false" onAction="#setLCDescriptionClicked" prefWidth="100.0" text="Start Exam" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="25.0" />
