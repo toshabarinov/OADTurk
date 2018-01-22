@@ -94,7 +94,7 @@
                                     </TextFlow>
                                  </children>
                               </HBox>
-                              <CheckBox fx:id="creatorCheckBox" mnemonicParsing="false" text="I want to be a creator">
+                              <CheckBox fx:id="creatorCheckBox" mnemonicParsing="false" text="I want to be a creator" visible="false">
                                  <VBox.margin>
                                     <Insets bottom="10.0" left="10.0" />
                                  </VBox.margin>

@@ -152,7 +152,7 @@ public class RegistrationController {
                 "and knowledge, but also help us to create new exams and approving the Learning Units from our users." +
                 "It will not take a lot of your free time, but if everybody will bring some effort, our application" +
                 "would have a lot of different topics and data to learn. \nIf you want to be a part of our team, just " +
-                "check the box below!");
+                "make a request for a new Learning Application or become a co-creator of an existing one!");
         text.setFont(Font.font("System", FontPosture.REGULAR, 18));
         creatorText.getChildren().add(text);
     }
