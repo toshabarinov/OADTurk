@@ -103,13 +103,17 @@ public class Controller {
     // button functions
 
     public void adminPanelButtonClicked(ActionEvent event) {
-        Parent root;
+        Parent root = null;
         try {
             Stage window = new Stage();
             window.setResizable(false);
             window.initModality(Modality.NONE); // block main stage during this stage is open
             window.setTitle("Admin panel");
-            root = FXMLLoader.load(getClass().getResource("../resources/view/adminViews/adminPanAddApp.fxml"));
+            if (currentUser.getInstance().isAdmin())
+                root = FXMLLoader.load(getClass().getResource("../resources/view/adminViews/adminPanAddApp.fxml"));
+            else if(currentUser.getInstance().isCreator())
+                root = FXMLLoader.load(getClass().getResource("../resources/view/adminViews/adminPanEditApp.fxml"));
+            assert root != null;
             window.setScene(new Scene(root, 600, 400));
             window.show();
         } catch ( IOException e ) {
@@ -161,7 +165,7 @@ public class Controller {
             window.setScene(scene);
             window.show();
             // with this call the curser does not jump automatically into the first text field
-            Platform.runLater(()->root.requestFocus());
+            Platform.runLater(root::requestFocus);
         } catch ( IOException e ) {
             e.printStackTrace();
         }
@@ -175,7 +179,7 @@ public class Controller {
         else{
             myContentButton.setVisible(true);
             myContentButton.setText("LU/LA Requests");
-            createButton.setVisible(false);
+            //createButton.setVisible(false);
             getNewLAs();
             getNewLUs();
             if (newLIs.size() != 0)
@@ -186,6 +190,8 @@ public class Controller {
             examPanelButton.setVisible(false);
         }
         if(currentUser.getInstance().isCreator()){
+            adminPanelButton.setVisible(true);
+            adminPanelButton.setText("Creator Panel");
             myContentButton.setVisible(true);
             myContentButton.setText("LU Requests");
             getNewLUs();

@@ -49,6 +49,8 @@ public class CreateController extends Controller {
         createButton.setDisable(true);
         buildTree(createTree);
         viewInit();
+        if (currentUser.getInstance().isAdmin())
+            createLAButton.setVisible(false);
         questionType.getItems().removeAll(questionType.getItems());
         questionType.getItems().addAll("Text", "Figure");
         answerType.getItems().removeAll(answerType.getItems());

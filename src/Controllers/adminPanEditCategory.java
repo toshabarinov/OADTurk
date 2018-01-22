@@ -7,10 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import service.AlertBox;
-import service.LearningApplication;
-import service.LearningCategory;
-import service.systemData;
+import service.*;
 
 import java.util.ArrayList;
 import static java.util.stream.Collectors.toList;
@@ -39,6 +36,10 @@ public class adminPanEditCategory extends adminPanelController {
     private void initialize() {
         editCategoryButton.setDisable(true);
         initChoiceBox();
+
+        if (currentUser.getInstance().isCreator()){
+            addAppButton.setVisible(false);
+        }
     }
 
     public void saveButtonPressed() {
@@ -87,6 +88,8 @@ public class adminPanEditCategory extends adminPanelController {
         //LA ChoiceBox init
         ArrayList<LearningApplication> LAs = systemData.getInstance().getDataLA();
         for(LearningApplication la : LAs) {
+            if (currentUser.getInstance().isCreator() && (la.getCreatedBy() != currentUser.getInstance().getUser_id()))
+                continue;
             choiceBoxId.getItems().add(la);
         }
         choiceBoxId.setValue(LAs.get(0));
