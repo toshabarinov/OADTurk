@@ -9,6 +9,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import service.AlertBox;
 import service.LearningApplication;
+import service.currentUser;
 import service.systemData;
 
 import java.util.ArrayList;
@@ -34,8 +35,11 @@ public class adminPanEditApp extends adminPanelController {
         editAppButton.setDisable(true);
         initChoiceBox();
         setNoEffects();
-    }
 
+        if (currentUser.getInstance().isCreator()){
+            addAppButton.setVisible(false);
+        }
+    }
 
     public void saveButtonPressed() {
         if(nameId.getText().equals("")) {
@@ -77,6 +81,8 @@ public class adminPanEditApp extends adminPanelController {
 
     private void initChoiceBox() {
         for(LearningApplication la : LAs) {
+            if (currentUser.getInstance().isCreator() && (la.getCreatedBy() != currentUser.getInstance().getUser_id()))
+                continue;
             choiceBoxId.getItems().add(la);
         }
         choiceBoxId.setValue(LAs.get(0));
