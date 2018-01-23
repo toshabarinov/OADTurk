@@ -199,9 +199,9 @@ public class CategoriesController extends Controller {
         List<Exam> exams = systemData.getInstance().getDataExams();
         Exam exam = null;
 
-        for (int i = 0; i < exams.size(); i++) {
-            if (exams.get(i).getName().equals(str)) {
-                exam = exams.get(i);
+        for (Exam exam1 : exams) {
+            if (exam1.getName().equals(str)) {
+                exam = exam1;
             }
         }
 
@@ -216,9 +216,8 @@ public class CategoriesController extends Controller {
         for (int i = 0; i < luIDlist.size(); i++) {
             learningUnitList.add(learningUnitMap.get(luIDlist.get(i)));
         }
-
-        startlU(learningUnitList.get(0).getName());
         systemData.getInstance().setLearningUnitArrayList(learningUnitList);
+        startlU(learningUnitList.get(0).getName());
 
     }
 
