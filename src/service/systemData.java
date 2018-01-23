@@ -20,6 +20,35 @@ public final class systemData { // Singeltion class
     ArrayList<User> users = new ArrayList<>();
     Statement statement;
     DBConnector connector = new DBConnector();
+
+    String lastMessage;
+    int score;
+    int maxScore;
+
+    public int getMaxScore() {
+        return maxScore;
+    }
+
+    public void setMaxScore(int maxScore) {
+        this.maxScore = this.maxScore+ maxScore;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = this.score + score;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
     ArrayList<LearningApplication> dataLA = new ArrayList<>();
     ArrayList<LearningCategory> dataLC = new ArrayList<>();
     ArrayList<Exam> dataExams = new ArrayList<>();
@@ -176,6 +205,7 @@ public final class systemData { // Singeltion class
 
 
     private systemData() {
+        connector.connectToDB();
         setUsersData();
         setLoginData();
         setDataLA();
