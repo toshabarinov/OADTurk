@@ -87,7 +87,6 @@ public class LUController extends Controller {
 
     List<String> listForListView;
 
-
 //    private Map<Integer, LearningUnit> learningUnitMap;
 //    private List<LearningUnit> learningUnitList;
 
@@ -97,26 +96,22 @@ public class LUController extends Controller {
     private void initialize() throws SQLException {
         learningUnitMap = systemData.getInstance().getLearningUnitMap();
         createList(systemData.getInstance().getLastCategoryId());
-        createHashMap();
-        ListProperty<String> listProperty = new SimpleListProperty<>();
-        ObservableList<String> list = FXCollections.observableArrayList(createList());
-        listProperty.set(FXCollections.observableArrayList(list));
+        if (systemData.getInstance().getLearningUnitArrayList().size() > 0){
+            createHashMap();
+            ListProperty<String> listProperty = new SimpleListProperty<>();
+            ObservableList<String> list = FXCollections.observableArrayList(createList());
+            listProperty.set(FXCollections.observableArrayList(list));
+            // systemData.getInstance().setExamFlag(false);
+
+        }
 
         viewInit();
-        if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
-            adminPanelButton.setVisible(false);
-        }
+//        if(!currentUser.getInstance().isAdmin() && !currentUser.getInstance().isCreator()) {
+//            adminPanelButton.setVisible(false);
+//        }
         buildTree(LUTree);
         textBox.setText("");
 
-
-
-
-
-
-//        learningUnitList = systemData.getInstance().getLearningUnitList();
-//        createHashMap();
-//        LearningUnit learningUnit = learningUnitMap.get(systemData.getInstance().getLastLUid());
     }
 
     private void createHashMap() {
