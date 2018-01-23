@@ -1,5 +1,6 @@
 package Controllers;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,8 +22,6 @@ public class SettingsController extends Controller {
     Stage parentStage;
 
     @FXML
-    TreeView<LearningInstance> settingsTree;
-    @FXML
     Label messageLabel;
     @FXML
     Button changeMailButton;
@@ -30,8 +29,6 @@ public class SettingsController extends Controller {
     Button changeUserNameButton;
     @FXML
     Button changePasswordButton;
-    @FXML
-    Button changePreferencesButton;
     @FXML
     Button yesButton;
     @FXML
@@ -48,14 +45,23 @@ public class SettingsController extends Controller {
     TextField newPasswordTextField2;
     @FXML
     Hyperlink deleteAccountLink;
+    @FXML
+    ComboBox<String> choseUser;
 
 
     //TODO JO: maybe registration problem when not everything is set
 
     @FXML
     private void initialize() {
+        if (!currentUser.getInstance().isAdmin()){
+            choseUser.setVisible(false);
+        }
+        else{
+            initComboBox();
+        }
         if (UserID == 0)
             UserID = systemData.getInstance().getCurrentUserID();
+
         mailTextField.clear();
         nameTextField.clear();
         oldPasswordTextField.clear();
@@ -93,6 +99,7 @@ public class SettingsController extends Controller {
 
     // button functions
     public void changeMailButtonClick(ActionEvent event) {
+        adminSettings();
         String inputText = mailTextField.getText();
         String DBEmail = systemData.getInstance().getDBData(UserID, "users", "email");
         EmailValidator validator = EmailValidator.getInstance();
@@ -134,6 +141,7 @@ public class SettingsController extends Controller {
     }
 
     public void changeUserNameButtonClick(ActionEvent event) {
+        adminSettings();
         String inputText = nameTextField.getText();
         String DBUsername = systemData.getInstance().getDBData(UserID, "login_data", "username");
 
@@ -183,6 +191,7 @@ public class SettingsController extends Controller {
     }
 
     public void ChangePasswordButtonClick(ActionEvent event) {
+        adminSettings();
         String inputText1 = oldPasswordTextField.getText();
         String inputText2 = newPasswordTextField1.getText();
         String inputText3 = newPasswordTextField2.getText();
@@ -225,6 +234,7 @@ public class SettingsController extends Controller {
     }
 
     public void deleteAccountLinkClick(ActionEvent event) {
+        adminSettings();
         yesButton.setVisible(true);
         yesButton.setManaged(true);
         noButton.setVisible(true);
@@ -254,7 +264,8 @@ public class SettingsController extends Controller {
 
             // close settings screen and go back to login
              ( (Stage)((Node)event.getSource()).getScene().getWindow() ).close();
-             newScene(parentStage,"login.fxml");
+             if (!currentUser.getInstance().isAdmin() || currentUser.getInstance().getUser_id() == UserID)
+                newScene(parentStage,"login.fxml");
 
         }
         catch (SQLException e){
@@ -273,5 +284,28 @@ public class SettingsController extends Controller {
 
     public void changePreferencesButtonClick(ActionEvent event) {
         //TODO JO: implement change preferences
+    }
+
+    private void initComboBox(){
+        choseUser.getItems().clear();
+        for (User user: systemData.getInstance().getUsers()) {
+            choseUser.getItems().add(" User ID: " + user.getUser_id() + "; " + user.getUser_name());
+        }
+    }
+
+    private void adminSettings(){
+        if (currentUser.getInstance().isAdmin()){
+            UserID = Integer.parseInt(parseUserChoice(choseUser.getValue()));
+        }
+    }
+
+    private String  parseUserChoice(String in){
+        if (in != null){
+            String[] tokens = in.split(": ");
+            String token1 = tokens[1];
+            tokens = token1.split(";");
+            return tokens[0];
+        }
+        return Integer.toString(currentUser.getInstance().getUser_id());
     }
 }
