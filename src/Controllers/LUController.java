@@ -95,6 +95,7 @@ public class LUController extends Controller {
 
     @FXML
     private void initialize() throws SQLException {
+
         learningUnitMap = systemData.getInstance().getLearningUnitMap();
         createList(systemData.getInstance().getLastCategoryId());
         createHashMap();
@@ -107,7 +108,11 @@ public class LUController extends Controller {
             adminPanelButton.setVisible(false);
         }
         buildTree(LUTree);
-        textBox.setText("");
+        if (systemData.getInstance().getLastMessage() != null){
+            textBox.setText(systemData.getInstance().getLastMessage());
+        } else {
+            textBox.setText("");
+        }
 
 
 
@@ -165,6 +170,10 @@ public class LUController extends Controller {
         if (inputAnswers.equals(correctAnswers)){
             textBox.setTextFill(Color.web("#33cc33"));
             textBox.setText("Answer correct");
+            systemData.getInstance().setLastMessage("Answer correct");
+            systemData.getInstance().setScore(1);
+            systemData.getInstance().setMaxScore(1);
+
         }
         else{
             StringBuilder outputString = new StringBuilder("The correct answers are ");
@@ -183,15 +192,24 @@ public class LUController extends Controller {
             }
             textBox.setTextFill(Color.web("#e60000"));
             textBox.setText("Wrong Answer; " + outputString.toString());
+            systemData.getInstance().setLastMessage("Wrong Answer; " + outputString.toString());
+            systemData.getInstance().setScore(0);
+            systemData.getInstance().setMaxScore(1);
         }
 
         systemData.getInstance().getLearningUnitArrayList().remove(0);
         List<LearningUnit> learningUnitList = systemData.getInstance().getLearningUnitArrayList();
 
+
         if ((learningUnitList != null) && (learningUnitList.size() != 0)){
 
             startlU(learningUnitList.get(0).getName());
 
+        } else {
+            systemData.getInstance().setLastMessage(null);
+            textBox.setText(textBox.getText() + "       Total score = " + systemData.getInstance().getScore() + "/" + systemData.getInstance().getMaxScore());
+            systemData.getInstance().setMaxScore(0);
+            systemData.getInstance().setScore(0);
         }
     }
 

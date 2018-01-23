@@ -24,11 +24,18 @@ public class DBConnector {
         this.connection = connection;
     }
 
-    public DBConnector() {
+    public DBConnector() {}
+
+    public void connectToDB(){
+        connect(URL, USERNAME, PASSWORD);
+
+    }
+
+    public void connect(String url, String username, String password){
         try {
             Driver driver = new FabricMySQLDriver();
             DriverManager.registerDriver(driver);
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD );
+            connection = DriverManager.getConnection(url, username, password );
         } catch (SQLException e) {
             e.printStackTrace();
         }
