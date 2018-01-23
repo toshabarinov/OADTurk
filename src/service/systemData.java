@@ -20,12 +20,48 @@ public final class systemData { // Singeltion class
     ArrayList<User> users = new ArrayList<>();
     Statement statement;
     DBConnector connector = new DBConnector();
+
+    String lastMessage;
+    int score;
+    int maxScore;
+
+    public int getMaxScore() {
+        return maxScore;
+    }
+
+    public void setMaxScore(int maxScore) {
+        this.maxScore = this.maxScore+ maxScore;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = this.score + score;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
     ArrayList<LearningApplication> dataLA = new ArrayList<>();
     ArrayList<LearningCategory> dataLC = new ArrayList<>();
     ArrayList<Exam> dataExams = new ArrayList<>();
 
+    ArrayList<LearningUnit> learningUnitArrayList = new ArrayList<>();
 
+    public ArrayList<LearningUnit> getLearningUnitArrayList() {
+        return learningUnitArrayList;
+    }
 
+    public void setLearningUnitArrayList(ArrayList<LearningUnit> learningUnitArrayList) {
+        this.learningUnitArrayList = learningUnitArrayList;
+    }
 
     private  Map<Integer, List<LearningUnit>> learningUnitMap;
     private Map<String, LearningUnit> mapStringLU;      //< map of all LUs (key=LU reference name; value=LU)
@@ -169,6 +205,7 @@ public final class systemData { // Singeltion class
 
 
     private systemData() {
+        connector.connectToDB();
         setUsersData();
         setLoginData();
         setDataLA();
@@ -211,7 +248,7 @@ public final class systemData { // Singeltion class
                 String name = resultSet.getString("exam_name");
                 String lu = resultSet.getString("learning_units");
                 int id = resultSet.getInt("exam_id");
-                dataExams.add(new Exam(name, 0, lu));
+                dataExams.add(new Exam(name, id, lu));
 
             }
             statement.close();

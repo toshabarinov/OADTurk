@@ -94,7 +94,7 @@ public class createNewExam extends examPanelController {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
                 int LC = choiceBoxLCId.getItems().get((Integer) number2).getId();
-                generateLuListView(-1);
+                generateLuListView(LC);
             }
         });
 
@@ -143,6 +143,8 @@ public class createNewExam extends examPanelController {
         String json = new Gson().toJson(checkedList);
 
         Exam exam = new Exam(nameId.getText(), systemData.getInstance().getDataExams().size() + 1, json);
+
+
         systemData.getInstance().saveExam(exam);
         systemData.getInstance().setExamData();
 

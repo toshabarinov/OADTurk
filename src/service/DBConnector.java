@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 //Connect local MySQL Database to the program
 public class DBConnector {
-    private static final String URL = "jdbc:mysql://localhost:3306/OADTurk2?autoReconnect=true&useSSL=false";
+    private static final String URL = "jdbc:mysql://localhost:3306/OADTurk4?autoReconnect=true&useSSL=false";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
@@ -24,11 +24,18 @@ public class DBConnector {
         this.connection = connection;
     }
 
-    public DBConnector() {
+    public DBConnector() {}
+
+    public void connectToDB(){
+        connect(URL, USERNAME, PASSWORD);
+
+    }
+
+    public void connect(String url, String username, String password){
         try {
             Driver driver = new FabricMySQLDriver();
             DriverManager.registerDriver(driver);
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD );
+            connection = DriverManager.getConnection(url, username, password );
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -35,6 +35,16 @@ public class Exam {
         this.lu = lu;
     }
 
+    public void changeName(String name){
+        this.name = name;
+    }
+    public void changeId(String id){
+        this.name = id;
+    }
+    public void changeLu(String LU){
+        this.name = LU;
+    }
+
     @Override
     public String toString() {
         return name;
