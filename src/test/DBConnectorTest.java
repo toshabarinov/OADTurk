@@ -1,4 +1,4 @@
-package service;
+package test;
 
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -9,6 +9,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import service.DBConnector;
 
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
