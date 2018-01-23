@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
 public class ExamTest {
+
     Exam exam;
 
    @Before
@@ -33,19 +34,15 @@ public class ExamTest {
 
     @Test
     public void setLu() {
-        exam.setName("newLu");
+        exam.setLu("newLu");
         assertTrue("Test setLu", exam.getLu().equals("newLu"));
     }
 
     @Test
-    public void changeName() {
+    public void toString1(){
+       String name = exam.toString();
+
+       assertTrue("Test toString", name.equals(exam.getName()));
     }
 
-    @Test
-    public void changeId() {
-    }
-
-    @Test
-    public void changeLu() {
-    }
 }
