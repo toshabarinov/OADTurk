@@ -24,6 +24,7 @@ import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import service.*;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -151,7 +152,7 @@ public class LUController extends Controller {
 
 
 
-    public void confirmButtonClick(ActionEvent event) {
+    public void confirmButtonClick(ActionEvent event) throws IOException {
         correctAnswers = learningUnit.correctAnswers;
         String inputAnswers;
         if (!(learningUnit instanceof LuFigureFigure)){
@@ -185,6 +186,7 @@ public class LUController extends Controller {
             else{
                 outputString = new StringBuilder("No answer is correct.");
             }
+
             textBox.setTextFill(Color.web("#e60000"));
             textBox.setText("Wrong Answer; " + outputString.toString());
             systemData.getInstance().setLastMessage("Wrong Answer; " + outputString.toString());
@@ -202,9 +204,17 @@ public class LUController extends Controller {
 
         } else {
             systemData.getInstance().setLastMessage(null);
-            textBox.setText(textBox.getText() + "       Total score = " + systemData.getInstance().getScore() + "/" + systemData.getInstance().getMaxScore());
+            // open home screen after exam
+            Parent root;
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../resources/view/home.fxml"));
+            root = fxmlLoader.load();
+            HomeController controller = fxmlLoader.getController();
+
+            controller.statementLabel.setText(textBox.getText() + "       Total score = " + systemData.getInstance().getScore() + "/" + systemData.getInstance().getMaxScore());
             systemData.getInstance().setMaxScore(0);
             systemData.getInstance().setScore(0);
+
+            newScene((Stage)((Node)event.getSource()).getScene().getWindow(), root);
         }
     }
 
