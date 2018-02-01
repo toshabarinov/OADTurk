@@ -108,7 +108,7 @@ public class CreateController extends Controller {
             // New stage init
             Stage window = new Stage();
             window.initModality(Modality.APPLICATION_MODAL); // block main stage during this stage is open
-            window.setTitle("Settings");
+            window.setTitle("Create LA");
 
             //Scene
             Scene scene = new Scene(root, width, height);
